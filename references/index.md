@@ -29,6 +29,7 @@
 
 ### Large Scale
 - **Ultra Scale Playbook** Training LLM on GPU clusters (https://huggingface.co/spaces/nanotron/ultrascale-playbook?section=high-level_overview)
+- **Scaling LLMs on TPUs** — JAX-ML (2024). "Scaling Book: a guide to LLM scaling on TPU/JAX." (https://github.com/jax-ml/scaling-book)
 
 ---
 
