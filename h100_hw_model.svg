@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg viewBox="0 0 1200 900" xmlns="http://www.w3.org/2000/svg" font-family="'Segoe UI', Arial, sans-serif">
+
+  <!-- Background -->
+  <rect width="1200" height="900" fill="#0f1117"/>
+
+  <!-- Title -->
+  <text x="600" y="38" text-anchor="middle" font-size="20" font-weight="bold" fill="#e2e8f0">H100 SXM5 — Hardware Performance Model</text>
+  <text x="600" y="58" text-anchor="middle" font-size="12" fill="#64748b">Analytical throughput abstraction · key efficiency parameters annotated</text>
+
+  <!-- ══════════════════════════════════════════════════════ -->
+  <!-- CHIP DIE BOUNDARY -->
+  <!-- ══════════════════════════════════════════════════════ -->
+  <rect x="60" y="72" width="820" height="700" rx="18" fill="#1e2130" stroke="#334155" stroke-width="2"/>
+  <text x="90" y="95" font-size="11" font-weight="bold" fill="#475569" letter-spacing="2">GH100 DIE</text>
+
+  <!-- ══════════════════════════════════════════════════════ -->
+  <!-- SM ARRAY BLOCK -->
+  <!-- ══════════════════════════════════════════════════════ -->
+  <rect x="80" y="105" width="500" height="330" rx="12" fill="#1a2340" stroke="#3b82f6" stroke-width="1.5"/>
+  <text x="100" y="125" font-size="12" font-weight="bold" fill="#3b82f6" letter-spacing="1">SM ARRAY  ×132</text>
+
+  <!-- Single SM box -->
+  <rect x="95" y="135" width="470" height="285" rx="8" fill="#0f172a" stroke="#1e3a5f" stroke-width="1"/>
+
+  <!-- Tensor Cores -->
+  <rect x="110" y="150" width="200" height="110" rx="6" fill="#1e3a5f" stroke="#60a5fa" stroke-width="1.5"/>
+  <text x="210" y="170" text-anchor="middle" font-size="11" font-weight="bold" fill="#60a5fa">4th Gen TENSOR CORES</text>
+  <text x="115" y="188" font-size="9.5" fill="#93c5fd">FP8:   3,958 TFLOPS</text>
+  <text x="115" y="202" font-size="9.5" fill="#93c5fd">BF16:  1,979 TFLOPS</text>
+  <text x="115" y="216" font-size="9.5" fill="#93c5fd">TF32:    989 TFLOPS</text>
+  <text x="115" y="230" font-size="9.5" fill="#93c5fd">FP32/FP64:  67 TFLOPS</text>
+  <text x="115" y="248" font-size="9" fill="#f59e0b">η_tc(shape): ×0.5 if M/N/K % 16 ≠ 0</text>
+
+  <!-- CUDA Cores -->
+  <rect x="325" y="150" width="185" height="70" rx="6" fill="#1e3a5f" stroke="#818cf8" stroke-width="1.5"/>
+  <text x="418" y="170" text-anchor="middle" font-size="11" font-weight="bold" fill="#818cf8">CUDA CORES</text>
+  <text x="330" y="188" font-size="9.5" fill="#c7d2fe">FP32:  67 TFLOPS</text>
+  <text x="330" y="202" font-size="9.5" fill="#c7d2fe">INT32: 67 TOPS</text>
+  <text x="330" y="214" font-size="9" fill="#f59e0b">overlap w/ TC: partial</text>
+
+  <!-- SFU -->
+  <rect x="325" y="232" width="185" height="55" rx="6" fill="#1a2d3d" stroke="#6366f1" stroke-width="1"/>
+  <text x="418" y="250" text-anchor="middle" font-size="11" font-weight="bold" fill="#a5b4fc">SFU</text>
+  <text x="330" y="265" font-size="9.5" fill="#c7d2fe">transcendentals: ~¼ of FP32</text>
+  <text x="330" y="278" font-size="9" fill="#f59e0b">cost: exp/log/sin/cos</text>
+
+  <!-- SMEM / L1 -->
+  <rect x="110" y="272" width="200" height="130" rx="6" fill="#1a3028" stroke="#34d399" stroke-width="1.5"/>
+  <text x="210" y="291" text-anchor="middle" font-size="11" font-weight="bold" fill="#34d399">L1 / SHARED MEM</text>
+  <text x="115" y="308" font-size="9.5" fill="#6ee7b7">Capacity: 228 KB/SM (usable)</text>
+  <text x="115" y="322" font-size="9.5" fill="#6ee7b7">BW:       ~33 TB/s per SM</text>
+  <text x="115" y="336" font-size="9.5" fill="#6ee7b7">Banks:    32 × 4B width</text>
+  <text x="115" y="350" font-size="9" fill="#f59e0b">bank conflict → serialize</text>
+  <text x="115" y="363" font-size="9" fill="#f59e0b">occupancy coupled to TC util</text>
+  <text x="115" y="376" font-size="9" fill="#f59e0b">async copy (cp.async): overlap</text>
+  <text x="115" y="389" font-size="9.5" fill="#6ee7b7">configurable: L1 vs SMEM split</text>
+
+  <!-- Register File -->
+  <rect x="325" y="300" width="185" height="95" rx="6" fill="#1a2d3d" stroke="#f472b6" stroke-width="1"/>
+  <text x="418" y="318" text-anchor="middle" font-size="11" font-weight="bold" fill="#f9a8d4">REGISTER FILE</text>
+  <text x="330" y="335" font-size="9.5" fill="#fbcfe8">256 KB/SM</text>
+  <text x="330" y="349" font-size="9.5" fill="#fbcfe8">65536 × 32b registers/SM</text>
+  <text x="330" y="363" font-size="9" fill="#f59e0b">spill → SMEM/HBM penalty</text>
+  <text x="330" y="378" font-size="9" fill="#f59e0b">reg pressure limits occupancy</text>
+
+  <!-- Wave quantization note -->
+  <rect x="110" y="410" width="470" height="30" rx="4" fill="#2d1f0a" stroke="#f59e0b" stroke-width="1"/>
+  <text x="345" y="430" text-anchor="middle" font-size="10" fill="#fbbf24">⚠  Wave quantization:  effective_waves = ⌈work_tiles / 132⌉  — last wave underutilizes SMs</text>
+
+  <!-- ══════════════════════════════════════════════════════ -->
+  <!-- L2 CACHE -->
+  <!-- ══════════════════════════════════════════════════════ -->
+  <rect x="80" y="460" width="500" height="90" rx="10" fill="#1a2a1a" stroke="#4ade80" stroke-width="1.5"/>
+  <text x="100" y="480" font-size="12" font-weight="bold" fill="#4ade80" letter-spacing="1">L2 CACHE</text>
+  <text x="110" y="498" font-size="9.5" fill="#86efac">Capacity: 50 MB   |   BW: ~12.4 TB/s   |   Slices: 8</text>
+  <text x="110" y="513" font-size="9" fill="#f59e0b">partition camping: non-uniform access → slice hotspot → effective BW↓</text>
+  <text x="110" y="527" font-size="9" fill="#f59e0b">hit rate = f(working set size vs 50 MB)   |   atomics serialization on conflict</text>
+  <text x="110" y="541" font-size="9.5" fill="#86efac">η_l2_hit: if working_set &lt; 50MB → ~0.8–0.95 hit rate, else falls to L2 miss path</text>
+
+  <!-- ══════════════════════════════════════════════════════ -->
+  <!-- HBM3 -->
+  <!-- ══════════════════════════════════════════════════════ -->
+  <rect x="80" y="572" width="500" height="100" rx="10" fill="#1f1a2e" stroke="#a78bfa" stroke-width="1.5"/>
+  <text x="100" y="592" font-size="12" font-weight="bold" fill="#a78bfa" letter-spacing="1">HBM3</text>
+  <text x="110" y="610" font-size="9.5" fill="#c4b5fd">Capacity: 80 GB   |   Peak BW: 3.35 TB/s   |   Stacks: 5</text>
+  <text x="110" y="625" font-size="9.5" fill="#c4b5fd">η_hbm:  streaming≈0.87  |  strided≈0.65  |  random≈0.50</text>
+  <text x="110" y="640" font-size="9" fill="#f59e0b">ECC overhead: ~2% BW penalty (on by default)</text>
+  <text x="110" y="655" font-size="9" fill="#f59e0b">row-buffer locality: sequential &gt;&gt; random — model access pattern explicitly</text>
+  <text x="110" y="668" font-size="9.5" fill="#c4b5fd">BW_eff = 3.35 TB/s × η_hbm(access_pattern)</text>
+
+  <!-- ══════════════════════════════════════════════════════ -->
+  <!-- NVLink 4.0 -->
+  <!-- ══════════════════════════════════════════════════════ -->
+  <rect x="80" y="690" width="500" height="70" rx="10" fill="#1f1a18" stroke="#fb923c" stroke-width="1.5"/>
+  <text x="100" y="710" font-size="12" font-weight="bold" fill="#fb923c" letter-spacing="1">NVLink 4.0  +  NVSwitch</text>
+  <text x="110" y="728" font-size="9.5" fill="#fed7aa">BW: 900 GB/s bidir   |   Links: 18 × 50 GB/s   |   NVSwitch gen3</text>
+  <text x="110" y="743" font-size="9" fill="#f59e0b">η_allreduce: small(&lt;1MB)≈0.40  |  medium≈0.70  |  large(&gt;100MB)≈0.85</text>
+  <text x="110" y="755" font-size="9" fill="#f59e0b">P2P vs collective: model separately  |  NVSwitch hop adds ~1μs latency</text>
+
+  <!-- ══════════════════════════════════════════════════════ -->
+  <!-- PCIe 5.0 — outside die -->
+  <!-- ══════════════════════════════════════════════════════ -->
+  <rect x="80" y="780" width="500" height="55" rx="10" fill="#1a1818" stroke="#94a3b8" stroke-width="1" stroke-dasharray="5,3"/>
+  <text x="100" y="800" font-size="12" font-weight="bold" fill="#94a3b8" letter-spacing="1">PCIe 5.0</text>
+  <text x="110" y="817" font-size="9.5" fill="#cbd5e1">BW: 128 GB/s bidir (×16 lanes)   |   H2D/D2H overlap: yes (async)</text>
+  <text x="110" y="830" font-size="9" fill="#f59e0b">IOMMU overhead: ~5–10%   |   pinned vs pageable host memory matters</text>
+
+  <!-- ══════════════════════════════════════════════════════ -->
+  <!-- ROOFLINE PANEL (right side) -->
+  <!-- ══════════════════════════════════════════════════════ -->
+  <rect x="900" y="72" width="270" height="708" rx="12" fill="#0f1720" stroke="#38bdf8" stroke-width="1.5"/>
+  <text x="1035" y="95" text-anchor="middle" font-size="12" font-weight="bold" fill="#38bdf8" letter-spacing="1">ROOFLINE MODEL</text>
+
+  <line x1="930" y1="380" x2="930" y2="140" stroke="#334155" stroke-width="1.5"/>
+  <line x1="930" y1="380" x2="1150" y2="380" stroke="#334155" stroke-width="1.5"/>
+  <text x="1040" y="400" text-anchor="middle" font-size="9" fill="#64748b">Arithmetic Intensity (FLOP/Byte)</text>
+  <text x="918" y="265" text-anchor="middle" font-size="9" fill="#64748b" transform="rotate(-90,918,265)">Performance (TFLOPS)</text>
+
+  <line x1="930" y1="380" x2="1060" y2="155" stroke="#a78bfa" stroke-width="1.5" stroke-dasharray="4,3"/>
+  <line x1="1060" y1="155" x2="1150" y2="155" stroke="#60a5fa" stroke-width="2"/>
+  <circle cx="1060" cy="155" r="5" fill="#f59e0b"/>
+
+  <text x="1155" y="158" font-size="9" fill="#60a5fa">BF16 roof</text>
+  <text x="1155" y="170" font-size="9" fill="#60a5fa">1,979 TFLOPS</text>
+  <text x="940" y="220" font-size="9" fill="#a78bfa">mem BW</text>
+  <text x="940" y="232" font-size="9" fill="#a78bfa">slope=</text>
+  <text x="940" y="244" font-size="9" fill="#a78bfa">3.35 TB/s</text>
+  <text x="1052" y="148" font-size="9" fill="#f59e0b">knee</text>
+  <text x="1048" y="138" font-size="8.5" fill="#fbbf24">AI≈591</text>
+
+  <line x1="1060" y1="115" x2="1150" y2="115" stroke="#34d399" stroke-width="1.5" stroke-dasharray="3,2"/>
+  <text x="1155" y="118" font-size="9" fill="#34d399">FP8 roof</text>
+  <text x="1155" y="130" font-size="9" fill="#34d399">3,958 TFLOPS</text>
+
+  <text x="927" y="390" text-anchor="end" font-size="8" fill="#64748b">0</text>
+  <text x="1150" y="390" text-anchor="middle" font-size="8" fill="#64748b">high</text>
+  <text x="927" y="157" text-anchor="end" font-size="8" fill="#64748b">peak</text>
+
+  <rect x="915" y="420" width="240" height="330" rx="8" fill="#0a1118" stroke="#1e3a5f" stroke-width="1"/>
+  <text x="1035" y="440" text-anchor="middle" font-size="11" font-weight="bold" fill="#e2e8f0">Efficiency Factors</text>
+
+  <text x="925" y="460" font-size="10" font-weight="bold" fill="#60a5fa">Compute</text>
+  <text x="925" y="474" font-size="9" fill="#93c5fd">η_tc(shape)   0.5–1.0</text>
+  <text x="925" y="487" font-size="9" fill="#93c5fd">η_occupancy   0.6–1.0</text>
+  <text x="925" y="500" font-size="9" fill="#93c5fd">η_wave_quant  ⌈tiles/132⌉</text>
+  <text x="925" y="513" font-size="9" fill="#93c5fd">η_pipeline    ~0.85–0.95</text>
+
+  <text x="925" y="533" font-size="10" font-weight="bold" fill="#4ade80">Memory</text>
+  <text x="925" y="547" font-size="9" fill="#86efac">η_hbm(pattern) 0.50–0.87</text>
+  <text x="925" y="560" font-size="9" fill="#86efac">η_l2_hit       0.80–0.95</text>
+  <text x="925" y="573" font-size="9" fill="#86efac">η_ecc          0.98</text>
+  <text x="925" y="586" font-size="9" fill="#86efac">η_smem_bank    0.5–1.0</text>
+
+  <text x="925" y="606" font-size="10" font-weight="bold" fill="#fb923c">Interconnect</text>
+  <text x="925" y="620" font-size="9" fill="#fed7aa">η_nvlink(sz)   0.40–0.85</text>
+  <text x="925" y="633" font-size="9" fill="#fed7aa">η_pcie         0.90–0.95</text>
+
+  <text x="925" y="653" font-size="10" font-weight="bold" fill="#f9a8d4">Effective Performance</text>
+  <rect x="915" y="660" width="240" height="78" rx="5" fill="#1a0f1f" stroke="#f472b6" stroke-width="1"/>
+  <text x="1035" y="676" text-anchor="middle" font-size="9" fill="#f9a8d4">perf(k) = min(</text>
+  <text x="1035" y="690" text-anchor="middle" font-size="9" fill="#60a5fa">  TC_roof × η_tc × η_occ × η_wq,</text>
+  <text x="1035" y="704" text-anchor="middle" font-size="9" fill="#4ade80">  BW_roof × η_hbm × η_l2,</text>
+  <text x="1035" y="718" text-anchor="middle" font-size="9" fill="#fb923c">  IC_roof × η_nvlink</text>
+  <text x="1035" y="730" text-anchor="middle" font-size="9" fill="#f9a8d4">)</text>
+
+  <!-- BW annotations -->
+  <text x="590" y="455" font-size="9" fill="#475569">←  ~12.4 TB/s  →</text>
+  <text x="590" y="565" font-size="9" fill="#475569">←  3.35 TB/s  →</text>
+  <text x="590" y="683" font-size="9" fill="#475569">←  900 GB/s  →</text>
+  <text x="590" y="773" font-size="9" fill="#475569">←  128 GB/s  →</text>
+  <text x="585" y="430" font-size="9" font-style="italic" fill="#475569">BW hierarchy</text>
+  <line x1="580" y1="440" x2="580" y2="775" stroke="#1e293b" stroke-width="1" stroke-dasharray="2,3"/>
+
+  <!-- Connector lines between tiers -->
+  <line x1="330" y1="448" x2="330" y2="460" stroke="#334155" stroke-width="1.5"/>
+  <line x1="330" y1="552" x2="330" y2="572" stroke="#334155" stroke-width="1.5"/>
+  <line x1="330" y1="672" x2="330" y2="690" stroke="#334155" stroke-width="1.5"/>
+  <line x1="330" y1="760" x2="330" y2="780" stroke="#334155" stroke-width="1.5"/>
+
+  <!-- Legend -->
+  <rect x="80" y="845" width="820" height="42" rx="6" fill="#141820" stroke="#1e293b" stroke-width="1"/>
+  <rect x="95" y="857" width="10" height="10" fill="#60a5fa"/>
+  <text x="112" y="867" font-size="9" fill="#94a3b8">Compute</text>
+  <rect x="175" y="857" width="10" height="10" fill="#34d399"/>
+  <text x="192" y="867" font-size="9" fill="#94a3b8">Memory (on-chip)</text>
+  <rect x="305" y="857" width="10" height="10" fill="#a78bfa"/>
+  <text x="322" y="867" font-size="9" fill="#94a3b8">Memory (HBM)</text>
+  <rect x="430" y="857" width="10" height="10" fill="#fb923c"/>
+  <text x="447" y="867" font-size="9" fill="#94a3b8">NVLink/Interconnect</text>
+  <rect x="570" y="857" width="10" height="10" fill="#94a3b8" fill-opacity="0.4" stroke="#94a3b8" stroke-dasharray="3,2" stroke-width="1"/>
+  <text x="587" y="867" font-size="9" fill="#94a3b8">Off-chip I/O</text>
+  <rect x="670" y="857" width="10" height="10" fill="#2d1f0a" stroke="#f59e0b" stroke-width="1"/>
+  <text x="687" y="867" font-size="9" fill="#f59e0b">η_* efficiency factor / gotcha</text>
+
+</svg>
