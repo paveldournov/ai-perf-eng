@@ -12,7 +12,7 @@ Modern AI accelerators share a common architectural pattern: a sea of parallel c
 |--------|---------------------|-------------|
 | [NVIDIA GPU](nvidia/index.md) | H100, H200, B200, GB200 | Training + inference |
 | [AMD GPU](amd/index.md) | MI300X, MI325X | Training + inference |
-| [Google TPU](tpu/index.md) | TPUv4, TPUv5p, TPUv6 | Training (LLM at scale) |
+| [Google TPU](tpu/index.md) | TPUv4, TPUv5p, TPUv6e (Trillium), TPUv8t/v8i | Training + inference (LLM at scale) |
 | [Custom NPU / ASIC](npu/index.md) | Trainium2, Gaudi3, Groq LPU | Inference-optimized |
 | [Cerebras / Wafer-Scale](wafer_scale.md) | WSE-3 | Extreme memory-BW workloads |
 

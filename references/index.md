@@ -20,7 +20,9 @@
 ### Hardware Architecture
 - **A100 Architecture** — NVIDIA (2020). NVIDIA A100 Tensor Core GPU Architecture Whitepaper.
 - **H100 Architecture** — NVIDIA (2022). NVIDIA H100 Tensor Core GPU Architecture Whitepaper.
-- **TPUv4** — Jouppi et al. (2023). "TPU v4: An Optically Reconfigurable Supercomputer for Machine Learning." *ISCA 2023*.
+- **TPUv4** — Jouppi et al. (2023). "TPU v4: An Optically Reconfigurable Supercomputer for Machine Learning." *ISCA 2023*. arXiv:2304.01433
+- **TPU v6e (Trillium)** — Google Cloud (2024). "Introducing Trillium, sixth-generation TPUs." Blog + official docs. https://cloud.google.com/tpu/docs/v6e
+- **TPU v8t / v8i** — Google Cloud (2025). "TPU 8t and TPU 8i Technical Deep Dive." https://cloud.google.com/blog/products/compute/tpu-8t-and-tpu-8i-technical-deep-dive
 
 ### Analytical Modeling
 - **LLM Inference Math** — Sheng et al.; Kipply (2023). "Transformer Inference Arithmetic." (blog post)

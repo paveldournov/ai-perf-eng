@@ -18,6 +18,10 @@ Operations with arithmetic intensity **above** the ridge point are compute-bound
 | B200 SXM | FP4 tensor | ~4500 TFLOPS | 8.0 TB/s | ~563 FLOP/B |
 | MI300X | BF16 tensor | 1307 TFLOPS | 5.3 TB/s | ~247 FLOP/B |
 | TPUv5p | BF16 | 459 TFLOPS | 2.76 TB/s | ~166 FLOP/B |
+| TPU v6e (Trillium) | BF16 | 918 TFLOPS | 1.64 TB/s | ~560 FLOP/B |
+| TPU v6e (Trillium) | Int8 | 1,836 TOPs | 1.64 TB/s | ~1,120 FLOP/B |
+| TPU v8t | FP4 | 12,600 TFLOPS | 6.53 TB/s | ~1,930 FLOP/B |
+| TPU v8i | FP4 | 10,100 TFLOPS | 8.60 TB/s | ~1,174 FLOP/B |
 | Gaudi3 | BF16 | 1835 TFLOPS | 3.7 TB/s | ~496 FLOP/B |
 
 > Numbers are for peak dense (non-sparse) unless noted. Sparse (2:4) doubles FLOPS on NVIDIA chips.
