@@ -23,6 +23,8 @@
 - **TPUv4** — Jouppi et al. (2023). "TPU v4: An Optically Reconfigurable Supercomputer for Machine Learning." *ISCA 2023*. arXiv:2304.01433
 - **TPU v6e (Trillium)** — Google Cloud (2024). "Introducing Trillium, sixth-generation TPUs." Blog + official docs. https://cloud.google.com/tpu/docs/v6e
 - **TPU v8t / v8i** — Google Cloud (2025). "TPU 8t and TPU 8i Technical Deep Dive." https://cloud.google.com/blog/products/compute/tpu-8t-and-tpu-8i-technical-deep-dive
+- **Boardfly (TPU v8i interconnect)** — Google (2025). Hierarchical high-radix inference network; see [Boardfly notes](../hardware/tpu/boardfly.md).
+- **Dragonfly topology** — Kim et al. (2008). "Technology-Driven, Highly-Scalable Dragonfly Topology." *ISCA 2008*. https://research.google.com/pubs/archive/34926.pdf (foundational design Boardfly draws from)
 
 ### Analytical Modeling
 - **LLM Inference Math** — Sheng et al.; Kipply (2023). "Transformer Inference Arithmetic." (blog post)

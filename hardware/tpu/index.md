@@ -44,5 +44,6 @@ Google's Tensor Processing Units (TPUs) are custom ASICs designed for matrix-mul
 
 - [TPU v6e (Trillium)](tpu_v6e.md)
 - [TPU v8t / v8i](tpu_v8.md)
+- [Boardfly interconnect topology](boardfly.md)
 - [Roofline parameters](../roofline_params.md)
 - [References — TPU papers & docs](../../references/index.md)

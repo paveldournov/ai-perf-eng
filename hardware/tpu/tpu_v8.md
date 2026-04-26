@@ -49,10 +49,11 @@ TPU v8 is Google's eighth-generation TPU, announced in April 2025. Unlike prior 
 | HBM capacity | 288 GB |
 | HBM bandwidth | 8,601 GB/s (~8.6 TB/s) |
 | Chip-to-chip ICI bandwidth | 19.2 Tbps |
-| Network topology | Boardfly (novel; −50% network diameter vs torus) |
+| Network topology | [Boardfly](boardfly.md) (novel; −56% network diameter vs torus) |
+| Scale-out (DCN) bandwidth | 400 Gbps per chip (4× vs prior gen) |
 | Max connected cluster | 1,152 chips (1,024 active) |
 | Special units | CAE (Collectives Acceleration Engine) |
-| On-chip latency reduction | 5× vs prior gen |
+| On-chip collective latency reduction | 5× vs prior gen |
 
 ### Roofline Parameters
 
@@ -76,7 +77,7 @@ TPU v8 is Google's eighth-generation TPU, announced in April 2025. Unlike prior 
 | Feature | Details |
 |---------|---------|
 | Split SKU design | Separate chips for training (8t) and inference (8i); each optimized for its workload |
-| Boardfly topology (8i) | Novel network topology replacing torus; reduces diameter by 50%, improving all-reduce latency |
+| [Boardfly topology](boardfly.md) (8i) | Hierarchical high-radix topology (3-level: ring → copper full-mesh → OCS); reduces diameter from 16 to 7 hops (−56%) vs equivalent torus; inspired by Dragonfly |
 | CAE — Collectives Acceleration Engine (8i) | Dedicated on-chip unit for all-reduce / all-gather operations; 5× on-chip latency reduction |
 | LLM Decoder Engine (8t) | Specialized unit for autoregressive decode during training data generation |
 | TPUDirect Storage (8t) | 10× faster direct chip-to-storage path; reduces checkpoint and data-loading bottlenecks |
@@ -112,6 +113,7 @@ TPU v8 is Google's eighth-generation TPU, announced in April 2025. Unlike prior 
 
 ## See Also
 
+- [Boardfly topology deep-dive](boardfly.md)
 - [TPU v6e (Trillium)](tpu_v6e.md) — previous generation
 - [TPU family overview](index.md)
 - [Roofline params](../roofline_params.md)
