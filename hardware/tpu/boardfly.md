@@ -16,6 +16,33 @@ Pod (up to 36 groups, 1,152 chips total)
       └── Building Block / Tray (4-chip ring, internal ICI links)
 ```
 
+```mermaid
+flowchart TB
+
+  POD(["Pod\n36 groups · up to 1,152 chips\n7-hop diameter"])
+
+  OCS["Optical Circuit Switch\ndynamic · fault-tolerant\ninter-group links"]
+
+  G1["Group 1\n8 boards\ncopper full-mesh"]
+  G2["Group 2\n8 boards\ncopper full-mesh"]
+  GN["  ···  Group 36"]
+
+  BB1["Building Block\n4-chip ICI ring"]
+  BB2["Building Block\n4-chip ICI ring"]
+  BB3["Building Block\n4-chip ICI ring"]
+
+  c1(["chip"]) & c2(["chip"]) & c3(["chip"]) & c4(["chip"])
+  c5(["chip"]) & c6(["chip"])
+
+  POD --> OCS
+  OCS -->|optical| G1 & G2 & GN
+  G1 -->|copper| BB1 & BB2
+  G2 -->|copper| BB3
+  BB1 -->|ICI ring| c1 & c2
+  BB2 -->|ICI ring| c3 & c4
+  BB3 -->|ICI ring| c5 & c6
+```
+
 ### Level 1 — Building Block (Tray)
 
 - 4 chips connected in a **ring** using internal ICI links
@@ -47,6 +74,46 @@ The key performance claim for Boardfly is a **~56% reduction in network diameter
 | Boardfly | 1,024 chips | 7 hops |
 
 Fewer hops directly reduce worst-case all-to-all latency. For autoregressive decode and expert routing in MoE models, where every generated token triggers collective communication across chips, this translates to measurable end-to-end latency improvement.
+
+### Path comparison — 3D Torus vs Boardfly
+
+```mermaid
+flowchart TB
+
+  subgraph TORUS["3D Torus  (8 × 8 × 16  ·  1,024 chips)  —  worst-case: 16 hops"]
+    direction LR
+    TA(["Chip A"])
+    TB(["Chip B"])
+    TA -->|1| t1((·)) -->|2| t2((·)) -->|3| t3((·)) -->|4| t4((·)) -->|5| t5((·)) -->|6| t6((·)) -->|7| t7((·)) -->|8| t8((·)) -->|9| t9((·)) -->|10| t10((·)) -->|11| t11((·)) -->|12| t12((·)) -->|13| t13((·)) -->|14| t14((·)) -->|15| t15((·)) -->|16| TB
+  end
+
+  subgraph BF["Boardfly  (1,024 chips)  —  worst-case: 7 hops"]
+    direction LR
+
+    subgraph BBA["Building Block A  (ICI ring)"]
+      direction LR
+      CA(["Chip A"]) -->|"① ICI"| ba1((·)) -->|"② ICI"| ba2((·))
+    end
+
+    subgraph GA["Group A  (copper full-mesh)"]
+      ba2 -->|"③ copper"| ga1((·))
+    end
+
+    ga1 -->|"④ OCS"| gb1((·))
+
+    subgraph GB["Group B  (copper full-mesh)"]
+      gb1 -->|"⑤ copper"| bb1((·))
+    end
+
+    subgraph BBB["Building Block B  (ICI ring)"]
+      direction LR
+      bb1 -->|"⑥ ICI"| bb2((·)) -->|"⑦ ICI"| CB(["Chip B"])
+    end
+
+  end
+```
+
+Each hop in the Boardfly path maps to a physical link type and a hierarchy level crossing: two ICI hops traverse the source building block ring, one copper hop exits to the group mesh, one OCS hop crosses to the destination group, one copper hop enters the destination building block, and two ICI hops reach the target chip.
 
 ---
 
