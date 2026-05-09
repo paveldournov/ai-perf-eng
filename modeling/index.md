@@ -15,6 +15,7 @@ Analytical performance models predict throughput, latency, and utilization from 
 | [Training throughput model](training.md) | Step time, MFU, scaling efficiency | Model size, parallelism config, hardware |
 | [Memory capacity model](memory_capacity.md) | Whether model fits; weights + KV cache + activations | Model config, dtype, batch, seq length |
 | [Interconnect / collective model](collective_model.md) | All-reduce / all-gather latency | Topology, message size, algo BW |
+| [Inference routing](inference_routing.md) | KV-aware routing, disaggregated prefill/decode, session affinity | Serving topology, cache state, hardware specialization |
 
 ---
 

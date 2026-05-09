@@ -16,6 +16,7 @@
 - **FlashAttention-2** — Dao (2023). "FlashAttention-2: Faster Attention with Better Parallelism." *ICLR 2024*.
 - **PagedAttention / vLLM** — Kwon et al. (2023). "Efficient Memory Management for Large Language Model Serving." *SOSP 2023*.
 - **Continuous batching** — Yu et al. (2022). "Orca: A Distributed Serving System for Transformer-Based Generative Models." *OSDI 2022*.
+- **LLM Inference Routing (Part 1)** — Modular (2025). "Why LLM Inference Needs a New Kind of Router." *Modular Blog*. https://www.modular.com/blog/why-llm-inference-needs-a-new-kind-of-router-part-1
 
 ### Hardware Architecture
 - **A100 Architecture** — NVIDIA (2020). NVIDIA A100 Tensor Core GPU Architecture Whitepaper.
@@ -34,6 +35,9 @@
 ### Large Scale
 - **Ultra Scale Playbook** Training LLM on GPU clusters (https://huggingface.co/spaces/nanotron/ultrascale-playbook?section=high-level_overview)
 - **Scaling LLMs on TPUs** — JAX-ML (2024). "Scaling Book: a guide to LLM scaling on TPU/JAX." (https://github.com/jax-ml/scaling-book)
+
+### Production Reliability & Fault Tolerance
+- **TorchPass** — Clockwork (2025). "TorchPass: Workload Fault Tolerance." Software-based live GPU migration and network path failover for distributed AI training. https://clockwork.io/blog/torchpass-workload-fault-tolerance/
 
 ### Simulation — Distributed Systems
 - **ASTRA-sim** — Rashidi et al. (2020). "ASTRA-sim: Enabling SW/HW Co-Design Exploration for Distributed DL Training Platforms." *ISPASS 2020.*
@@ -78,6 +82,12 @@
 | SCALE-sim v3      | Cycle-accurate systolic NPU sim     | arxiv.org/abs/2504.15377            |
 | LLM-Viewer        | Per-layer LLM roofline analysis     | github.com/hahnyuan/LLM-Viewer      |
 | LLMRoofline       | Cross-HW LLM roofline comparison    | github.com/feifeibear/LLMRoofline   |
+
+---
+
+## Podcasts & Talks
+
+- **Reiner Pope on Dwarkesh Podcast** (2024). "How LLMs are trained and deployed at scale." Covers inference latency arithmetic, batch size analysis, MoE rack layout, pipeline parallelism, total compute cost accounting, and Chinchilla over-training. Flashcard companion: https://reiner-flashcards.vercel.app/
 
 ---
 
