@@ -32,6 +32,14 @@ AI workloads decompose into a hierarchy: **regime → model type → operator �
 - [Attention](attention.md) — FlashAttention, paged attention, MLA
 - [All-reduce / All-gather](collective_ops.md) — distributed training communication
 
+## Kernel Development
+
+- [Pallas](pallas_kernels.md) — JAX extension for custom GPU/TPU kernels; grids, Refs, memory spaces, TPU VMEM tiling
+
+## Mechanistic Understanding
+
+- [Transformer as a programmable computer](transformer_programs.md) — manually-set weights implementing Hello World, Lookup Table, Search, Sort, Decimal Addition; attention hardening, linearly shiftable encodings, LayerNorm bypass
+
 ---
 
 ## Arithmetic Intensity by Operation
