@@ -10,11 +10,11 @@ Characterization bridges the gap between analytical models and reality. It measu
 
 | Technique | Purpose | Tools |
 |-----------|---------|-------|
-| [Microbenchmarks](microbenchmarks.md) | Measure raw HW parameters (BW, latency, FLOPS) | custom CUDA/HIP, STREAM |
-| [Kernel profiling](kernel_profiling.md) | Per-kernel time, occupancy, memory transactions | Nsight Compute, ROCm profiler |
-| [End-to-end profiling](e2e_profiling.md) | Trace full model step, pipeline stalls | Nsight Systems, PyTorch profiler |
-| [Scaling experiments](scaling.md) | MFU vs batch size, sequence length, parallelism | custom harnesses |
-| [Roofline measurement](roofline_measurement.md) | Plot actual ops on roofline chart | Nsight Compute built-in |
+| Microbenchmarks | Measure raw HW parameters (BW, latency, FLOPS) | custom CUDA/HIP, STREAM |
+| Kernel profiling | Per-kernel time, occupancy, memory transactions | Nsight Compute, ROCm profiler |
+| End-to-end profiling | Trace full model step, pipeline stalls | Nsight Systems, PyTorch profiler |
+| Scaling experiments | MFU vs batch size, sequence length, parallelism | custom harnesses |
+| Roofline measurement | Plot actual ops on roofline chart | Nsight Compute built-in |
 
 ---
 
@@ -64,4 +64,4 @@ Low MFU + high MBU → BW-bound (typical for decode)
 
 - [Roofline parameters](../hardware/roofline_params.md)
 - [Roofline model](../modeling/roofline.md)
-- [MFU model](../modeling/mfu.md)
+- MFU model
