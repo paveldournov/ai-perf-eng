@@ -1,6 +1,6 @@
 # Pathways on Cloud
 
-← [Back to TPU](index.md)
+← [Back to Scheduling](index.md)
 
 ---
 
@@ -115,7 +115,7 @@ Worker pods require the `PATHWAYS_HEAD`, `MEGASCALE_NUM_SLICES`, `MEGASCALE_SLIC
 ## Performance Considerations
 
 - **Compilation caching:** XLA programs are compiled once and cached to the `pathwaysDir` GCS bucket; subsequent restarts skip recompilation.
-- **Cross-slice latency:** ICI fabric (see [Boardfly](boardfly.md)) handles intra-pod all-reduce; cross-pod traffic routes over the data-center network via DCN — the primary latency boundary.
+- **Cross-slice latency:** ICI fabric (see [Boardfly](../hardware/tpu/boardfly.md)) handles intra-pod all-reduce; cross-pod traffic routes over the data-center network via DCN — the primary latency boundary.
 - **CPU bottleneck:** The Resource Manager and Pathways Client are CPU-only; for large clusters, sizing the CPU node correctly is important to avoid dispatch latency.
 - **Sidecar vs. proxy:** For inference, co-locating user Python on the accelerator VM via the sidecar avoids an extra gRPC hop and reduces TTFT.
 
@@ -123,7 +123,8 @@ Worker pods require the `PATHWAYS_HEAD`, `MEGASCALE_NUM_SLICES`, `MEGASCALE_SLIC
 
 ## See Also
 
-- [TPU v6e (Trillium)](tpu_v6e.md) — primary Pathways target for inference
-- [TPU v8t / v8i](tpu_v8.md) — next-gen training/inference targets
-- [Boardfly interconnect](boardfly.md) — ICI topology that Pathways dispatches across
-- [Pallas kernels](../../workloads/pallas_kernels.md) — writing custom kernels for the workers Pathways dispatches
+- [TPU v6e (Trillium)](../hardware/tpu/tpu_v6e.md) — primary Pathways target for inference
+- [TPU v8t / v8i](../hardware/tpu/tpu_v8.md) — next-gen training/inference targets
+- [Boardfly interconnect](../hardware/tpu/boardfly.md) — ICI topology that Pathways dispatches across
+- [Kueue](kueue.md) — Kubernetes job admission that sits above Pathways for cluster-level quota
+- [Pallas kernels](../workloads/pallas_kernels.md) — writing custom kernels for the workers Pathways dispatches

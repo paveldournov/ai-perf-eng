@@ -12,6 +12,7 @@ Entry point for the AI performance modeling knowledge base. Topics span hardware
 | [Workloads](workloads/index.md) | AI workload taxonomy: training, inference, operators, kernels |
 | [Performance Modeling](modeling/index.md) | Analytical models, roofline, latency/throughput prediction |
 | [Simulation](simulation/index.md) | Simulator taxonomy, tools (ASTRA-sim, Timeloop, Accel-Sim, LLM-Viewer, …) |
+| [Scheduling](scheduling/index.md) | Job admission, distributed runtimes, inference routing (Pathways, Ray, Kueue, llm-d) |
 | [Characterization](characterization/index.md) | Benchmarking methodology, microbenchmarks, profiling |
 | [References](references/index.md) | Papers, tools, datasets, and external resources |
 

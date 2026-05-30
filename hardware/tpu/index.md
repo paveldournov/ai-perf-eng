@@ -45,7 +45,7 @@ Google's Tensor Processing Units (TPUs) are custom ASICs designed for matrix-mul
 - [TPU v6e (Trillium)](tpu_v6e.md)
 - [TPU v8t / v8i](tpu_v8.md)
 - [Boardfly interconnect topology](boardfly.md)
-- [Pathways on Cloud](pathways.md) — single-controller runtime for multi-slice JAX workloads; PathwaysJob CRD, resilient training, multihost inference
+- [Pathways on Cloud](../../scheduling/pathways.md) — single-controller runtime for multi-slice JAX workloads; PathwaysJob CRD, resilient training, multihost inference
 - [Roofline parameters](../roofline_params.md)
 - [References — TPU papers & docs](../../references/index.md)
 - [Pallas — kernel programming for TPU/GPU](../../workloads/pallas_kernels.md) — how to write JAX kernels that explicitly control VMEM tiling and MXU dispatch
