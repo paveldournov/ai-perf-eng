@@ -29,6 +29,8 @@ Entry point for the AI performance modeling knowledge base. Topics span hardware
 
 ## How to Navigate
 
+New here? Start with the **[Reading Guide](GUIDE.md)** — it gives structured learning paths with a recommended reading order and worked examples.
+
 Each section has an `index.md` that lists and links its sub-topics. Cross-references between sections use relative paths. All hardware specs are in `hardware/`, all model predictions in `modeling/`.
 
 ---

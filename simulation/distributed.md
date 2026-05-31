@@ -92,5 +92,5 @@ Recent work (2024–2025) extends distributed simulation to *heterogeneous* clus
 
 - [ASTRA-sim tutorials at MICRO 2024](https://astra-sim.github.io/tutorials/micro-2024)
 - [Cycle-accurate simulators](cycle_accurate.md) — use as compute backend inside ASTRA-sim
-- [Collective operations workload](../workloads/collective_ops.md)
-- [Interconnect hardware](../hardware/interconnect.md)
+- [Collective operations](../workloads/collective_ops.md) — all-reduce / all-gather latency formulas
+- [Collective ops BW numbers](../workloads/collective_ops.md#bandwidth-numbers-by-topology) — NVLink, InfiniBand, ICI reference values

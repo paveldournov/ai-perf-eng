@@ -12,9 +12,9 @@ Analytical performance models predict throughput, latency, and utilization from 
 |-------|-----------------|--------|
 | [Roofline model](roofline.md) | Compute vs. BW bound, peak achievable FLOPS | AI, peak FLOPS, peak BW |
 | [LLM inference model](llm_inference.md) | Prefill/decode latency, throughput, MFU | Model config, hardware specs, batch size |
-| [Training throughput model](training.md) | Step time, MFU, scaling efficiency | Model size, parallelism config, hardware |
+| Training throughput model | Step time, MFU, scaling efficiency | Model size, parallelism config, hardware |
 | [Memory capacity model](memory_capacity.md) | Whether model fits; weights + KV cache + activations | Model config, dtype, batch, seq length |
-| [Interconnect / collective model](collective_model.md) | All-reduce / all-gather latency | Topology, message size, algo BW |
+| [Parallelism strategies](parallelism.md) | Memory per GPU, communication overhead per strategy | TP/PP/DP degrees, model config, topology |
 | [Inference routing](inference_routing.md) | KV-aware routing, disaggregated prefill/decode, session affinity | Serving topology, cache state, hardware specialization |
 
 ---
@@ -38,4 +38,4 @@ Analytical performance models predict throughput, latency, and utilization from 
 
 ## Simulation Frameworks
 
-- [Simulation overview](simulation.md) — analytical simulators vs. cycle-accurate vs. ML-based
+- [Simulation overview](../simulation/index.md) — analytical simulators vs. cycle-accurate vs. ML-based

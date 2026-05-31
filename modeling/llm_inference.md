@@ -208,6 +208,5 @@ Above this length, each additional token costs linearly more (KV-bound); below i
 
 - [Roofline model](roofline.md)
 - [GEMM](../workloads/gemm.md)
-- [Inference decode workload](../workloads/inference_decode.md)
-- [Memory capacity model](memory_capacity.md)
+- [Memory capacity model](memory_capacity.md) — weights + KV cache sizing; does it fit?
 - [Inference routing](inference_routing.md) — KV-aware routing, disaggregated prefill/decode, session affinity

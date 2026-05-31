@@ -49,4 +49,4 @@ PCIe / NVLink-C2C (host-to-GPU)
 
 - [Roofline parameters](roofline_params.md)
 - [Roofline model](../modeling/roofline.md)
-- [Operators and memory access patterns](../workloads/operators.md)
+- [GEMM memory access patterns](../workloads/gemm.md) — arithmetic intensity and how operator shape determines which memory level is the bottleneck

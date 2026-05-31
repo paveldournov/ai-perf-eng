@@ -10,24 +10,24 @@ AI workloads decompose into a hierarchy: **regime → model type → operator �
 
 | Regime | Compute Pattern | Memory Pattern | Bottleneck |
 |--------|----------------|----------------|------------|
-| [Training](training.md) | High FLOPs/batch, backward pass | Activations + weights in HBM | Compute or NVLink BW |
-| [Inference — prefill](inference_prefill.md) | Long prompt, high parallelism | KV cache write, weight load | Compute (high AI) |
-| [Inference — decode](inference_decode.md) | One token/step, low batch | KV cache read, weight load | HBM bandwidth |
+| Training | High FLOPs/batch, backward pass | Activations + weights in HBM | Compute or NVLink BW |
+| Inference — prefill | Long prompt, high parallelism | KV cache write, weight load | Compute (high AI) |
+| Inference — decode | One token/step, low batch | KV cache read, weight load | HBM bandwidth |
 
 ---
 
 ## Model Families
 
-- [Transformer / LLM](transformer.md) — attention, MLP blocks; dominant modern workload
-- [CNN](cnn.md) — convolutions; image/video; historically dominant
-- [MoE (Mixture of Experts)](moe.md) — sparse activation; routing overhead
-- [Diffusion models](diffusion.md) — iterative denoising; mixed attention + CNN
+- Transformer / LLM — attention, MLP blocks; dominant modern workload
+- CNN — convolutions; image/video; historically dominant
+- MoE (Mixture of Experts) — sparse activation; routing overhead
+- Diffusion models — iterative denoising; mixed attention + CNN
 
 ---
 
 ## Operator-Level View
 
-- [Operators overview](operators.md) — GEMM, attention, convolution, elementwise, reduction
+- Operators overview — GEMM, attention, convolution, elementwise, reduction
 - [GEMM](gemm.md) — general matrix multiply; workhorse of all DNN workloads
 - [Attention](attention.md) — FlashAttention, paged attention, MLA
 - [All-reduce / All-gather](collective_ops.md) — distributed training communication
