@@ -24,6 +24,7 @@ roofline       mapper          simulator         full simulator    FPGA
 | [Distributed system simulators](distributed.md) | Minutes–hours | Medium–high | Collective comm, parallelism strategy, multi-GPU |
 | [Cycle-accurate GPU simulators](cycle_accurate.md) | Hours–days | High | Microarch changes, cache/memory system study |
 | [LLM-specific analysis tools](llm_tools.md) | Seconds | Medium | Per-layer roofline, batch/seq sweep for LLMs |
+| [Fault tolerance](fault_tolerance.md) | — | Production | Effective MFU, MTTF cost models, recovery strategies |
 
 ---
 
