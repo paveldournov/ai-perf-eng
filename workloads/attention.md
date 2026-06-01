@@ -107,6 +107,82 @@ FlashAttention does **not** reduce FLOPs — it reduces memory traffic. The spee
 
 ---
 
+## Kernel Implementations
+
+The algorithm described above maps to real code in a handful of canonical implementations. Reading them alongside the theory is the fastest way to internalise what "tiling" and "online softmax" actually mean at the hardware level.
+
+### GPU — Triton (reference implementation)
+
+**Source:** Triton tutorial `06-fused-attention` — [triton-lang.org](https://triton-lang.org/main/getting-started/tutorials/06-fused-attention.html)
+
+The Triton tutorial is the clearest pedagogical implementation of Flash Attention v2. It implements the full forward + backward pass in ~300 lines of Python.
+
+Key structural decisions:
+- `Q` is loaded once into SRAM and stays resident for the entire inner loop over K/V blocks — this is the defining IO-saving move
+- Online softmax state `(m_i, l_i)` is maintained in registers across the inner loop; the output accumulator `acc` is rescaled each time `m_i` shifts
+- Causal masking is handled with a two-stage loop: off-diagonal blocks (no masking needed, cheaper) then the diagonal block (masking applied)
+- Separate backward kernels for `dK/dV` and `dQ` to avoid atomic writes
+
+```python
+# Pseudocode reflecting the Triton kernel structure
+for start_n in range(0, seq_len, BLOCK_N):   # iterate K/V tiles
+    k = load(K[start_n : start_n + BLOCK_N]) # load K tile from HBM
+    v = load(V[start_n : start_n + BLOCK_N]) # load V tile from HBM
+
+    qk = dot(q, k.T) * scale                 # q is already in SRAM
+    if causal: apply_mask(qk)
+
+    m_new = max(m_i, row_max(qk))
+    l_new = exp(m_i - m_new) * l_i + sum(exp(qk - m_new))
+    acc = (exp(m_i - m_new) * acc + exp(qk - m_new) @ v)
+    m_i, l_i = m_new, l_new
+
+o = acc / l_i   # final normalisation — only one divide per output element
+```
+
+Measured throughput (batch=4, H=32): ~160 TFLOPS at seq_len=16K in FP16 on H100. Causal masking achieves ~2× speedup over full attention due to skipping the lower triangle.
+
+Hardware-specific tuning in the tutorial:
+- `BLOCK_M=128, BLOCK_N=64` for Hopper; smaller blocks for older GPUs
+- `warp_specialize=True` on Hopper/Blackwell for overlapping data loads and compute
+- FP8 accumulation path for Blackwell
+
+### GPU — JAX / Pallas
+
+**Source:** `jax/experimental/pallas/ops/gpu/attention.py` — [github.com/google/jax](https://github.com/google/jax/blob/main/jax/experimental/pallas/ops/gpu/attention.py)
+
+The official JAX implementation uses Pallas (see [Pallas kernels](pallas_kernels.md)) to express the same algorithm as the Triton version but within the JAX ecosystem, composing with `jit`, `vmap`, and `grad`.
+
+Same online softmax approach: running `(m_i, l_i)` in registers, unscaled accumulator corrected at each tile boundary. Key quote from the source:
+
+> "We keep an unscaled version of o during the scan over seq_len. Scaling it by the last l_i gives us the correct final output."
+
+Block sizes are configured via a `BlockSizes` dataclass with separate `block_q / block_k` for forward and backward passes, allowing hardware-specific tuning without changing the algorithm.
+
+### TPU — `jax.nn.dot_product_attention`
+
+On TPU, the recommended path is **not** to write a custom kernel. JAX's built-in `jax.nn.dot_product_attention` emits a Flash Attention-equivalent fused XLA op when running on TPU:
+
+```python
+import jax
+import jax.numpy as jnp
+
+# Inputs: [batch, seq, heads, head_dim]
+out = jax.nn.dot_product_attention(query, key, value, is_causal=True)
+```
+
+XLA tiles the computation across TPU VMEM (on-chip scratchpad) automatically, avoiding HBM materialisation. The TPU's 2D systolic array (`MXU`) processes the `QK^T` and `AV` matrix multiplies; the scalar unit handles the softmax reduction.
+
+For custom TPU attention kernels (e.g., sliding-window attention, cross-attention with custom masking), use Pallas with explicit VMEM tiling — see [Pallas kernels](pallas_kernels.md) and the [JAX Pallas TPU matrix multiply tutorial](https://docs.jax.dev/en/latest/pallas/tpu/matmul.html) for the tiling pattern.
+
+### Official CUDA / C++ (production)
+
+**Source:** Dao-AILab/flash-attention — [github.com/Dao-AILab/flash-attention](https://github.com/Dao-AILab/flash-attention)
+
+The original production implementation used by most frameworks (PyTorch `F.scaled_dot_product_attention` dispatches here on CUDA). Written in CUDA with hand-tuned CUTLASS-style register layouts. Harder to read than the Triton version but faster in practice.
+
+---
+
 ## State Space Models (Mamba)
 
 **Source:** Gu et al., "Mamba: Linear-Time Sequence Modeling with Selective State Spaces" (2023). [arXiv:2312.00752](https://arxiv.org/abs/2312.00752)
