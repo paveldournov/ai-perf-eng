@@ -1,3 +1,11 @@
+---
+type: Method
+title: Analytical Performance Models
+description: Deriving performance bounds from hardware specs and workload math — no simulation loop.
+tags: [simulation, analytical, roofline, bounds]
+timestamp: 2026-04-11T16:59:22-07:00
+---
+
 # Analytical Performance Models
 
 ← [Simulation Index](index.md)

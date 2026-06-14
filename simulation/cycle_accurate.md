@@ -1,3 +1,11 @@
+---
+type: Method
+title: Cycle-Accurate Simulators
+description: Highest-fidelity microarchitecture modeling at the clock-cycle level, at high simulation cost.
+tags: [simulation, cycle-accurate, microarchitecture, fidelity]
+timestamp: 2026-04-11T16:59:22-07:00
+---
+
 # Cycle-Accurate Simulators
 
 ← [Simulation Index](index.md)

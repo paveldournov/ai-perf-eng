@@ -1,3 +1,11 @@
+---
+type: Dataset
+title: Roofline Parameters by Chip
+description: Per-device peak FLOPS, peak memory bandwidth, and ridge point lookup table.
+tags: [roofline, specs, flops, bandwidth, ridge-point]
+timestamp: 2026-04-25T23:28:29-07:00
+---
+
 # Roofline Parameters by Chip
 
 ← [Hardware Index](index.md) | [Roofline model](../modeling/roofline.md)

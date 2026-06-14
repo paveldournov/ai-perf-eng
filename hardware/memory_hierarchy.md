@@ -1,3 +1,11 @@
+---
+type: Concept
+title: Memory Hierarchy in AI Accelerators
+description: Bandwidth and capacity at each level (HBM, L2, SRAM, registers) and why it dominates performance.
+tags: [memory, bandwidth, hbm, cache, sram]
+timestamp: 2026-05-30T23:45:33-07:00
+---
+
 # Memory Hierarchy in AI Accelerators
 
 ← [Hardware Index](index.md)

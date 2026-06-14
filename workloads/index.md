@@ -1,3 +1,11 @@
+---
+type: Index
+title: Workloads — AI Workload Taxonomy
+description: The regime → model type → operator → kernel hierarchy of AI workloads.
+tags: [workloads, taxonomy, operators, kernels]
+timestamp: 2026-05-30T23:45:33-07:00
+---
+
 # Workloads — AI Workload Taxonomy
 
 ← [Back to README](../README.md)

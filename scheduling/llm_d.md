@@ -1,3 +1,12 @@
+---
+type: Tool
+title: llm-d
+description: Kubernetes-native distributed LLM inference serving stack (CNCF Sandbox).
+tags: [scheduling, inference, kubernetes, cncf, serving]
+resource: https://github.com/llm-d/llm-d
+timestamp: 2026-05-30T10:50:39-07:00
+---
+
 # llm-d
 
 ← [Back to Scheduling](index.md)

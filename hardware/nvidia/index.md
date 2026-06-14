@@ -1,3 +1,11 @@
+---
+type: Index
+title: NVIDIA GPU Architecture
+description: Landing page for NVIDIA data-center GPUs (H100, H200, B200, GB200).
+tags: [nvidia, gpu, hopper, blackwell]
+timestamp: 2026-05-30T23:45:33-07:00
+---
+
 # NVIDIA GPU Architecture
 
 ← [Hardware Index](../index.md)

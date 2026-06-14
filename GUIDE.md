@@ -1,3 +1,11 @@
+---
+type: Index
+title: Reading Guide
+description: Structured learning paths through the knowledge base with a recommended reading order.
+tags: [guide, navigation, learning-path]
+timestamp: 2026-05-30T23:45:33-07:00
+---
+
 # Reading Guide
 
 This guide gives you a structured path through the knowledge base. Each path builds intuition sequentially — later pages assume the earlier ones.

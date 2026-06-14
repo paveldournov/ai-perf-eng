@@ -1,3 +1,12 @@
+---
+type: Kernel
+title: Pallas — Custom Kernel Programming in JAX
+description: JAX extension for writing custom GPU/TPU kernels when XLA leaves performance on the table.
+tags: [pallas, jax, kernels, gpu, tpu, triton]
+resource: https://docs.jax.dev/en/latest/pallas/index.html
+timestamp: 2026-05-31T23:00:31-07:00
+---
+
 # Pallas — Custom Kernel Programming in JAX
 
 ← [Workloads Index](index.md)

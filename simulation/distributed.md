@@ -1,3 +1,11 @@
+---
+type: Method
+title: Distributed System Simulators
+description: Model compute, memory, and collective communication across multi-GPU/multi-node systems.
+tags: [simulation, distributed, collectives, astra-sim, scaling]
+timestamp: 2026-05-30T23:45:33-07:00
+---
+
 # Distributed System Simulators
 
 ← [Simulation Index](index.md)

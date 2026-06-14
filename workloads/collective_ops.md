@@ -1,3 +1,11 @@
+---
+type: Concept
+title: Collective Operations
+description: Communication ops (all-reduce, all-gather, …) and the latency/bandwidth formulas behind them.
+tags: [collectives, all-reduce, communication, nccl, bandwidth]
+timestamp: 2026-05-30T23:45:33-07:00
+---
+
 # Collective Operations
 
 ← [Workloads Index](index.md)

@@ -1,3 +1,11 @@
+---
+type: Index
+title: References
+description: Curated papers, tools, datasets, and external resources for the knowledge base.
+tags: [references, papers, citations]
+timestamp: 2026-05-08T23:08:42-07:00
+---
+
 # References
 
 ← [Back to README](../README.md)

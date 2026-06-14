@@ -1,3 +1,12 @@
+---
+type: Tool
+title: Ray / KubeRay
+description: Distributed compute framework and its Kubernetes operator for scaling AI workloads.
+tags: [scheduling, ray, distributed, kubernetes]
+resource: https://github.com/ray-project/kuberay
+timestamp: 2026-05-30T10:50:39-07:00
+---
+
 # Ray / KubeRay
 
 ← [Back to Scheduling](index.md)

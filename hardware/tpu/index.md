@@ -1,3 +1,11 @@
+---
+type: Index
+title: Google TPU Family
+description: Landing page for Google's TPU generations and their MXU/ICI architecture.
+tags: [google, tpu, mxu, ici]
+timestamp: 2026-05-30T10:50:39-07:00
+---
+
 # Google TPU Family
 
 ← [Hardware Index](../index.md)

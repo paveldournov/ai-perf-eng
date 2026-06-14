@@ -1,3 +1,11 @@
+---
+type: Hardware
+title: Boardfly — TPU v8i Interconnect Topology
+description: Dragonfly-inspired high-radix network topology for Google's TPU v8i inference chip.
+tags: [google, tpu, v8i, interconnect, topology, dragonfly]
+timestamp: 2026-04-25T23:52:21-07:00
+---
+
 # Boardfly — TPU v8i Interconnect Topology
 
 ← [TPU v8](tpu_v8.md) | [TPU Index](index.md)

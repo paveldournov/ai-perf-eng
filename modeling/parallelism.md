@@ -1,3 +1,11 @@
+---
+type: Concept
+title: Parallelism Strategies
+description: The four axes of parallelism for splitting models and data across many accelerators.
+tags: [parallelism, tensor, pipeline, data, sharding]
+timestamp: 2026-05-30T23:45:33-07:00
+---
+
 # Parallelism Strategies
 
 ← [Modeling Index](index.md)

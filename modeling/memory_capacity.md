@@ -1,3 +1,11 @@
+---
+type: Concept
+title: Memory Capacity Model
+description: "Does it fit?" — the capacity constraint that sets minimum accelerator count and shapes parallelism.
+tags: [memory, capacity, kv-cache, parallelism]
+timestamp: 2026-05-30T23:45:33-07:00
+---
+
 # Memory Capacity Model
 
 ← [Modeling Index](index.md)

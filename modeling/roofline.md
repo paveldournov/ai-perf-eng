@@ -1,3 +1,11 @@
+---
+type: Concept
+title: Roofline Model
+description: The foundational tool for bounding performance — compute-bound vs memory-bandwidth-bound.
+tags: [roofline, arithmetic-intensity, compute-bound, memory-bound]
+timestamp: 2026-06-01T23:29:24-07:00
+---
+
 # Roofline Model
 
 ← [Modeling Index](index.md)

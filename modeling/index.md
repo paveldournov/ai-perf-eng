@@ -1,3 +1,11 @@
+---
+type: Index
+title: Performance Modeling
+description: Analytical models that predict throughput, latency, and utilization from first principles.
+tags: [modeling, analytical, roofline, latency, throughput]
+timestamp: 2026-05-30T23:45:33-07:00
+---
+
 # Performance Modeling
 
 ← [Back to README](../README.md)

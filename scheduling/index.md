@@ -1,3 +1,11 @@
+---
+type: Index
+title: Scheduling & Orchestration
+description: How jobs are admitted, placed, and share accelerators across users and clusters.
+tags: [scheduling, orchestration, queuing]
+timestamp: 2026-05-30T10:50:39-07:00
+---
+
 # Scheduling & Orchestration
 
 ← [Back to README](../README.md)

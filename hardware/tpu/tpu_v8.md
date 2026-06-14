@@ -1,3 +1,11 @@
+---
+type: Hardware
+title: Google TPU v8 (Eighth Generation)
+description: Eighth-gen TPU shipping as two variants — 8t (training) and 8i (inference) — for the agentic era.
+tags: [google, tpu, v8, v8t, v8i]
+timestamp: 2026-04-25T23:41:13-07:00
+---
+
 # Google TPU v8 (Eighth Generation)
 
 ← [TPU Index](index.md) | [Roofline params](../roofline_params.md)

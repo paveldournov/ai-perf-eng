@@ -1,3 +1,11 @@
+---
+type: Index
+title: Performance Simulation for AI Workloads
+description: The simulation spectrum from fast analytical bounds to slow cycle-accurate models.
+tags: [simulation, fidelity, taxonomy]
+timestamp: 2026-05-31T23:00:31-07:00
+---
+
 # Performance Simulation for AI Workloads
 
 ← [Back to README](../README.md)

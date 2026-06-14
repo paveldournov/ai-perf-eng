@@ -1,3 +1,12 @@
+---
+type: Reference
+title: The Art of Transformer Programming
+description: Notes on Yaniv Leviathan's writeup of expressing programs directly as transformer weights.
+tags: [transformer, programming, interpretability]
+resource: https://yanivle.github.io/taotp.html
+timestamp: 2026-05-28T23:10:57-07:00
+---
+
 # The Art of Transformer Programming
 
 ← [Back to Workloads](index.md)

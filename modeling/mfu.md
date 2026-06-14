@@ -1,3 +1,11 @@
+---
+type: Concept
+title: MFU — Model FLOP Utilization
+description: The single most useful number for how efficiently a workload uses its hardware.
+tags: [mfu, utilization, efficiency, flops]
+timestamp: 2026-05-30T23:45:33-07:00
+---
+
 # MFU — Model FLOP Utilization
 
 ← [Modeling Index](index.md)

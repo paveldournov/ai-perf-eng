@@ -1,3 +1,11 @@
+---
+type: Index
+title: Characterization — Benchmarking & Profiling
+description: Measuring real hardware behavior through microbenchmarks and end-to-end profiling.
+tags: [characterization, benchmarking, profiling]
+timestamp: 2026-05-29T21:29:57-07:00
+---
+
 # Characterization — Benchmarking & Profiling
 
 ← [Back to README](../README.md)

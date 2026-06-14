@@ -1,3 +1,12 @@
+---
+type: Tool
+title: Kueue
+description: Kubernetes-native job queueing and quota management for batch and AI workloads.
+tags: [scheduling, kubernetes, batch, quota]
+resource: https://github.com/kubernetes-sigs/kueue
+timestamp: 2026-05-30T10:50:39-07:00
+---
+
 # Kueue
 
 ← [Back to Scheduling](index.md)

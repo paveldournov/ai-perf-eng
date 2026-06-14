@@ -1,3 +1,11 @@
+---
+type: Concept
+title: LLM Inference Analytical Model
+description: Two-phase (prefill/decode) analytical model for LLM inference latency and throughput.
+tags: [inference, prefill, decode, latency, kv-cache]
+timestamp: 2026-05-30T23:45:33-07:00
+---
+
 # LLM Inference Analytical Model
 
 ← [Modeling Index](index.md)

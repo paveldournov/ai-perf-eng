@@ -1,3 +1,11 @@
+---
+type: Index
+title: AI Performance Modeling & Simulation — Knowledge Base
+description: Root entry point spanning hardware, workloads, modeling, simulation, scheduling, and characterization.
+tags: [overview, root, knowledge-base]
+timestamp: 2026-05-30T23:45:33-07:00
+---
+
 # AI Performance Modeling & Simulation — Knowledge Base
 
 Entry point for the AI performance modeling knowledge base. Topics span hardware characterization, workload analysis, analytical modeling, and simulation of modern AI accelerators.

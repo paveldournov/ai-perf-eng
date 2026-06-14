@@ -1,3 +1,11 @@
+---
+type: Method
+title: LLM-Specific Analysis Tools
+description: Purpose-built tools for analyzing LLM inference performance with built-in model/hardware configs.
+tags: [simulation, llm, inference, tools, analysis]
+timestamp: 2026-04-11T16:59:22-07:00
+---
+
 # LLM-Specific Analysis Tools
 
 ← [Simulation Index](index.md)

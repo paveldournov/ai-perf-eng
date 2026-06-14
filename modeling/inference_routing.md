@@ -1,3 +1,11 @@
+---
+type: Concept
+title: LLM Inference Routing
+description: Why HTTP load balancers break for LLM serving and how request routing affects latency.
+tags: [inference, routing, load-balancing, serving]
+timestamp: 2026-05-08T23:08:42-07:00
+---
+
 # LLM Inference Routing
 
 ← [Modeling Index](index.md)

@@ -1,3 +1,11 @@
+---
+type: Index
+title: Hardware — AI Accelerator Overview
+description: Architecture and specs of modern AI accelerators (GPU, TPU, NPU) and their common dimensions.
+tags: [hardware, accelerators, gpu, tpu]
+timestamp: 2026-05-30T23:45:33-07:00
+---
+
 # Hardware — AI Accelerator Overview
 
 ← [Back to README](../README.md)

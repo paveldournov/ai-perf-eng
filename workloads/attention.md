@@ -1,3 +1,11 @@
+---
+type: Concept
+title: Attention — Mechanisms, Variants, and Hardware Efficiency
+description: Core attention, its variants (MQA/GQA/MLA), and the hardware efficiency of Flash Attention.
+tags: [attention, flash-attention, transformer, mqa, gqa]
+timestamp: 2026-05-31T22:58:33-07:00
+---
+
 # Attention — Mechanisms, Variants, and Hardware Efficiency
 
 ← [Back to Workloads](index.md)

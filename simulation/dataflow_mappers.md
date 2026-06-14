@@ -1,3 +1,11 @@
+---
+type: Method
+title: Dataflow Mapper Simulators
+description: Model how a DNN layer is tiled and scheduled onto an accelerator's buffer hierarchy.
+tags: [simulation, dataflow, mapping, tiling, timeloop]
+timestamp: 2026-04-11T16:59:22-07:00
+---
+
 # Dataflow Mapper Simulators
 
 ← [Simulation Index](index.md)

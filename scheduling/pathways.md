@@ -1,3 +1,12 @@
+---
+type: Tool
+title: Pathways on Cloud
+description: Google's orchestration runtime for large-scale multi-host JAX training and inference.
+tags: [scheduling, google, jax, orchestration, tpu]
+resource: https://docs.cloud.google.com/ai-hypercomputer/docs/workloads/pathways-on-cloud/pathways-intro
+timestamp: 2026-05-30T10:50:39-07:00
+---
+
 # Pathways on Cloud
 
 ← [Back to Scheduling](index.md)

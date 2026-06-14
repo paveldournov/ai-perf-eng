@@ -1,3 +1,12 @@
+---
+type: Hardware
+title: Google TPU v6e (Trillium)
+description: Google's sixth-generation TPU, first positioned for both training and inference at scale.
+tags: [google, tpu, trillium, v6e]
+resource: https://cloud.google.com/tpu/docs/v6e
+timestamp: 2026-04-25T23:28:29-07:00
+---
+
 # Google TPU v6e (Trillium)
 
 ← [TPU Index](index.md) | [Roofline params](../roofline_params.md)

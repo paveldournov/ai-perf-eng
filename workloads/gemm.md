@@ -1,3 +1,11 @@
+---
+type: Concept
+title: GEMM — General Matrix Multiply
+description: The computational core of nearly every DNN layer, and the basis of its performance analysis.
+tags: [gemm, matmul, tensor-core, precision]
+timestamp: 2026-05-30T23:45:33-07:00
+---
+
 # GEMM — General Matrix Multiply
 
 ← [Workloads Index](index.md)

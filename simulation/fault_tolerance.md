@@ -1,3 +1,11 @@
+---
+type: Method
+title: Training Fault Tolerance
+description: The gap between theoretical and effective MFU as failure rates rise with cluster scale.
+tags: [fault-tolerance, reliability, checkpointing, mfu]
+timestamp: 2026-05-30T23:45:33-07:00
+---
+
 # Training Fault Tolerance
 
 ← [Simulation Index](index.md)
