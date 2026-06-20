@@ -35,6 +35,15 @@ timestamp: 2026-05-08T23:08:42-07:00
 - **Boardfly (TPU v8i interconnect)** — Google (2025). Hierarchical high-radix inference network; see [Boardfly notes](../hardware/tpu/boardfly.md).
 - **Dragonfly topology** — Kim et al. (2008). "Technology-Driven, Highly-Scalable Dragonfly Topology." *ISCA 2008*. https://research.google.com/pubs/archive/34926.pdf (foundational design Boardfly draws from)
 
+### Mixture-of-Experts Systems
+- **MoE-CAP** — Jiang, Fu, Mai, Ponti et al. (2024). "MoE-CAP: Benchmarking Cost, Accuracy and Performance of Sparse Mixture-of-Experts Systems." *arXiv:2412.07067*. (defines S-MFU / S-MBU; see [MoE efficiency](../workloads/moe.md))
+- **DeepSeek-V3** — DeepSeek-AI (2024). "DeepSeek-V3 Technical Report." *arXiv:2412.19437*. (671B/37B MoE; auxiliary-loss-free load balancing; Multi-Token Prediction; ~2.788M H800 GPU-hours)
+- **MegaScale-MoE** — ByteDance (2025). "MegaScale-MoE: Large-Scale Communication-Efficient Training of MoE Models in Production." *arXiv:2505.11432*. (352B on 1,440 Hopper GPUs; 1.41M tok/s; 1.88× over Megatron-LM)
+- **Scalable MoE with Megatron Core** — NVIDIA et al. (2026). "Heterogeneous Parallelism Mappings (MoE Parallel Folding)." *arXiv:2504.14960 / 2603.07685*.
+- **DeepEP / Hybrid-EP / NCCL EP** — NVIDIA & DeepSeek-AI. Device-initiated (IBGDA/TMA) expert-parallel communication. github.com/deepseek-ai/DeepEP ; NCCL EP *arXiv:2603.13606*.
+- **Piper** — ORNL / Frontier (2026). "Piper: Efficient Large-Scale MoE Training via Resource Modeling and Pipelined Hybrid Parallelism." *arXiv:2605.05049*. github.com/rednote-ai/Piper
+- **DisagMoE** — Zeng et al., UC Berkeley & Microsoft Research (2026). "DisagMoE: Computation-Communication Overlapped MoE Training via Disaggregated AF-Pipe Parallelism." *arXiv:2605.11005*.
+
 ### Analytical Modeling
 - **LLM Inference Math** — Sheng et al.; Kipply (2023). "Transformer Inference Arithmetic." (blog post)
 - **Megatron-LM** — Narayanan et al. (2021). "Efficient Large-Scale Language Model Training on GPU Clusters." *SC 2021*.

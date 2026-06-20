@@ -28,7 +28,7 @@ AI workloads decompose into a hierarchy: **regime → model type → operator �
 
 - Transformer / LLM — attention, MLP blocks; dominant modern workload
 - CNN — convolutions; image/video; historically dominant
-- MoE (Mixture of Experts) — sparse activation; routing overhead
+- [MoE (Mixture of Experts)](moe.md) — sparse activation; all-to-all, routing collapse, S-MFU, skinny GEMMs
 - Diffusion models — iterative denoising; mixed attention + CNN
 
 ---
@@ -39,6 +39,7 @@ AI workloads decompose into a hierarchy: **regime → model type → operator �
 - [GEMM](gemm.md) — general matrix multiply; workhorse of all DNN workloads
 - [Attention](attention.md) — FlashAttention, paged attention, MLA
 - [All-reduce / All-gather](collective_ops.md) — distributed training communication
+- [Mixture-of-Experts efficiency](moe.md) — sparse routing, expert parallelism, S-MFU
 
 ## Kernel Development
 

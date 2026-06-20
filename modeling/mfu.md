@@ -149,3 +149,4 @@ If your measured step time is 2.0 sec, your MFU = 390 / (989 × 2.0) ≈ **20%**
 - [LLM inference model](llm_inference.md) — decode MFU is low by design; throughput is the right metric
 - [Parallelism strategies](parallelism.md) — TP and PP both eat into MFU via communication overhead
 - [GEMM](../workloads/gemm.md) — GEMM AI determines whether you're on the compute or BW side of the roofline
+- [MoE efficiency](../workloads/moe.md) — sparse models inflate plain MFU by up to ~260%; use S-MFU instead
