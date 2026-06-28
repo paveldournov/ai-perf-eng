@@ -39,7 +39,7 @@ JAX extension that composes with `jit`, `vmap`, and `grad`.
 
 | Backend | Compiler | Target hardware |
 |---------|----------|-----------------|
-| Mosaic (TPU) | Google Mosaic | TPU v4 / v5 / v6e / v8 |
+| Mosaic (TPU) | Google Mosaic | TPU v4 / v5 / v6e / v7x / v8 |
 | Mosaic GPU | Google Mosaic GPU | NVIDIA Hopper (H100) and newer |
 | Triton (legacy) | OpenAI Triton | NVIDIA GPUs (best-effort, not recommended for new code) |
 
@@ -152,6 +152,27 @@ VMEM → HBM  (store result)
 Minimising HBM traffic — by reusing tiles in VMEM across the inner loop — is
 the primary lever for TPU kernel performance.  This is the same tiling principle
 as shared-memory blocking in CUDA (see [GEMM tiling](gemm.md)).
+
+---
+
+## Overlapping Communication and Compute
+
+The staged HBM→VMEM→MXU pattern above is also the lever for hiding *communication*
+behind compute on multi-chip workloads. The pattern, as applied in production MoE
+serving (see [Fused MoE V2 case study](moe.md#serving-case-study-fused-moe-v2-on-tpu-ling-26-1t)):
+
+- **VMEM residency** — keep the active token tile and output accumulator in VMEM across
+  the inner loop so the routed GEMM never round-trips through HBM mid-computation.
+- **Weight double-buffering** — prefetch the next expert's weights into a second VMEM
+  buffer while the current expert's GEMM runs on the MXU, so DMA latency is masked.
+- **Schedule heterogeneous units in parallel** — MXU (matmul), VPU (scale/quant), DMA
+  (HBM↔VMEM), and ICI-DMA (chip↔chip all-to-all) can all be in flight at once; a good
+  kernel keeps the routed-compute window full while routing, fp8 reorder, and dispatch
+  proceed underneath it.
+
+The result is that all-to-all dispatch/combine — normally the
+[MoE communication wall](moe.md#expert-parallelism-and-the-all-to-all-wall) — is hidden
+behind the expert GEMMs rather than serialized in front of them.
 
 ---
 

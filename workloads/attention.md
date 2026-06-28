@@ -225,6 +225,30 @@ Even with input-dependent B, C, Mamba exploits the **associativity** of the recu
 
 ---
 
+## Gated Linear Attention & Hybrid Backbones
+
+**Gated Linear Attention (GLA)** is the linear-attention cousin of the SSM recurrence
+above: it replaces the softmax `QK^T` with a gated, associative recurrence so that, like
+Mamba, training uses a **chunk-wise parallel scan** while decode is an **O(1)-per-step**
+update over a fixed-size state. The chunk-wise decomposition is what makes linear-attention
+*prefill* parallelizable on matmul-oriented hardware (GPU Tensor Cores, TPU MXU).
+
+**Hybrid backbones** interleave a few full-context layers with many linear layers to get
+near-linear cost while preserving exact recall where it matters:
+
+| Layer type | State at decode | Role |
+|---|---|---|
+| [MLA](#multi-head-attention-mha) (full attention) | Token-indexed **KV cache**, grows with context | Exact long-range recall |
+| GLA / linear (majority of layers) | Fixed **request-indexed** recurrent state, O(1) | Cheap bulk context mixing |
+
+This split has a direct systems consequence: the two layer families need **different memory
+pools** — a growing token-indexed KV cache vs. a fixed per-request recurrent buffer. The
+[Ling-2.6 serving case study](moe.md#serving-case-study-fused-moe-v2-on-tpu-ling-26-1t) uses
+exactly this (MLA + 70 GLA layers) and reports that the *unoptimized GLA prefill kernel*
+becomes the dominant prefill cost once the MoE layers are tuned.
+
+---
+
 ## Performance Summary
 
 | Operation | Arithmetic Intensity | Bound |
@@ -233,6 +257,7 @@ Even with input-dependent B, C, Mamba exploits the **associativity** of the recu
 | Decode attention (batch=1) | << 1 FLOP/byte | Memory BW (KV cache reads) |
 | FlashAttention kernel (fused) | Higher effective AI | Compute (HBM traffic hidden) |
 | Mamba recurrence (decode) | — | Compute (tiny state update) |
+| GLA / linear attention (decode) | — | Compute (fixed-size state update) |
 
 ---
 

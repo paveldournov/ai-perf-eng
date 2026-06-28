@@ -21,10 +21,12 @@ Google's Tensor Processing Units (TPUs) are custom ASICs designed for matrix-mul
 | TPU v4     | —         | Training    | 275             | 32 GB    | 600 GB/s    |
 | TPU v5p    | —         | Training    | 459             | 95 GB    | 4.8 TB/s    |
 | [TPU v6e](tpu_v6e.md) | Trillium | Training + Inference | 918 | 32 GB | 800 GB/s |
+| [TPU v7x](tpu_v7x.md) | —        | Training + Inference | ~1,533 (BF16 est.) | — | 1.2 TB/s |
 | [TPU v8t](tpu_v8.md)  | —        | Training    | ~4,200 (BF16 est.) | 216 GB | 19.2 Tbps |
 | [TPU v8i](tpu_v8.md)  | —        | Inference   | ~3,360 (BF16 est.) | 288 GB | 19.2 Tbps |
 
 > TPU v8 specs are reported at FP4; BF16 estimates assume 3× ratio typical for recent MXU designs.
+> TPU v7x figures are third-party-reported (FP8 ~4.6 PFLOP/s, HBM 7.38 TB/s); BF16 estimate assumes the same 3× FP8→BF16 ratio. See [TPU v7x](tpu_v7x.md).
 
 ---
 
@@ -51,6 +53,7 @@ Google's Tensor Processing Units (TPUs) are custom ASICs designed for matrix-mul
 ## See Also
 
 - [TPU v6e (Trillium)](tpu_v6e.md)
+- [TPU v7x](tpu_v7x.md) — third-party-reported specs; MoE serving case study
 - [TPU v8t / v8i](tpu_v8.md)
 - [Boardfly interconnect topology](boardfly.md)
 - [Pathways on Cloud](../../scheduling/pathways.md) — single-controller runtime for multi-slice JAX workloads; PathwaysJob CRD, resilient training, multihost inference

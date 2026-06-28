@@ -28,6 +28,7 @@ Operations with arithmetic intensity **above** the ridge point are compute-bound
 | TPUv5p | BF16 | 459 TFLOPS | 2.76 TB/s | ~166 FLOP/B |
 | TPU v6e (Trillium) | BF16 | 918 TFLOPS | 1.64 TB/s | ~560 FLOP/B |
 | TPU v6e (Trillium) | Int8 | 1,836 TOPs | 1.64 TB/s | ~1,120 FLOP/B |
+| TPU v7x | FP8 | ~4,600 TFLOPS | 7.38 TB/s | ~623 FLOP/B |
 | TPU v8t | FP4 | 12,600 TFLOPS | 6.53 TB/s | ~1,930 FLOP/B |
 | TPU v8i | FP4 | 10,100 TFLOPS | 8.60 TB/s | ~1,174 FLOP/B |
 | Gaudi3 | BF16 | 1835 TFLOPS | 3.7 TB/s | ~496 FLOP/B |

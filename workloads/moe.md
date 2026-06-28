@@ -118,7 +118,49 @@ Tensor cores hit peak only on large, structurally balanced matrices. Fine-graine
 | **DisagMoE** | UC Berkeley + MSR | Spatially disaggregate attention vs. FFN onto separate device pools; AF-Pipe schedule |
 | **NCCL EP** | NVIDIA | Unified `ncclEpDispatch`/`ncclEpCombine` API; low-latency (decode) and high-throughput (prefill/train) modes |
 
-Inference-side: **Klotski** (expert-aware multi-batch prefetch overlapping PCIe), **TD-Pipe** (prefill/decode temporal disaggregation), **ReMoE** (router fine-tuning for cache locality), **RTP-LLM** (production KV-cache + adaptive quant).
+Inference-side: **Klotski** (expert-aware multi-batch prefetch overlapping PCIe), **TD-Pipe** (prefill/decode temporal disaggregation), **ReMoE** (router fine-tuning for cache locality), **RTP-LLM** (production KV-cache + adaptive quant), **SGLang-JAX / Fused MoE V2** (TPU; comm/compute-overlapped fp8 kernel — see [case study below](#serving-case-study-fused-moe-v2-on-tpu-ling-26-1t)).
+
+---
+
+## Serving case study: Fused MoE V2 on TPU (Ling-2.6-1T)
+
+A concrete instance of "hide the all-to-all behind the routed compute," on TPU rather
+than GPU. LMSYS optimized inference of **Ling-2.6-1T** (inclusionAI) with **SGLang-JAX**
+on [TPU v7x](../hardware/tpu/tpu_v7x.md).
+
+**Model.** 1T total / 63B activated per token; 256 routed experts, top-8 + 1 shared
+expert; per-channel **fp8** expert weights; hybrid **[MLA](attention.md#multi-head-attention-mha)
++ Gated Linear Attention** backbone (70 GLA layers). Mesh: `ep=32`, `tp=32`, `dp=8` on
+16 chips (2×2×4 ICI torus).
+
+**The kernel — "Fused MoE V2" (Pallas).** A single fused kernel that overlaps token
+routing, fp8 weight prefetch, and the fp8 reorder behind the routed-GEMM window, using
+**VMEM-resident token/accumulator buffers** and **weight double-buffering** (see
+[Pallas — overlapping comm and compute](pallas_kernels.md#overlapping-communication-and-compute)).
+Reported: prefill latency **5.16 → 2.42 ms (−53%)**, decode **0.249 → 0.211 ms (−15%)**.
+
+**Supporting optimizations:**
+
+- **Post-reduction per-channel scaling** (`direct_scaled_dot`) — apply fp8 scales *after*
+  the K-reduction instead of slicing along K, avoiding a serialized rescale.
+- **fp8 activation quantization** — shrink the scattered all-to-all payload from bf16 to
+  fp8, cutting the scatter stage **1.39 → 0.65 ms**. Lowers the [communication wall](#the-three-walls)
+  directly by halving dispatch bytes.
+- **In-kernel shared expert** — schedule the always-on shared expert *inside* the scatter
+  phase, adding only **+2.7%** to the critical path instead of a separate launch.
+- **Hybrid memory pools** — token-indexed KV cache for MLA layers vs. fixed
+  request-indexed recurrent state for the 70 GLA layers (linear-attention state is O(1)/request).
+- **Single-controller data parallelism** — split the mesh into DP groups with constrained
+  TP so grouped-RMSNorm stays chip-local (no cross-chip reduction).
+
+**Lower bounds (their cost model, per layer):** scatter/gather ≥0.67 ms, weight movement
+≥0.44 ms, routed compute ≥0.36 ms — i.e. communication, not GEMM, sets the floor, exactly
+the [all-to-all wall](#expert-parallelism-and-the-all-to-all-wall).
+
+**Results.** Prefill throughput **+24.8%**, decode **+18.5–35.3%** (V1→V2); end-to-end
+**1.29–1.77× decode throughput vs. H200×16**; AIME-2026 86.7% with zero request errors.
+**Remaining bottleneck:** the GLA *prefill* kernel is not yet V2-optimized and now dominates
+prefill cost — fixing one wall shifted the bottleneck, as expected.
 
 ---
 
@@ -144,4 +186,6 @@ Inference-side: **Klotski** (expert-aware multi-batch prefetch overlapping PCIe)
 - [Collective Operations](collective_ops.md) — all-to-all cost model
 - [Parallelism](../modeling/parallelism.md) — where EP sits among TP/PP/DP/CP
 - [GEMM](gemm.md) — why skinny/grouped GEMMs matter
-- [References](../references/index.md) — MoE-CAP, DeepSeek-V3, MegaScale-MoE citations
+- [Pallas kernels](pallas_kernels.md) — VMEM tiling and comm/compute overlap behind the Fused MoE V2 kernel
+- [TPU v7x](../hardware/tpu/tpu_v7x.md) — hardware target of the Ling-2.6 serving case study
+- [References](../references/index.md) — MoE-CAP, DeepSeek-V3, MegaScale-MoE, SGLang-JAX citations

@@ -34,6 +34,7 @@ timestamp: 2026-05-08T23:08:42-07:00
 - **TPU v8t / v8i** — Google Cloud (2025). "TPU 8t and TPU 8i Technical Deep Dive." https://cloud.google.com/blog/products/compute/tpu-8t-and-tpu-8i-technical-deep-dive
 - **Boardfly (TPU v8i interconnect)** — Google (2025). Hierarchical high-radix inference network; see [Boardfly notes](../hardware/tpu/boardfly.md).
 - **Dragonfly topology** — Kim et al. (2008). "Technology-Driven, Highly-Scalable Dragonfly Topology." *ISCA 2008*. https://research.google.com/pubs/archive/34926.pdf (foundational design Boardfly draws from)
+- **TPU v7x (third-party specs)** — LMSYS (2026). Specs reported via a serving benchmark: ~4.6 PFLOP/s fp8, 7.38 TB/s HBM, 1.2 TB/s ICI; see [TPU v7x notes](../hardware/tpu/tpu_v7x.md). https://www.lmsys.org/blog/2026-06-17-ling-2-6-tpu/
 
 ### Mixture-of-Experts Systems
 - **MoE-CAP** — Jiang, Fu, Mai, Ponti et al. (2024). "MoE-CAP: Benchmarking Cost, Accuracy and Performance of Sparse Mixture-of-Experts Systems." *arXiv:2412.07067*. (defines S-MFU / S-MBU; see [MoE efficiency](../workloads/moe.md))
@@ -43,6 +44,7 @@ timestamp: 2026-05-08T23:08:42-07:00
 - **DeepEP / Hybrid-EP / NCCL EP** — NVIDIA & DeepSeek-AI. Device-initiated (IBGDA/TMA) expert-parallel communication. github.com/deepseek-ai/DeepEP ; NCCL EP *arXiv:2603.13606*.
 - **Piper** — ORNL / Frontier (2026). "Piper: Efficient Large-Scale MoE Training via Resource Modeling and Pipelined Hybrid Parallelism." *arXiv:2605.05049*. github.com/rednote-ai/Piper
 - **DisagMoE** — Zeng et al., UC Berkeley & Microsoft Research (2026). "DisagMoE: Computation-Communication Overlapped MoE Training via Disaggregated AF-Pipe Parallelism." *arXiv:2605.11005*.
+- **SGLang-JAX / Fused MoE V2 (Ling-2.6-1T on TPU)** — LMSYS (2026). "Optimizing Ling-2.6-1T on TPU with SGLang-JAX." Comm/compute-overlapped fp8 MoE kernel; in-kernel shared expert; fp8 activation quant for all-to-all; MLA+GLA hybrid backbone on TPU v7x. https://www.lmsys.org/blog/2026-06-17-ling-2-6-tpu/ (see [MoE case study](../workloads/moe.md#serving-case-study-fused-moe-v2-on-tpu-ling-26-1t))
 
 ### Analytical Modeling
 - **LLM Inference Math** — Sheng et al.; Kipply (2023). "Transformer Inference Arithmetic." (blog post)
