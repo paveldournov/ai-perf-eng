@@ -97,7 +97,7 @@ Selected = TopK({ s_{j,t} + b_j }, K_r)               # bias steers selection
 b_i ← b_i + u · sign(deviation_i)                     # nudged after each step
 ```
 
-The bias steers *which* experts are picked (decreasing `b_i` for over-loaded experts, increasing it for idle ones) but the **gating weights use the unbiased `s_{i,t}`**, so it never distorts the gradient. DeepSeek-V3 reports near-uniform allocation with no accuracy penalty. It pairs this with **Multi-Token Prediction (MTP)** — auxiliary prediction heads sharing the embedding/output, discardable at inference or reusable for speculative decoding.
+The bias steers *which* experts are picked (decreasing `b_i` for over-loaded experts, increasing it for idle ones) but the **gating weights use the unbiased `s_{i,t}`**, so it never distorts the gradient. DeepSeek-V3 reports near-uniform allocation with no accuracy penalty. It pairs this with **Multi-Token Prediction (MTP)** — auxiliary prediction heads sharing the embedding/output, discardable at inference or reusable as drafters for [speculative decoding](../modeling/speculative_decoding.md).
 
 ---
 

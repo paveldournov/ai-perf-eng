@@ -218,3 +218,4 @@ Above this length, each additional token costs linearly more (KV-bound); below i
 - [GEMM](../workloads/gemm.md)
 - [Memory capacity model](memory_capacity.md) — weights + KV cache sizing; does it fit?
 - [Inference routing](inference_routing.md) — KV-aware routing, disaggregated prefill/decode, session affinity
+- [Speculative decoding](speculative_decoding.md) — draft-and-verify decode acceleration; exploits the memory-bound decode regime

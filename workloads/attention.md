@@ -249,6 +249,25 @@ becomes the dominant prefill cost once the MoE layers are tuned.
 
 ---
 
+## Tree-Causal Masking
+
+A structured generalization of the causal mask used in **tree-based
+[speculative decoding](../modeling/speculative_decoding.md)**. Instead of one linear
+sequence, several candidate continuations branch from shared prefixes and are packed into a
+single sequence. The mask lets each tree node attend to the **original prefix and its ancestors
+only** — never to sibling branches or descendants:
+
+```
+mask[i, j] = 1  iff  j is the prefix  OR  j is an ancestor of i in the draft tree
+```
+
+This is what makes a whole candidate tree verifiable in **one** forward pass while every branch
+keeps correct autoregressive dependencies (sibling branches must not leak into each other).
+Production kernels combine it with paged attention so tree nodes share KV-cache pages with their
+common prefix. See [Speculative Decoding → tree attention](../modeling/speculative_decoding.md#tree-drafting-and-tree-attention).
+
+---
+
 ## Performance Summary
 
 | Operation | Arithmetic Intensity | Bound |
@@ -266,6 +285,7 @@ becomes the dominant prefill cost once the MoE layers are tuned.
 - [GEMM](gemm.md) — attention projections (QKV and output) are GEMMs
 - [Pallas kernels](pallas_kernels.md) — writing custom attention kernels on GPU/TPU
 - [LLM inference model](../modeling/llm_inference.md) — KV cache sizing, prefill/decode latency
+- [Speculative decoding](../modeling/speculative_decoding.md) — tree-causal masking for draft verification
 - [Roofline model](../modeling/roofline.md) — classifying attention as compute vs. BW bound
 
 ---

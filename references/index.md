@@ -25,6 +25,9 @@ timestamp: 2026-05-08T23:08:42-07:00
 - **PagedAttention / vLLM** — Kwon et al. (2023). "Efficient Memory Management for Large Language Model Serving." *SOSP 2023*.
 - **Continuous batching** — Yu et al. (2022). "Orca: A Distributed Serving System for Transformer-Based Generative Models." *OSDI 2022*.
 - **LLM Inference Routing (Part 1)** — Modular (2025). "Why LLM Inference Needs a New Kind of Router." *Modular Blog*. https://www.modular.com/blog/why-llm-inference-needs-a-new-kind-of-router-part-1
+- **Speculative decoding** — Leviathan, Kalman, Matias (2023). "Fast Inference from Transformers via Speculative Decoding." *ICML 2023*. arXiv:2211.17192. + Chen et al. (2023). "Accelerating LLM Decoding with Speculative Sampling." arXiv:2302.01318. (lossless draft-and-verify acceptance rule)
+- **EAGLE / Medusa** — Li et al. (2024). "EAGLE: Speculative Sampling Requires Rethinking Feature Uncertainty." arXiv:2401.15077. + Cai et al. (2024). "Medusa: Simple LLM Inference Acceleration via Multiple Decoding Heads." arXiv:2401.10774.
+- **JetSpec (parallel tree drafting)** — Hao AI Lab (2026). "JetSpec: Parallel Tree Drafting for Speculative Decoding." Causal parallel tree drafting + tree-causal masking; up to ~9.6× on Qwen3-8B. https://haoailab.com/blogs/parallel-tree-decoding/ (see [Speculative Decoding](../modeling/speculative_decoding.md))
 
 ### Hardware Architecture
 - **A100 Architecture** — NVIDIA (2020). NVIDIA A100 Tensor Core GPU Architecture Whitepaper.

@@ -24,6 +24,7 @@ Analytical performance models predict throughput, latency, and utilization from 
 | [Memory capacity model](memory_capacity.md) | Whether model fits; weights + KV cache + activations | Model config, dtype, batch, seq length |
 | [Parallelism strategies](parallelism.md) | Memory per GPU, communication overhead per strategy | TP/PP/DP degrees, model config, topology |
 | [Inference routing](inference_routing.md) | KV-aware routing, disaggregated prefill/decode, session affinity | Serving topology, cache state, hardware specialization |
+| [Speculative decoding](speculative_decoding.md) | Decode speedup from draft-and-verify; acceptance rate, tree drafting | Drafter type, acceptance rate, draft length, batch size |
 
 ---
 
