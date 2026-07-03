@@ -38,6 +38,7 @@ timestamp: 2026-05-08T23:08:42-07:00
 - **Boardfly (TPU v8i interconnect)** — Google (2025). Hierarchical high-radix inference network; see [Boardfly notes](../hardware/tpu/boardfly.md).
 - **Dragonfly topology** — Kim et al. (2008). "Technology-Driven, Highly-Scalable Dragonfly Topology." *ISCA 2008*. https://research.google.com/pubs/archive/34926.pdf (foundational design Boardfly draws from)
 - **TPU v7x (third-party specs)** — LMSYS (2026). Specs reported via a serving benchmark: ~4.6 PFLOP/s fp8, 7.38 TB/s HBM, 1.2 TB/s ICI; see [TPU v7x notes](../hardware/tpu/tpu_v7x.md). https://www.lmsys.org/blog/2026-06-17-ling-2-6-tpu/
+- **Apple Neural Engine** — Bryngelson (2026). "Apple Neural Engine: Architecture, Programming, and Performance." *arXiv:2606.22283*. Reverse-engineered account of Apple's fixed-function fp16 NPU (A11–A18, M1–M5); fp16 datapath + wide accumulator, 2 MB working-set roofline, direct dispatch below Core ML. See [ANE notes](../hardware/apple/ane.md).
 
 ### Mixture-of-Experts Systems
 - **MoE-CAP** — Jiang, Fu, Mai, Ponti et al. (2024). "MoE-CAP: Benchmarking Cost, Accuracy and Performance of Sparse Mixture-of-Experts Systems." *arXiv:2412.07067*. (defines S-MFU / S-MBU; see [MoE efficiency](../workloads/moe.md))

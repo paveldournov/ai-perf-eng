@@ -32,8 +32,10 @@ Operations with arithmetic intensity **above** the ridge point are compute-bound
 | TPU v8t | FP4 | 12,600 TFLOPS | 6.53 TB/s | ~1,930 FLOP/B |
 | TPU v8i | FP4 | 10,100 TFLOPS | 8.60 TB/s | ~1,174 FLOP/B |
 | Gaudi3 | BF16 | 1835 TFLOPS | 3.7 TB/s | ~496 FLOP/B |
+| Apple ANE (M1) | fp16 | ~12 TFLOPS (roof) | 0.085 TB/s | ~141 FLOP/B |
 
 > Numbers are for peak dense (non-sparse) unless noted. Sparse (2:4) doubles FLOPS on NVIDIA chips.
+> Apple ANE is an edge NPU: the "roof" is the overhead-isolated slope (a single large matmul saturates near 4.8 fp16 TFLOP/s), and its real limit is a 2 MB on-chip working set, not the ridge point. See [ANE](apple/ane.md).
 
 ---
 
@@ -51,3 +53,4 @@ Typical arithmetic intensity for decode: **< 10 FLOP/B** → deeply memory-bandw
 
 - [Roofline model](../modeling/roofline.md)
 - [H100 specs](nvidia/h100.md)
+- [Apple ANE](apple/ane.md) — edge-NPU roofline contrast
