@@ -44,6 +44,7 @@ AI workloads decompose into a hierarchy: **regime → model type → operator �
 ## Kernel Development
 
 - [Pallas](pallas_kernels.md) — JAX extension for custom GPU/TPU kernels; grids, Refs, memory spaces, TPU VMEM tiling
+- [CUDA PTX](cuda_ptx.md) — NVIDIA's virtual ISA between CUDA C++ and SASS; compilation flow, registers, forward compatibility, inline PTX
 
 ## Mechanistic Understanding
 
