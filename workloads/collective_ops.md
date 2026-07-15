@@ -166,6 +166,7 @@ The key to efficient distributed training is **overlapping** communication with 
 
 ## See Also
 
+- [Collectives on TPU & GPU clusters](collective_algorithms.md) — ring/tree algorithms on torus & fat-tree topologies, SHARP, the 45 KB threshold
 - [Parallelism strategies](../modeling/parallelism.md) — which collective each parallelism type uses
 - [Memory hierarchy](../hardware/memory_hierarchy.md) — NVLink vs HBM BW context
 - [LLM inference model](../modeling/llm_inference.md) — TP all-reduce term in decode latency

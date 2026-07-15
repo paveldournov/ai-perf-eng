@@ -39,6 +39,7 @@ AI workloads decompose into a hierarchy: **regime → model type → operator �
 - [GEMM](gemm.md) — general matrix multiply; workhorse of all DNN workloads
 - [Attention](attention.md) — FlashAttention, paged attention, MLA
 - [All-reduce / All-gather](collective_ops.md) — distributed training communication
+- [Collectives on TPU & GPU clusters](collective_algorithms.md) — ring/tree algorithms on torus & fat-tree topologies
 - [Mixture-of-Experts efficiency](moe.md) — sparse routing, expert parallelism, S-MFU
 
 ## Kernel Development
