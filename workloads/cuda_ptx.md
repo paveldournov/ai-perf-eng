@@ -141,6 +141,7 @@ kernel:
 
 ## See Also
 
+- [What is a GPU kernel?](gpu_kernels.md) — the launch/thread/fusion basics one level above PTX
 - [Pallas — Custom Kernel Programming in JAX](pallas_kernels.md) — higher-level
   kernel authoring that ultimately lowers through Triton → PTX on NVIDIA.
 - [GEMM](gemm.md) — the workhorse operator whose fastest implementations rely on

@@ -109,4 +109,5 @@ The roofline model directly answers which GPU to buy: identify your bottleneck f
 
 - [Roofline params by chip](../hardware/roofline_params.md)
 - [GEMM arithmetic intensity](../workloads/gemm.md)
+- [What is a GPU kernel?](../workloads/gpu_kernels.md) — kernel fusion and memory traffic, the *why* behind memory-bound ops
 - [LLM inference model](llm_inference.md)
