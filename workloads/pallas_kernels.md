@@ -207,6 +207,7 @@ a Pallas kernel can be differentiated through just like any JAX operation.
 
 - [GEMM tiling and hardware paths](gemm.md) — tile sizing, Tensor Cores, tf32/bf16
 - [CUDA PTX](cuda_ptx.md) — the virtual ISA Triton/Pallas lower to on NVIDIA
+- [XLA compiler](xla_compiler.md) — the HLO fusion/layout stack Pallas is the escape hatch below
 - [JAX GPU efficiency demo](jax_gpu_efficiency_demo.py) — runnable benchmark
 - [TPU hardware family](../hardware/tpu/index.md) — MXU, VMEM, ICI specs
 - [Pallas official docs](https://jax.readthedocs.io/en/latest/pallas/index.html)

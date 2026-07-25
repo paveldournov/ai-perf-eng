@@ -148,3 +148,5 @@ kernel:
   PTX-only instructions like `wgmma`.
 - [NVIDIA GPU Architecture](../hardware/nvidia/index.md) — the SASS targets PTX
   compiles down to.
+- [XLA compiler](xla_compiler.md) — whose GPU backend emits Triton → PTX and
+  cuBLAS/cuDNN `custom-call`s.

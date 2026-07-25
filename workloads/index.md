@@ -47,6 +47,7 @@ AI workloads decompose into a hierarchy: **regime → model type → operator �
 - [What is a GPU kernel?](gpu_kernels.md) — launches, threads/warps, memory traffic, fusion, torch.compile & profiling; the on-ramp concept
 - [Pallas](pallas_kernels.md) — JAX extension for custom GPU/TPU kernels; grids, Refs, memory spaces, TPU VMEM tiling
 - [CUDA PTX](cuda_ptx.md) — NVIDIA's virtual ISA between CUDA C++ and SASS; compilation flow, registers, forward compatibility, inline PTX
+- [XLA compiler](xla_compiler.md) — the compiler beneath JAX/TF/PyTorch; StableHLO → classic HLO optimizer (fusion, layout, buffer assignment) → LLVM/Triton/Mosaic backends; where MLIR lives, PJRT, Pallas escape hatch
 
 ## Mechanistic Understanding
 
