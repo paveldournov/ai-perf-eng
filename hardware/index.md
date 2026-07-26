@@ -22,6 +22,7 @@ Modern AI accelerators share a common architectural pattern: a sea of parallel c
 | AMD GPU | MI300X, MI325X | Training + inference |
 | [Google TPU](tpu/index.md) | TPUv4, TPUv5p, TPUv6e (Trillium), TPUv8t/v8i | Training + inference (LLM at scale) |
 | Custom NPU / ASIC | Trainium2, Gaudi3, Groq LPU | Inference-optimized |
+| [Etched](etched/index.md) | [Sohu](etched/sohu.md) | Transformer-only inference ASIC |
 | [Apple Silicon](apple/index.md) | [Neural Engine (ANE)](apple/ane.md) | On-device / edge inference |
 | Cerebras / Wafer-Scale | WSE-3 | Extreme memory-BW workloads |
 

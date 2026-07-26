@@ -33,9 +33,11 @@ Operations with arithmetic intensity **above** the ridge point are compute-bound
 | TPU v8i | FP4 | 10,100 TFLOPS | 8.60 TB/s | ~1,174 FLOP/B |
 | Gaudi3 | BF16 | 1835 TFLOPS | 3.7 TB/s | ~496 FLOP/B |
 | Apple ANE (M1) | fp16 | ~12 TFLOPS (roof) | 0.085 TB/s | ~141 FLOP/B |
+| Etched Sohu | FP8 | not disclosed | ~4.8 TB/s (est.) | — |
 
 > Numbers are for peak dense (non-sparse) unless noted. Sparse (2:4) doubles FLOPS on NVIDIA chips.
 > Apple ANE is an edge NPU: the "roof" is the overhead-isolated slope (a single large matmul saturates near 4.8 fp16 TFLOP/s), and its real limit is a 2 MB on-chip working set, not the ridge point. See [ANE](apple/ane.md).
+> Etched Sohu is a transformer-only inference ASIC that does not publish a peak-FLOPS figure, so no ridge point is given; the ~4.8 TB/s HBM bandwidth is an estimate. See [Sohu](etched/sohu.md).
 
 ---
 

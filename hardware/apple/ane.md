@@ -123,4 +123,5 @@ inference. Its scarce resource is a **2 MB on-chip buffer**, not FLOPs or interc
 - [Roofline model](../../modeling/roofline.md) — the analytical lens this chip is a clean example of
 - [Roofline parameters by chip](../roofline_params.md) — ANE row alongside GPU/TPU
 - [Memory hierarchy](../memory_hierarchy.md) — unified-memory vs HBM contrast
+- [Etched Sohu](../etched/sohu.md) — the datacenter mirror: also fixed-function, but trades programmability for throughput instead of edge energy efficiency
 - [Hardware index](../index.md) — accelerator families
