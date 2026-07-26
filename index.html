@@ -1,86 +1,118 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>AI Perf Sim</title>
-<style>
-  body { font-family: sans-serif; max-width: 700px; margin: 40px auto; padding: 0 20px; color: #24292e; }
-  h1 { font-size: 1.6em; }
-  h2 { font-size: 1.1em; margin-top: 24px; color: #444; border-bottom: 1px solid #eee; padding-bottom: 4px; }
-  ul { padding-left: 1.4em; }
-  li { margin: 4px 0; }
-  a { color: #0366d6; text-decoration: none; }
-  a:hover { text-decoration: underline; }
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Knowledge base: hardware, workloads, modeling, simulation, scheduling, and characterization of modern AI accelerators.">
+  <title>AI Performance Modeling &amp; Simulation</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsify@4.13.1/lib/themes/vue.css">
+  <style>
+    :root {
+      --theme-color: #4f46e5;
+      --content-max: 48rem;
+    }
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+
+    /* Wider, more readable content column */
+    .markdown-section { max-width: var(--content-max); }
+    .markdown-section h1 { font-size: 1.8rem; }
+    .markdown-section h2 { border-bottom: 1px solid rgba(128,128,128,.25); padding-bottom: .3em; }
+    .markdown-section table { display: table; width: 100%; }
+    .markdown-section pre { border-radius: 8px; }
+    .markdown-section code { border-radius: 4px; }
+    .app-name-link { font-weight: 700; }
+    .sidebar-nav > ul > li > a { font-weight: 600; }
+    .mermaid { text-align: center; }
+    .mermaid svg { max-width: 100%; height: auto; }
+
+    /* ---------- Dark mode ---------- */
+    @media (prefers-color-scheme: dark) {
+      :root { --theme-color: #818cf8; }
+      body, .sidebar, .content { background: #16181d; }
+      .sidebar { border-right: 1px solid #262a33; }
+      .sidebar-nav a, .app-name-link { color: #c9d1d9; }
+      .sidebar-nav li.active > a { color: var(--theme-color); }
+      .markdown-section { color: #c9d1d9; }
+      .markdown-section h1, .markdown-section h2,
+      .markdown-section h3, .markdown-section h4,
+      .markdown-section strong { color: #e6edf3; }
+      .markdown-section a { color: var(--theme-color); }
+      .markdown-section code { background: #21262d; color: #e6edf3; }
+      .markdown-section pre,
+      .markdown-section pre > code { background: #0d1117; color: #c9d1d9; }
+      .markdown-section tr { background: #16181d; border-top: 1px solid #30363d; }
+      .markdown-section tr:nth-child(2n) { background: #1b1f27; }
+      .markdown-section th, .markdown-section td { border: 1px solid #30363d; }
+      .markdown-section blockquote { border-left-color: #30363d; color: #9da5b4; }
+      .markdown-section blockquote { background: #1b1f27; }
+      .search input { background: #0d1117; color: #c9d1d9; border-color: #30363d; }
+      .search .results-panel { background: #16181d; }
+      .search h2, .search p { color: #c9d1d9; }
+      hr { border-color: #30363d; }
+    }
+  </style>
 </head>
 <body>
-<h1>AI Performance Modeling &amp; Simulation</h1>
-
-<h2>Top Level</h2>
-<ul>
-  <li><a href="README.md">README</a></li>
-  <li><a href="GUIDE.md">Reading Guide — start here</a></li>
-  <li><a href="references/index.md">References</a></li>
-</ul>
-
-<h2>Hardware</h2>
-<ul>
-  <li><a href="hardware/index.md">Overview</a></li>
-  <li><a href="hardware/memory_hierarchy.md">Memory Hierarchy</a></li>
-  <li><a href="hardware/roofline_params.md">Roofline Parameters</a></li>
-  <li><a href="hardware/nvidia/index.md">NVIDIA</a></li>
-  <li><a href="hardware/nvidia/h100.md">H100</a></li>
-  <li><a href="hardware/tpu/index.md">TPU</a></li>
-  <li><a href="hardware/tpu/tpu_v6e.md">TPU v6e (Trillium)</a></li>
-  <li><a href="hardware/tpu/tpu_v8.md">TPU v8</a></li>
-  <li><a href="hardware/tpu/boardfly.md">Boardfly Interconnect</a></li>
-</ul>
-
-<h2>Scheduling &amp; Orchestration</h2>
-<ul>
-  <li><a href="scheduling/index.md">Overview</a></li>
-  <li><a href="scheduling/pathways.md">Pathways on Cloud</a></li>
-  <li><a href="scheduling/ray.md">Ray / KubeRay</a></li>
-  <li><a href="scheduling/kueue.md">Kueue</a></li>
-  <li><a href="scheduling/llm_d.md">llm-d</a></li>
-</ul>
-
-<h2>Workloads</h2>
-<ul>
-  <li><a href="workloads/index.md">Overview</a></li>
-  <li><a href="workloads/gemm.md">GEMM</a></li>
-  <li><a href="workloads/attention.md">Attention</a></li>
-  <li><a href="workloads/transformer_programs.md">Transformer as a Computer (TAOTP)</a></li>
-  <li><a href="workloads/collective_ops.md">Collective Operations</a></li>
-  <li><a href="workloads/pallas_kernels.md">Pallas Kernels</a></li>
-</ul>
-
-<h2>Modeling</h2>
-<ul>
-  <li><a href="modeling/index.md">Overview</a></li>
-  <li><a href="modeling/roofline.md">Roofline Model</a></li>
-  <li><a href="modeling/mfu.md">MFU — Model FLOP Utilization</a></li>
-  <li><a href="modeling/llm_inference.md">LLM Inference Model</a></li>
-  <li><a href="modeling/memory_capacity.md">Memory Capacity Model</a></li>
-  <li><a href="modeling/parallelism.md">Parallelism Strategies</a></li>
-  <li><a href="modeling/inference_routing.md">Inference Routing</a></li>
-</ul>
-
-<h2>Simulation</h2>
-<ul>
-  <li><a href="simulation/index.md">Overview</a></li>
-  <li><a href="simulation/analytical.md">Analytical Simulators</a></li>
-  <li><a href="simulation/cycle_accurate.md">Cycle-Accurate Simulators</a></li>
-  <li><a href="simulation/dataflow_mappers.md">Dataflow Mappers</a></li>
-  <li><a href="simulation/distributed.md">Distributed Simulation</a></li>
-  <li><a href="simulation/llm_tools.md">LLM Tools</a></li>
-  <li><a href="simulation/fault_tolerance.md">Fault Tolerance</a></li>
-</ul>
-
-<h2>Characterization</h2>
-<ul>
-  <li><a href="characterization/index.md">Overview</a></li>
-</ul>
-
+  <div id="app">Loading…</div>
+  <script>
+    window.$docsify = {
+      name: 'AI Perf Eng',
+      repo: 'https://github.com/paveldournov/ai-perf-eng',
+      homepage: 'README.md',
+      loadSidebar: true,
+      subMaxLevel: 3,
+      relativePath: true,
+      auto2top: true,
+      maxLevel: 4,
+      // Every folder reuses the single root _sidebar.md.
+      alias: {
+        '/.*/_sidebar.md': '/_sidebar.md'
+      },
+      search: {
+        placeholder: 'Search the knowledge base…',
+        noData: 'No results.',
+        depth: 4
+      },
+      markdown: {
+        renderer: {
+          code: function (code, lang) {
+            if (lang === 'mermaid') {
+              return '<div class="mermaid">' + code + '</div>';
+            }
+            return this.origin.code.apply(this, arguments);
+          }
+        }
+      },
+      plugins: [
+        // Strip YAML frontmatter so it doesn't render as raw text.
+        function (hook) {
+          hook.beforeEach(function (content) {
+            return content.replace(/^﻿?---\r?\n[\s\S]*?\r?\n---\r?\n/, '');
+          });
+        },
+        // Render mermaid diagrams after each page loads.
+        function (hook) {
+          hook.doneEach(function () {
+            if (window.mermaid) {
+              try { window.mermaid.run({ querySelector: '.mermaid' }); } catch (e) {}
+            }
+          });
+        }
+      ]
+    };
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/docsify@4.13.1/lib/docsify.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/docsify@4.13.1/lib/plugins/search.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/docsify-copy-code@3"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1/components/prism-python.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1/components/prism-bash.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1/components/prism-yaml.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+  <script>
+    if (window.mermaid) {
+      var dark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+      window.mermaid.initialize({ startOnLoad: false, theme: dark ? 'dark' : 'default' });
+    }
+  </script>
 </body>
 </html>
