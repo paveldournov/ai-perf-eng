@@ -71,8 +71,38 @@ If there is enough depth for a standalone page (e.g. a deep-dive on a specific c
 
 - Add a row or bullet to the parent section's `index.md`.
 - Add "See also" links on closely related existing pages.
-- Update `README.md` only when a brand-new top-level section is created.
+- When a brand-new top-level section is created, add it to **both** `README.md`
+  (the Sections table) **and** `_sidebar.md` (the website's nav). Ordinary new
+  pages inside an existing section need no `_sidebar.md` change — they surface
+  through that section's `index.md`.
 
-### 4. Commit
+### 4. Commit & publish
 
-Commit to `main` with a short imperative message: `Add <thing> to <section>`.
+Commit to `main` with a short imperative message: `Add <thing> to <section>`,
+then push. The knowledge base is served as a [docsify](https://docsify.js.org)
+site (`index.html` at the repo root) that renders the markdown files live — there
+is **no build step**, so a pushed page appears on the site automatically. See
+[Website](#website) for details.
+
+## Website
+
+The knowledge base is published at
+**https://paveldournov.github.io/ai-perf-eng/** via GitHub Pages (source:
+`main` / root). It is a [docsify](https://docsify.js.org) single-page app —
+`index.html` loads the markdown files client-side and renders them; there is no
+static-site generator and nothing to build or regenerate.
+
+Consequences for ingestion:
+
+- **New pages just work.** Any `.md` file added under an existing section is
+  live as soon as it is pushed to `main` — Pages redeploys automatically.
+- **Relative markdown links** (`[GEMM](gemm.md)`, `../modeling/roofline.md`)
+  resolve correctly because docsify runs with `relativePath: true`. Keep using
+  normal relative links; do not rewrite them to `.html`.
+- **Frontmatter** is stripped before rendering, so it never appears on the page.
+- **Mermaid** fenced blocks (```` ```mermaid ````) render as diagrams.
+- **Nav:** `_sidebar.md` lists only the top-level sections; update it *only* when
+  adding a new top-level section (see step 3). Within-section navigation comes
+  from each folder's `index.md`.
+- **`.nojekyll`** at the repo root must stay — it stops GitHub Pages from running
+  Jekyll, which would otherwise drop `_sidebar.md` (underscore-prefixed).
