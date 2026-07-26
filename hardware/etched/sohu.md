@@ -175,7 +175,7 @@ but shipping-execution and architecture-drift risk remain substantial.
 ## References
 
 - Ludic, N. / *Wafer* (2026). "Breaking Down Etched's Sohu." *Wafer* (Substack).
-  https://wafer.substack.com/p/breaking-down-etcheds-sohu
+  [wafer.substack.com/p/breaking-down-etcheds-sohu](https://wafer.substack.com/p/breaking-down-etcheds-sohu)
 - Etched — Sohu product claims (500k+ tokens/s, ~20× H100, 144 GB HBM3E).
 
 ---
