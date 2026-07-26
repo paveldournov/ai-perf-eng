@@ -28,6 +28,10 @@ timestamp: 2026-05-08T23:08:42-07:00
 - **Speculative decoding** — Leviathan, Kalman, Matias (2023). "Fast Inference from Transformers via Speculative Decoding." *ICML 2023*. [arxiv.org/abs/2211.17192](https://arxiv.org/abs/2211.17192) + Chen et al. (2023). "Accelerating LLM Decoding with Speculative Sampling." [arxiv.org/abs/2302.01318](https://arxiv.org/abs/2302.01318) (lossless draft-and-verify acceptance rule)
 - **EAGLE / Medusa** — Li et al. (2024). "EAGLE: Speculative Sampling Requires Rethinking Feature Uncertainty." [arxiv.org/abs/2401.15077](https://arxiv.org/abs/2401.15077) + Cai et al. (2024). "Medusa: Simple LLM Inference Acceleration via Multiple Decoding Heads." [arxiv.org/abs/2401.10774](https://arxiv.org/abs/2401.10774)
 - **JetSpec (parallel tree drafting)** — Hao AI Lab (2026). "JetSpec: Parallel Tree Drafting for Speculative Decoding." Causal parallel tree drafting + tree-causal masking; up to ~9.6× on Qwen3-8B. [haoailab.com/blogs/parallel-tree-decoding/](https://haoailab.com/blogs/parallel-tree-decoding/) (see [Speculative Decoding](../modeling/speculative_decoding.md))
+- **FlashAttention-3** — Shah et al. (2024). "FlashAttention-3: Fast and Accurate Attention with Asynchrony and Low-precision." *arXiv:2407.08608*. [arxiv.org/abs/2407.08608](https://arxiv.org/abs/2407.08608) (Hopper async + FP8/BF16; see [Kernel optimization](../inference/kernel-optimization.md#flashattention))
+- **FlashAttention-4** — (2026). "FlashAttention-4: Algorithm and Kernel Pipelining Co-Design for Asymmetric Hardware Scaling." *arXiv:2603.05451*. [arxiv.org/abs/2603.05451](https://arxiv.org/abs/2603.05451) (CuTeDSL; tuned for Blackwell/B200)
+- **SARATHI (chunked prefill)** — Agrawal et al. (2023). "SARATHI: Efficient LLM Inference by Piggybacking Decodes with Chunked Prefills." *arXiv:2308.16369*. [arxiv.org/abs/2308.16369](https://arxiv.org/abs/2308.16369) (decode-maximal batching; see [Inference optimization](../inference/optimization.md#chunked-prefill))
+- **DistServe (PD disaggregation)** — Zhong et al. (2024). "DistServe: Disaggregating Prefill and Decoding for Goodput-optimized LLM Serving." *OSDI 2024 / arXiv:2401.09670*. [arxiv.org/abs/2401.09670](https://arxiv.org/abs/2401.09670) (see [Inference optimization](../inference/optimization.md#prefill-decode-disaggregation))
 
 ### Hardware Architecture
 - **A100 Architecture** — NVIDIA (2020). NVIDIA A100 Tensor Core GPU Architecture Whitepaper. [images.nvidia.com/aem-dam/en-zz/Solutions/data-center/nvidia-ampere-architecture-whitepaper.pdf](https://images.nvidia.com/aem-dam/en-zz/Solutions/data-center/nvidia-ampere-architecture-whitepaper.pdf)
@@ -116,6 +120,7 @@ timestamp: 2026-05-08T23:08:42-07:00
 
 ## Useful Online Resources
 
+- **LLM Inference Handbook** — Modular (2026). "A practical guide for understanding, optimizing, scaling, and operating LLM inference systems." [handbook.modular.com](https://handbook.modular.com/) — source: [github.com/modular/llm-inference-handbook](https://github.com/modular/llm-inference-handbook) (`docs/` CC BY 4.0). Digested across the [LLM Inference Serving](../inference/index.md) section.
 - Kipply's "Transformer Inference Arithmetic" blog — [kipp.ly/transformer-inference-arithmetic/](https://kipp.ly/transformer-inference-arithmetic/)
 - Tim Dettmers' GPU blog (quantization, memory) — [timdettmers.com/](https://timdettmers.com/)
 - Horace He's "Making Deep Learning Go Brrrr From First Principles" — [horace.io/brrr_intro.html](https://horace.io/brrr_intro.html)
@@ -127,3 +132,4 @@ timestamp: 2026-05-08T23:08:42-07:00
 
 - [Hardware specs](../hardware/index.md)
 - [Modeling](../modeling/index.md)
+- [LLM Inference Serving](../inference/index.md)

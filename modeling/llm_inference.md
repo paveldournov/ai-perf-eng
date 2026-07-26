@@ -219,3 +219,4 @@ Above this length, each additional token costs linearly more (KV-bound); below i
 - [Memory capacity model](memory_capacity.md) — weights + KV cache sizing; does it fit?
 - [Inference routing](inference_routing.md) — KV-aware routing, disaggregated prefill/decode, session affinity
 - [Speculative decoding](speculative_decoding.md) — draft-and-verify decode acceleration; exploits the memory-bound decode regime
+- [LLM Inference Serving](../inference/index.md) — the production serving stack that applies this model: [basics](../inference/basics.md), [optimization](../inference/optimization.md)

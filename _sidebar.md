@@ -8,6 +8,7 @@
   - [Hardware](/hardware/index.md)
   - [Workloads](/workloads/index.md)
   - [Performance Modeling](/modeling/index.md)
+  - [LLM Inference Serving](/inference/index.md)
   - [Simulation](/simulation/index.md)
   - [Scheduling](/scheduling/index.md)
   - [Characterization](/characterization/index.md)
