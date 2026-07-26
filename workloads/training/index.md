@@ -27,10 +27,13 @@ and modeling pages linked below.
   cost model are in [LLM inference model → total compute cost](../../modeling/llm_inference.md#total-compute-cost-accounting).
 - **Parallelism** — data / tensor / pipeline / expert strategies and their
   memory/communication tradeoffs: [parallelism](../../modeling/parallelism.md).
-- **Distributed communication** — the collectives training relies on:
-  [all-reduce / all-gather](../collective_ops.md) and
-  [collective algorithms on TPU & GPU clusters](../collective_algorithms.md).
 - **Utilization** — [MFU / achieved vs. peak FLOPS](../../modeling/mfu.md).
+
+Training relies on **collectives** for inter-accelerator communication, but those
+are documented separately as [shared operators & kernels](../index.md#shared-operators--kernels)
+([all-reduce / all-gather](../collective_ops.md),
+[collective algorithms on TPU & GPU clusters](../collective_algorithms.md)) since
+they are used across the whole lifecycle, not just training.
 
 ---
 
