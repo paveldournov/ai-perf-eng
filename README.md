@@ -8,6 +8,12 @@ timestamp: 2026-05-30T23:45:33-07:00
 
 # AI Performance Modeling & Simulation — Knowledge Base
 
+### 🌐 Read it on the web: **<https://paveldournov.github.io/ai-perf-eng/>**
+
+> The knowledge base is published as a live [docsify](https://docsify.js.org) site at
+> **[paveldournov.github.io/ai-perf-eng](https://paveldournov.github.io/ai-perf-eng/)** —
+> browse it there for rendered pages, search, and navigation.
+
 Entry point for the AI performance modeling knowledge base. Topics span hardware characterization, workload analysis, analytical modeling, and simulation of modern AI accelerators.
 
 ---
