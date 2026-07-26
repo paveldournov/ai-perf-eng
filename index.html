@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="Knowledge base: hardware, workloads, modeling, simulation, scheduling, and characterization of modern AI accelerators.">
   <title>AI Performance Modeling &amp; Simulation</title>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsify@4.13.1/lib/themes/vue.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsify@4.13.1/lib/themes/buble.css">
   <style>
     :root {
       --theme-color: #4f46e5;
@@ -25,6 +25,41 @@
     .mermaid { text-align: center; }
     .mermaid svg { max-width: 100%; height: auto; }
 
+    /* ---------- Buble weight fixes ----------
+       Buble sets headings AND <strong> to font-weight:400, so headers look thin
+       and bold emphasis in the body stops looking bold. Restore proper weights. */
+    .markdown-section h1 { font-weight: 700; }
+    .markdown-section h2,
+    .markdown-section h3,
+    .markdown-section h4 { font-weight: 600; }
+    .markdown-section strong { font-weight: 700; }
+
+    /* Docsify wraps heading text in <a.anchor><span>; buble colors that span a
+       muted slate. Color it like a heading, not a link, so headers read strongly. */
+    .markdown-section h1 .anchor span,
+    .markdown-section h2 .anchor span,
+    .markdown-section h3 .anchor span,
+    .markdown-section h4 .anchor span { color: #2c3e50; }
+
+    /* ---------- Buble accent overrides ----------
+       The buble theme hardcodes its blue (#0074d9) in several spots instead of
+       reading --theme-color, so pin them to our indigo accent for consistency.
+       Body links (not the heading .anchor) get the indigo color + subtle underline. */
+    .markdown-section a:not(.anchor) {
+      color: var(--theme-color);
+      border-bottom: 1px solid rgba(79,70,229,.35);
+      text-decoration: none;
+    }
+    .markdown-section a:not(.anchor):hover { border-bottom-color: var(--theme-color); }
+    .markdown-section blockquote { border-left-color: var(--theme-color); }
+    .sidebar ul li.active > a { color: var(--theme-color); border-color: var(--theme-color); }
+    .search .search-keyword,
+    .search a:hover { color: var(--theme-color); }
+    .search .matching-post { border-color: rgba(128,128,128,.25); }
+    .progress { background-color: var(--theme-color); }
+    .sidebar-toggle span { background-color: var(--theme-color); }
+    .app-nav a.active { color: var(--theme-color); border-bottom-color: var(--theme-color); }
+
     /* ---------- Dark mode ---------- */
     @media (prefers-color-scheme: dark) {
       :root { --theme-color: #818cf8; }
@@ -36,7 +71,12 @@
       .markdown-section h1, .markdown-section h2,
       .markdown-section h3, .markdown-section h4,
       .markdown-section strong { color: #e6edf3; }
-      .markdown-section a { color: var(--theme-color); }
+      .markdown-section h1 .anchor span,
+      .markdown-section h2 .anchor span,
+      .markdown-section h3 .anchor span,
+      .markdown-section h4 .anchor span { color: #e6edf3; }
+      .markdown-section a:not(.anchor) { color: var(--theme-color); border-bottom-color: rgba(129,140,248,.4); }
+      .markdown-section a:not(.anchor):hover { border-bottom-color: var(--theme-color); }
       .markdown-section code { background: #21262d; color: #e6edf3; }
       .markdown-section pre,
       .markdown-section pre > code { background: #0d1117; color: #c9d1d9; }
