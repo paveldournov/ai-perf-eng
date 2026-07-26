@@ -9,7 +9,7 @@ timestamp: 2026-07-26T00:00:00-07:00
 
 # Inference Optimization (Serving Layer)
 
-← [LLM Inference Serving Index](index.md)
+← [Inference Workloads Index](index.md)
 
 Digest of the handbook's [Inference optimization](https://handbook.modular.com/inference-optimization/)
 chapter — the **system/runtime-layer** levers (distinct from
@@ -112,14 +112,14 @@ and decode workers agreeing on KV layout/dtype/attention variant.
 phase (e.g. NVIDIA Rubin CPX for prefill, Groq LPU for decode). It becomes a
 routing problem — *Prefill-as-a-Service* keeps short/cached prompts local and
 sends only long uncached prefills remote (reported 54% higher throughput, 64%
-lower P90 TTFT). See [inference routing](../modeling/inference_routing.md).
+lower P90 TTFT). See [inference routing](../../modeling/inference_routing.md).
 
 ## Speculative decoding
 
 A small **draft** model proposes several tokens that the **target** model
 verifies in parallel, exploiting the memory-bound decode regime to emit multiple
 tokens per target pass — losslessly (accepted tokens match target sampling). The
-KB has a full modeling treatment: **[speculative decoding](../modeling/speculative_decoding.md)**
+KB has a full modeling treatment: **[speculative decoding](../../modeling/speculative_decoding.md)**
 (draft-and-verify acceptance, EAGLE/Medusa, tree drafting).
 
 ## Parallelism
@@ -127,16 +127,16 @@ KB has a full modeling treatment: **[speculative decoding](../modeling/speculati
 Split a model that doesn't fit (or to hit a latency SLO) across GPUs: data (DP),
 tensor (TP), pipeline (PP), and expert (EP) parallelism, plus hybrids. Keep the
 most communication-intensive dimension within a node (NVLink) where possible.
-Full modeling in **[parallelism](../modeling/parallelism.md)**; the MoE all-to-all
-angle is in [MoE workloads](../workloads/moe.md).
+Full modeling in **[parallelism](../../modeling/parallelism.md)**; the MoE all-to-all
+angle is in [MoE workloads](../moe.md).
 
 ## Inference routing
 
 At scale a naive round-robin balancer breaks down. State-aware routing sends each
 request to the worker with useful **KV-cache locality** or spare capacity, honors
 session affinity, and coordinates PD disaggregation. Modeled in the KB under
-**[inference routing](../modeling/inference_routing.md)**; runtimes include
-[llm-d](../scheduling/llm_d.md).
+**[inference routing](../../modeling/inference_routing.md)**; runtimes include
+[llm-d](../../scheduling/llm_d.md).
 
 ## Related knobs
 
@@ -144,14 +144,14 @@ session affinity, and coordinates PD disaggregation. Modeled in the KB under
   large request sets (library-mode engines; explicit `max_tokens` so one bad
   input doesn't dominate).
 - **Benchmarks** — compare frameworks/GPUs on *your* model with TTFT/ITL/goodput,
-  not vendor peak numbers; see [Characterization](../characterization/index.md).
+  not vendor peak numbers; see [Characterization](../../characterization/index.md).
 
 ---
 
 ## See Also
 
 - [Inference basics](basics.md) — prefill/decode, KV cache, the target metrics
-- [LLM inference model](../modeling/llm_inference.md) — why decode is memory-bound
-- [Speculative decoding](../modeling/speculative_decoding.md) · [Inference routing](../modeling/inference_routing.md) · [Parallelism](../modeling/parallelism.md)
+- [LLM inference model](../../modeling/llm_inference.md) — why decode is memory-bound
+- [Speculative decoding](../../modeling/speculative_decoding.md) · [Inference routing](../../modeling/inference_routing.md) · [Parallelism](../../modeling/parallelism.md)
 - [Kernel optimization](kernel-optimization.md) — FlashAttention & the layer below
-- [llm-d](../scheduling/llm_d.md) — distributed inference / KV-aware routing runtime
+- [llm-d](../../scheduling/llm_d.md) — distributed inference / KV-aware routing runtime

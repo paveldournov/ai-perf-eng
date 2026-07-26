@@ -1,28 +1,42 @@
 ---
 type: Index
 title: Workloads — AI Workload Taxonomy
-description: The regime → model type → operator → kernel hierarchy of AI workloads.
-tags: [workloads, taxonomy, operators, kernels]
-timestamp: 2026-05-30T23:45:33-07:00
+description: The lifecycle (training → post-training → inference) and the shared operators/kernels underneath it.
+tags: [workloads, taxonomy, training, post-training, inference, operators, kernels]
+timestamp: 2026-07-26T00:00:00-07:00
 ---
 
 # Workloads — AI Workload Taxonomy
 
 ← [Back to README](../README.md)
 
-AI workloads decompose into a hierarchy: **regime → model type → operator → kernel**. Performance characteristics differ sharply between regimes.
+AI workloads span a **lifecycle** — training → post-training → inference — that
+all runs on the same underlying **operators and kernels**. Performance
+characteristics differ sharply across lifecycle stages, but the GEMMs, attention,
+and collectives beneath them are shared.
 
 ---
 
-## Regimes
+## Lifecycle Subsections
+
+| Stage | What it is | Bottleneck |
+|-------|------------|------------|
+| [Training](training/index.md) | Build the model: forward + backward over large datasets | Compute (backward ≈ 2× forward) + interconnect BW |
+| [Post-training](post-training/index.md) | Adapt & compress before serving: fine-tuning, distillation, quantization | Varies (training-like for FT/distill; offline for quant) |
+| [Inference](inference/index.md) | Serve the model in production: prefill + decode, optimization, ops | Prefill = compute; decode = HBM bandwidth |
+
+The inference and post-training subsections are digested from Modular's
+[LLM Inference Handbook](https://handbook.modular.com/).
+
+---
+
+## Regimes at a glance
 
 | Regime | Compute Pattern | Memory Pattern | Bottleneck |
 |--------|----------------|----------------|------------|
 | Training | High FLOPs/batch, backward pass | Activations + weights in HBM | Compute or NVLink BW |
 | Inference — prefill | Long prompt, high parallelism | KV cache write, weight load | Compute (high AI) |
 | Inference — decode | One token/step, low batch | KV cache read, weight load | HBM bandwidth |
-
----
 
 ## Model Families
 
@@ -33,7 +47,12 @@ AI workloads decompose into a hierarchy: **regime → model type → operator �
 
 ---
 
-## Operator-Level View
+## Shared Operators & Kernels
+
+These pages describe operators and kernel-development topics used across *all*
+lifecycle stages (training, post-training, and inference alike).
+
+### Operator-level view
 
 - Operators overview — GEMM, attention, convolution, elementwise, reduction
 - [GEMM](gemm.md) — general matrix multiply; workhorse of all DNN workloads
@@ -42,14 +61,14 @@ AI workloads decompose into a hierarchy: **regime → model type → operator �
 - [Collectives on TPU & GPU clusters](collective_algorithms.md) — ring/tree algorithms on torus & fat-tree topologies
 - [Mixture-of-Experts efficiency](moe.md) — sparse routing, expert parallelism, S-MFU
 
-## Kernel Development
+### Kernel development
 
 - [What is a GPU kernel?](gpu_kernels.md) — launches, threads/warps, memory traffic, fusion, torch.compile & profiling; the on-ramp concept
 - [Pallas](pallas_kernels.md) — JAX extension for custom GPU/TPU kernels; grids, Refs, memory spaces, TPU VMEM tiling
 - [CUDA PTX](cuda_ptx.md) — NVIDIA's virtual ISA between CUDA C++ and SASS; compilation flow, registers, forward compatibility, inline PTX
-- [XLA compiler](xla_compiler.md) — the compiler beneath JAX/TF/PyTorch; StableHLO → classic HLO optimizer (fusion, layout, buffer assignment) → LLVM/Triton/Mosaic backends; where MLIR lives, PJRT, Pallas escape hatch
+- [XLA compiler](xla_compiler.md) — the compiler beneath JAX/TF/PyTorch; StableHLO → classic HLO optimizer → LLVM/Triton/Mosaic backends; PJRT, Pallas escape hatch
 
-## Mechanistic Understanding
+### Mechanistic understanding
 
 - [Transformer as a programmable computer](transformer_programs.md) — manually-set weights implementing Hello World, Lookup Table, Search, Sort, Decimal Addition; attention hardening, linearly shiftable encodings, LayerNorm bypass
 

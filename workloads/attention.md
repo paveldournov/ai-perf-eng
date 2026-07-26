@@ -287,7 +287,7 @@ common prefix. See [Speculative Decoding → tree attention](../modeling/specula
 - [LLM inference model](../modeling/llm_inference.md) — KV cache sizing, prefill/decode latency
 - [Speculative decoding](../modeling/speculative_decoding.md) — tree-causal masking for draft verification
 - [Roofline model](../modeling/roofline.md) — classifying attention as compute vs. BW bound
-- [Kernel optimization](../inference/kernel-optimization.md#flashattention) — FlashAttention v1–v4 evolution and GPU memory hierarchy
+- [Kernel optimization](inference/kernel-optimization.md#flashattention) — FlashAttention v1–v4 evolution and GPU memory hierarchy
 
 ---
 

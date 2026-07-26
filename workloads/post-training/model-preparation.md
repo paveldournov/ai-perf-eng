@@ -9,14 +9,14 @@ timestamp: 2026-07-26T00:00:00-07:00
 
 # Model Preparation
 
-← [LLM Inference Serving Index](index.md)
+← [Post-Training Workloads Index](index.md)
 
 Digest of the handbook's [Model preparation](https://handbook.modular.com/model-preparation/)
 chapter — shrinking or adapting a model *before* serving so inference is cheaper
-and better-fit. Complements the runtime [serving optimizations](optimization.md):
+and better-fit. Complements the runtime [serving optimizations](../inference/optimization.md):
 
 > Distillation makes the model smaller · Quantization makes it lighter ·
-> [Inference optimizations](optimization.md) make serving more efficient.
+> [Inference optimizations](../inference/optimization.md) make serving more efficient.
 
 ---
 
@@ -49,18 +49,18 @@ FP8/INT8 ≈ 3,958 — a clean 2× from halving bit width).
   Often combined (train → prune → fine-tune → quantize → deploy). Quantization is
   usually easier in production thanks to hardware low-precision support.
 - Most teams don't implement quantization themselves — start from a pre-quantized
-  model on [Hugging Face](getting-started.md#choosing-the-right-model). Use it
+  model on [Hugging Face](../inference/getting-started.md#choosing-the-right-model). Use it
   when GPU memory is limited, latency/cost must drop, or higher concurrency is
   needed; avoid it when maximum accuracy is required or the model is already
-  small. Sizing: see [GPU memory](getting-started.md#sizing-gpu-memory) and
-  [memory capacity](../modeling/memory_capacity.md).
+  small. Sizing: see [GPU memory](../inference/getting-started.md#sizing-gpu-memory) and
+  [memory capacity](../../modeling/memory_capacity.md).
 
 ## Fine-tuning
 
 Continue training a pre-trained model on task-specific data to improve domain
 expertise, instruction-following, or safety/alignment. It changes weights — unlike
-[prompt engineering](model-interaction.md#prompt-engineering),
-[function calling](model-interaction.md#function-calling), or RAG — so use it when
+[prompt engineering](../inference/model-interaction.md#prompt-engineering),
+[function calling](../inference/model-interaction.md#function-calling), or RAG — so use it when
 the desired behavior is stable, recurring, and not cleanly handled by prompts or
 retrieval.
 
@@ -101,7 +101,7 @@ two are complementary and can be combined).
 
 ## See Also
 
-- [Planning a deployment](getting-started.md) — model choice, weight formats, GPU sizing
-- [Memory capacity model](../modeling/memory_capacity.md) — how precision changes the footprint
-- [Kernel optimization](kernel-optimization.md) — low-precision tensor-core throughput
-- [MoE workloads](../workloads/moe.md) — sparse models and active-vs-total parameters
+- [Planning a deployment](../inference/getting-started.md) — model choice, weight formats, GPU sizing
+- [Memory capacity model](../../modeling/memory_capacity.md) — how precision changes the footprint
+- [Kernel optimization](../inference/kernel-optimization.md) — low-precision tensor-core throughput
+- [MoE workloads](../moe.md) — sparse models and active-vs-total parameters

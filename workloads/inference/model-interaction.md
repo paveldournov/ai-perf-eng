@@ -9,7 +9,7 @@ timestamp: 2026-07-26T00:00:00-07:00
 
 # Model Interaction
 
-← [LLM Inference Serving Index](index.md)
+← [Inference Workloads Index](index.md)
 
 Digest of the handbook's [Model interaction](https://handbook.modular.com/model-interaction/)
 chapter — sending a request and shaping the response. These are request-time
@@ -96,7 +96,7 @@ and portable across serverless and self-hosted deployments.
 ## Prompt engineering
 
 Adjusting *how* you ask to get better answers — fast, cheap, no training, and the
-first lever to pull before [fine-tuning](model-preparation.md#fine-tuning). It
+first lever to pull before [fine-tuning](../post-training/model-preparation.md#fine-tuning). It
 has limits (long prompts get messy; behavior can drift), so the practical loop is
 prompt/retrieval/tooling first, and fine-tune only for systematic failures worth
 baking into the model.
@@ -106,6 +106,6 @@ baking into the model.
 ## See Also
 
 - [Inference basics](basics.md) — sampling and the decode loop these settings steer
-- [Model preparation](model-preparation.md) — when to fine-tune instead of prompt
+- [Model preparation](../post-training/model-preparation.md) — when to fine-tune instead of prompt
 - [Infrastructure & operations](infrastructure-ops.md) — RAG / multi-model pipelines
 - [Inference optimization](optimization.md) — how length & sampling affect scheduling

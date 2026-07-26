@@ -9,15 +9,15 @@ timestamp: 2026-07-26T00:00:00-07:00
 
 # Kernel Optimization for LLM Inference
 
-← [LLM Inference Serving Index](index.md)
+← [Inference Workloads Index](index.md)
 
 Digest of the handbook's [Kernel optimization](https://handbook.modular.com/kernel-optimization/)
 chapter — the GPU code that does the actual math, one level below
 [serving-layer optimization](optimization.md). Kernels set the performance
 ceiling everything above them lives under: system optimization is *how
 efficiently requests flow*; kernel optimization is *how fast a single operation
-runs*. See also the KB's [GPU kernels](../workloads/gpu_kernels.md) and
-[Pallas kernels](../workloads/pallas_kernels.md).
+runs*. See also the KB's [GPU kernels](../gpu_kernels.md) and
+[Pallas kernels](../pallas_kernels.md).
 
 ---
 
@@ -61,8 +61,8 @@ fusion, layout) moves data *up* this pyramid (H100 figures):
   inference, large working sets often blow past L2, so **HBM bandwidth becomes
   the binding constraint** — the root cause of the memory-bound decode phase.
 
-The KB's [memory hierarchy](../hardware/memory_hierarchy.md) and
-[H100](../hardware/nvidia/h100.md) pages give the hardware detail.
+The KB's [memory hierarchy](../../hardware/memory_hierarchy.md) and
+[H100](../../hardware/nvidia/h100.md) pages give the hardware detail.
 
 ## Tensor cores
 
@@ -71,7 +71,7 @@ small tiles, delivering far higher throughput than CUDA cores for the GEMMs that
 dominate transformers. They support mixed precision (FP16/BF16/FP8/INT8) — which
 both raises throughput and cuts memory traffic — but require correct data
 layout/dtype to engage, which is why libraries like cuBLAS and DSLs like Triton
-exist. See [GEMM](../workloads/gemm.md).
+exist. See [GEMM](../gemm.md).
 
 ## FlashAttention
 
@@ -90,7 +90,7 @@ recomputation** (compute each tile entirely in SRAM) and **kernel fusion**
 
 FA is a *kernel* optimization frameworks *adopted* — the canonical example of the
 kernel layer setting the ceiling. The KB covers the algorithm from the workload
-side in [attention](../workloads/attention.md); the references list the FA
+side in [attention](../attention.md); the references list the FA
 papers.
 
 ## Approaches & the tooling ladder
@@ -125,8 +125,8 @@ kernels before frameworks support them efficiently.
 
 ## See Also
 
-- [Attention](../workloads/attention.md) — the algorithm FlashAttention accelerates
-- [GEMM](../workloads/gemm.md) — the matmuls tensor cores target
-- [GPU kernels](../workloads/gpu_kernels.md) · [Pallas kernels](../workloads/pallas_kernels.md) · [CUDA/PTX](../workloads/cuda_ptx.md)
-- [Memory hierarchy](../hardware/memory_hierarchy.md) · [H100](../hardware/nvidia/h100.md)
+- [Attention](../attention.md) — the algorithm FlashAttention accelerates
+- [GEMM](../gemm.md) — the matmuls tensor cores target
+- [GPU kernels](../gpu_kernels.md) · [Pallas kernels](../pallas_kernels.md) · [CUDA/PTX](../cuda_ptx.md)
+- [Memory hierarchy](../../hardware/memory_hierarchy.md) · [H100](../../hardware/nvidia/h100.md)
 - [Inference optimization](optimization.md) — the serving layer above the kernels

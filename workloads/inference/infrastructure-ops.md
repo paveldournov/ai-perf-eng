@@ -9,12 +9,12 @@ timestamp: 2026-07-26T00:00:00-07:00
 
 # Inference Infrastructure & Operations
 
-← [LLM Inference Serving Index](index.md)
+← [Inference Workloads Index](index.md)
 
 Digest of the handbook's [Infrastructure and operations](https://handbook.modular.com/infrastructure-and-operations/)
 chapter — the layer that determines how far you can scale and how reliably you
 can grow, once the model and [optimization](optimization.md) are in place. This
-is the operational complement to the KB's [Scheduling](../scheduling/index.md)
+is the operational complement to the KB's [Scheduling](../../scheduling/index.md)
 section.
 
 ---
@@ -39,13 +39,13 @@ levels:
   [PD disaggregation](optimization.md#prefill-decode-disaggregation),
   [KV offloading](optimization.md#kv-cache-offloading),
   [routing](optimization.md#inference-routing), and
-  [parallelism](../modeling/parallelism.md).
+  [parallelism](../../modeling/parallelism.md).
 
 **Why:** scale beyond one GPU, serve models too large for one device, fault
 tolerance, and cost via smarter resource use. **Challenges:** network overhead
 (often the bottleneck, not compute), build/operational complexity, unified
 observability & cost attribution, and stateful KV-cache/session management. Teams
-typically run vLLM/SGLang/[llm-d](../scheduling/llm_d.md) on Kubernetes; those
+typically run vLLM/SGLang/[llm-d](../../scheduling/llm_d.md) on Kubernetes; those
 solve micro-level concerns but not macro-level routing/autoscaling/visibility on
 their own.
 
@@ -107,7 +107,7 @@ first-class concern: track per-workload cost and tune model choice, hardware,
 batching, routing, and scaling policies. Self-hosting has higher upfront cost but
 lower per-token cost at scale (especially with
 [KV offloading](optimization.md#kv-cache-offloading) and
-[quantization](model-preparation.md#quantization)); serverless is cheaper to
+[quantization](../post-training/model-preparation.md#quantization)); serverless is cheaper to
 start but scales linearly. Both are getting cheaper over time (API price cuts,
 more efficient GPUs, better open models and runtimes).
 
@@ -122,7 +122,7 @@ residency — routed as one logical layer with seamless failover.
 Production apps rarely use one model. Compose LLMs with embedding models (for
 **RAG**), SLMs, VLMs, and image/TTS models into pipelines where each stage
 consumes the previous stage's output. RAG in particular is often the better
-answer than [fine-tuning](model-preparation.md#fine-tuning) when the problem is
+answer than [fine-tuning](../post-training/model-preparation.md#fine-tuning) when the problem is
 missing or fast-changing information, since it fetches fresh data at inference
 time. See [choosing a model](getting-started.md#choosing-the-right-model).
 
@@ -130,7 +130,7 @@ time. See [choosing a model](getting-started.md#choosing-the-right-model).
 
 ## See Also
 
-- [Scheduling](../scheduling/index.md) — job admission & distributed runtimes ([Kueue](../scheduling/kueue.md), [Ray](../scheduling/ray.md), [llm-d](../scheduling/llm_d.md), [Pathways](../scheduling/pathways.md))
+- [Scheduling](../../scheduling/index.md) — job admission & distributed runtimes ([Kueue](../../scheduling/kueue.md), [Ray](../../scheduling/ray.md), [llm-d](../../scheduling/llm_d.md), [Pathways](../../scheduling/pathways.md))
 - [Inference optimization](optimization.md) — the micro-level techniques
-- [Fault tolerance](../simulation/fault_tolerance.md) — resilience modeling
+- [Fault tolerance](../../simulation/fault_tolerance.md) — resilience modeling
 - [Planning a deployment](getting-started.md) — serverless vs self-hosted, GPU choice

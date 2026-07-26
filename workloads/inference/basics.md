@@ -9,11 +9,11 @@ timestamp: 2026-07-26T00:00:00-07:00
 
 # LLM Inference Basics
 
-← [LLM Inference Serving Index](index.md)
+← [Inference Workloads Index](index.md)
 
 Digest of the handbook's [Foundations](https://handbook.modular.com/llm-inference-basics/)
 chapter. For the analytical latency/throughput equations, see
-[LLM inference model](../modeling/llm_inference.md).
+[LLM inference model](../../modeling/llm_inference.md).
 
 ---
 
@@ -43,7 +43,7 @@ Because decode reloads the weights and the growing KV cache from HBM for every
 single token, it is memory-bound and cannot be parallelized across the sequence
 — which is why LLM inference is "slow" and why so much optimization targets the
 decode regime. The quantitative model of this split is in
-[LLM inference model](../modeling/llm_inference.md).
+[LLM inference model](../../modeling/llm_inference.md).
 
 ### Collocation problem
 
@@ -69,10 +69,10 @@ tokens. It is the structure most serving optimizations revolve around.
   [prefix caching](optimization.md#prefix-caching),
   [KV cache offloading](optimization.md#kv-cache-offloading),
   [PD disaggregation](optimization.md#prefill-decode-disaggregation), and KV-cache
-  [quantization](model-preparation.md#quantization).
+  [quantization](../post-training/model-preparation.md#quantization).
 
-See the KV-cache sizing formula in [memory capacity](../modeling/memory_capacity.md)
-and [LLM inference model](../modeling/llm_inference.md#kv-cache-size).
+See the KV-cache sizing formula in [memory capacity](../../modeling/memory_capacity.md)
+and [LLM inference model](../../modeling/llm_inference.md#kv-cache-size).
 
 ## Context window & sampling
 
@@ -88,7 +88,7 @@ and [LLM inference model](../modeling/llm_inference.md#kv-cache-size).
 
 The vocabulary the rest of the serving stack optimizes toward. See
 [the handbook's metrics page](https://handbook.modular.com/llm-inference-basics/llm-inference-metrics/)
-and the [Characterization](../characterization/index.md) section for measurement
+and the [Characterization](../../characterization/index.md) section for measurement
 methodology.
 
 ### Latency
@@ -135,7 +135,7 @@ per-user latency) is tuned against the SLO of the specific workload.
   [GPU architecture fundamentals](kernel-optimization.md#gpu-execution-model).
 - **TPU** — Google ASICs built ground-up for dense tensor ops; very high memory
   bandwidth and power efficiency, accessed mainly via cloud (XLA/JAX). See the
-  KB's [TPU family](../hardware/tpu/index.md).
+  KB's [TPU family](../../hardware/tpu/index.md).
 
 **Deployment patterns:** cloud (default), multi-cloud/cross-region, BYOC,
 on-prem, and edge — see [Planning a deployment](getting-started.md).
@@ -146,7 +146,7 @@ Training builds the model (one-time, batch, long, expensive); inference uses it
 (continuous, real-time, scales with traffic). Because inference runs on *every*
 request, its cumulative cost often exceeds training over a model's life.
 Fine-tuning is a (small) form of training — see
-[model preparation](model-preparation.md).
+[model preparation](../post-training/model-preparation.md).
 
 ## Diffusion LLMs (dLLMs)
 
@@ -159,8 +159,8 @@ AI's Mercury, Google's Gemini Diffusion. Autoregressive models remain mainstream
 
 ## See Also
 
-- [LLM inference model](../modeling/llm_inference.md) — the analytical prefill/decode latency & throughput equations
-- [Memory capacity model](../modeling/memory_capacity.md) — weights + KV-cache sizing
+- [LLM inference model](../../modeling/llm_inference.md) — the analytical prefill/decode latency & throughput equations
+- [Memory capacity model](../../modeling/memory_capacity.md) — weights + KV-cache sizing
 - [Inference optimization](optimization.md) — techniques targeting these metrics
-- [Attention](../workloads/attention.md) — the mechanism behind the KV cache
-- [Characterization](../characterization/index.md) — measuring TTFT/TPOT/throughput
+- [Attention](../attention.md) — the mechanism behind the KV cache
+- [Characterization](../../characterization/index.md) — measuring TTFT/TPOT/throughput

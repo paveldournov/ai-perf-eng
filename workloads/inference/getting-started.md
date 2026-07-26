@@ -9,7 +9,7 @@ timestamp: 2026-07-26T00:00:00-07:00
 
 # Planning an LLM Deployment
 
-← [LLM Inference Serving Index](index.md)
+← [Inference Workloads Index](index.md)
 
 Digest of the handbook's [Planning your deployment](https://handbook.modular.com/getting-started/)
 chapter — the early decisions that shape infrastructure, cost, and performance.
@@ -40,7 +40,7 @@ Raw benchmark numbers rarely capture real LLM workloads. The four hardware axes:
 | **VRAM (HBM capacity)** | Ceiling on model size + context. Weights must fit first; the KV cache then consumes what's left. DeepSeek V3/R1 (671B) needs 8×H200 (141 GB); Phi-3 fits in 16–24 GB quantized. |
 | **Memory bandwidth** | The binding constraint for the **memory-bound decode phase**. Single-stream ceiling ≈ `memory_bandwidth / bytes_read_per_token`. A 70B FP16 model (~140 GB) on H100 SXM (~3.35 TB/s) ⇒ ~24 tok/s per sequence before overhead. |
 | **Compute throughput (FLOPS)** | Limits the **compute-bound prefill phase** and large batches. Watch the asterisks: vendors quote peak FLOPS with sparsity / lowest precision. FP8 needs Hopper+; lower precision ~doubles the rate. |
-| **Interconnect** | Governs multi-GPU throughput. Intra-node NVLink (H100: 900 GB/s bidirectional, ~7× a PCIe 5.0 link) vs inter-node InfiniBand/RoCEv2. Keep the most communication-intensive [parallelism](../modeling/parallelism.md) within one node. |
+| **Interconnect** | Governs multi-GPU throughput. Intra-node NVLink (H100: 900 GB/s bidirectional, ~7× a PCIe 5.0 link) vs inter-node InfiniBand/RoCEv2. Keep the most communication-intensive [parallelism](../../modeling/parallelism.md) within one node. |
 
 **GPU CAP theorem** — a GPU supply cannot guarantee **Control**, on-demand
 **Availability**, and low **Price** simultaneously:
@@ -70,8 +70,8 @@ Memory (GB) = P × (Q / 8) × (1 + Overhead)
 The flat 10–30% overhead is only a shortcut — real KV-cache memory depends on
 sequence length, batch size, concurrency, layers, and hidden size, so
 long-context workloads need far more headroom. Use the KB's
-[memory capacity model](../modeling/memory_capacity.md) for the exact KV formula,
-and [quantization](model-preparation.md#quantization) to shrink the weight
+[memory capacity model](../../modeling/memory_capacity.md) for the exact KV formula,
+and [quantization](../post-training/model-preparation.md#quantization) to shrink the weight
 footprint (freeing room for KV cache and larger batches).
 
 ## Choosing the right model
@@ -81,7 +81,7 @@ footprint (freeing room for KV cache and larger batches).
   tuned (RLHF/DPO) for multi-turn dialogue.
 - **Dense vs MoE** — dense uses every parameter per token; Mixture-of-Experts
   activates only a subset of experts per token for efficient scaling (naming like
-  `Qwen3.5-35B-A3B` = total-B / active-B). See [MoE workloads](../workloads/moe.md).
+  `Qwen3.5-35B-A3B` = total-B / active-B). See [MoE workloads](../moe.md).
 - **Compose with other models** — SLMs, embedding models, VLMs, image/TTS models
   in [multi-model pipelines](infrastructure-ops.md#multi-model-pipelines).
 - **Where to get them** — Hugging Face (default; mind *gated* models needing a
@@ -134,7 +134,7 @@ A common scaling path: Ollama (laptop) → vLLM/SGLang/MAX (data-center runtime)
 ## See Also
 
 - [Inference basics](basics.md) — prefill/decode & the metrics you're optimizing
-- [Memory capacity model](../modeling/memory_capacity.md) — exact weight + KV sizing
-- [Model preparation](model-preparation.md) — quantization / fine-tuning / distillation
+- [Memory capacity model](../../modeling/memory_capacity.md) — exact weight + KV sizing
+- [Model preparation](../post-training/model-preparation.md) — quantization / fine-tuning / distillation
 - [Infrastructure & operations](infrastructure-ops.md) — scaling and running it
-- [Hardware](../hardware/index.md) — accelerator specs (H100, TPU, …)
+- [Hardware](../../hardware/index.md) — accelerator specs (H100, TPU, …)
