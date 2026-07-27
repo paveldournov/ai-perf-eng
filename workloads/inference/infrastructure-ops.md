@@ -134,3 +134,7 @@ time. See [choosing a model](getting-started.md#choosing-the-right-model).
 - [Inference optimization](optimization.md) — the micro-level techniques
 - [Fault tolerance](../../simulation/fault_tolerance.md) — resilience modeling
 - [Planning a deployment](getting-started.md) — serverless vs self-hosted, GPU choice
+
+---
+
+*Adapted & summarized from Modular's [LLM Inference Handbook](https://handbook.modular.com/) under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) — changes were made. See [Attribution](index.md#attribution).*

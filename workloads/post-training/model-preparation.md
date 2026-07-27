@@ -105,3 +105,7 @@ two are complementary and can be combined).
 - [Memory capacity model](../../modeling/memory_capacity.md) — how precision changes the footprint
 - [Kernel optimization](../inference/kernel-optimization.md) — low-precision tensor-core throughput
 - [MoE workloads](../moe.md) — sparse models and active-vs-total parameters
+
+---
+
+*Adapted & summarized from Modular's [LLM Inference Handbook](https://handbook.modular.com/) under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) — changes were made. See [Attribution](index.md#attribution).*

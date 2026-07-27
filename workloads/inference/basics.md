@@ -164,3 +164,7 @@ AI's Mercury, Google's Gemini Diffusion. Autoregressive models remain mainstream
 - [Inference optimization](optimization.md) — techniques targeting these metrics
 - [Attention](../attention.md) — the mechanism behind the KV cache
 - [Characterization](../../characterization/index.md) — measuring TTFT/TPOT/throughput
+
+---
+
+*Adapted & summarized from Modular's [LLM Inference Handbook](https://handbook.modular.com/) under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) — changes were made. See [Attribution](index.md#attribution).*

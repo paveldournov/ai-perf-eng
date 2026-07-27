@@ -138,3 +138,7 @@ A common scaling path: Ollama (laptop) → vLLM/SGLang/MAX (data-center runtime)
 - [Model preparation](../post-training/model-preparation.md) — quantization / fine-tuning / distillation
 - [Infrastructure & operations](infrastructure-ops.md) — scaling and running it
 - [Hardware](../../hardware/index.md) — accelerator specs (H100, TPU, …)
+
+---
+
+*Adapted & summarized from Modular's [LLM Inference Handbook](https://handbook.modular.com/) under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) — changes were made. See [Attribution](index.md#attribution).*

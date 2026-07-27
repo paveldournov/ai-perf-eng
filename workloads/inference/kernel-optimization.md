@@ -130,3 +130,7 @@ kernels before frameworks support them efficiently.
 - [GPU kernels](../gpu_kernels.md) · [Pallas kernels](../pallas_kernels.md) · [CUDA/PTX](../cuda_ptx.md)
 - [Memory hierarchy](../../hardware/memory_hierarchy.md) · [H100](../../hardware/nvidia/h100.md)
 - [Inference optimization](optimization.md) — the serving layer above the kernels
+
+---
+
+*Adapted & summarized from Modular's [LLM Inference Handbook](https://handbook.modular.com/) under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) — changes were made. See [Attribution](index.md#attribution).*

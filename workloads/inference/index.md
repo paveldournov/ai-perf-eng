@@ -48,3 +48,16 @@ chapters for full depth and the handbook's interactive tools.
 - [Scheduling](../../scheduling/index.md) — distributed runtimes & inference routers ([llm-d](../../scheduling/llm_d.md))
 - [Characterization](../../characterization/index.md) — measuring TTFT/TPOT/throughput
 - [References](../../references/index.md) — the handbook and its cited papers
+
+---
+
+## Attribution
+
+The pages in this subsection are **adapted and summarized** from the
+**LLM Inference Handbook** ([handbook.modular.com](https://handbook.modular.com/))
+by **Modular**, used under the
+[Creative Commons Attribution 4.0 International License (CC BY 4.0)](https://creativecommons.org/licenses/by/4.0/).
+Source: [`modular/llm-inference-handbook`](https://github.com/modular/llm-inference-handbook)
+(`docs/`). **Changes were made** — the original chapters were condensed into these
+summaries and cross-linked into this knowledge base. This attribution does not imply
+endorsement by Modular.
