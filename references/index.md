@@ -124,6 +124,7 @@ timestamp: 2026-05-08T23:08:42-07:00
 - Kipply's "Transformer Inference Arithmetic" blog — [kipp.ly/transformer-inference-arithmetic/](https://kipp.ly/transformer-inference-arithmetic/)
 - Tim Dettmers' GPU blog (quantization, memory) — [timdettmers.com/](https://timdettmers.com/)
 - Horace He's "Making Deep Learning Go Brrrr From First Principles" — [horace.io/brrr_intro.html](https://horace.io/brrr_intro.html)
+- Adam Mainz — "GPUs have two speeds" (2026). Plain-English roofline explainer: the two ceilings (compute vs bandwidth), arithmetic intensity, and the ridge point, via a chef/runner analogy and vector-add-vs-matmul worked examples. [x.com/MainzOnX](https://x.com/MainzOnX/status/2077757143592186262) (see [Roofline model](../modeling/roofline.md))
 - NVIDIA DLPerf benchmarks — [developer.nvidia.com/deep-learning-performance-training-inference](https://developer.nvidia.com/deep-learning-performance-training-inference)
 
 ---

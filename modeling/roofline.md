@@ -14,6 +14,25 @@ The roofline model is the foundational tool for bounding achievable performance.
 
 ---
 
+## Intuition: a GPU has two speeds
+
+A GPU has **two independent speed limits**, not one: how fast it does arithmetic
+(*compute*, FLOP/s) and how fast it moves operands between memory and the compute
+units (*bandwidth*, byte/s). On modern hardware these are wildly out of balance —
+an H100 can do ~300 arithmetic ops in the time it moves a single byte
+(989 TFLOPS ÷ 3.35 TB/s ≈ 295 FLOP/B).
+
+Adam Mainz's *chef-and-runner* analogy captures it: a blazing-fast chef (compute)
+stands idle while a slow runner (memory) fetches one ingredient per trip, so output
+is set by the runner — until the *recipe* changes so each ingredient takes real
+work (more math per byte), at which point the chef becomes the limit. "How much math
+per byte does this kernel do?" (its [arithmetic intensity](#model-definition)) is
+what decides which ceiling you hit — often guessable from the shape of the code
+alone, before measuring.
+— *[Source](https://x.com/MainzOnX/status/2077757143592186262)*
+
+---
+
 ## Model Definition
 
 ```
@@ -57,6 +76,36 @@ AI_ridge = Peak_FLOPS / Peak_BW
 - H100 Peak BF16: 989 TFLOPS, HBM BW: 3.35 TB/s → **ridge ≈ 295 FLOP/B**
 - Decode GEMM (batch=1): AI ≈ 1 FLOP/B → 280× below ridge → memory-BW bound
 - Achievable FLOPS = 1 × 3.35e12 = 3.35 TFLOPS (0.34% of peak!)
+
+---
+
+## Worked Contrast: Vector Add vs. Matmul
+
+The same machine puts these two ops on opposite roofs purely by arithmetic intensity:
+
+| Kernel (BF16) | Math | Bytes moved | AI (FLOP/B) | Roof |
+|---|---|---|---|---|
+| Vector add `c = a + b`, 1M elems | 1M FLOP | 6 MB (read a, b; write c) | ~0.17 | Memory-bound |
+| 4096×4096 matmul | 2·4096³ ≈ 137 GFLOP | 96 MB (3 × 32 MB) | ~1,365 | Compute-bound |
+
+On the H100 (ridge ≈ 295 FLOP/B) the add sits ~1,700× below the ridge (memory-bound);
+the matmul sits ~5× above it (compute-bound).
+
+**A matmul isn't inherently compute-bound — its shape decides.** For an N×N BF16
+matmul, FLOPs = 2N³ and bytes ≈ 6N² (each of A, B, C read/written once), so:
+
+```
+AI_matmul = 2N³ / 6N² = N/3   [FLOP/B]
+```
+
+Small matmuls fall below the ridge (N=64 → ~21 FLOP/B, memory-bound); large ones
+rise far above it (N=4096 → ~1,365 FLOP/B, compute-bound). The N/3 bound assumes a
+well-written kernel that loads each operand from HBM once (tiling into on-chip
+cache); a naive kernel that re-reads rows/columns moves more bytes and does worse.
+Chained *memory-bound* elementwise ops benefit from [kernel fusion](../workloads/gpu_kernels.md):
+fusing avoids writing/reading the intermediate to HBM, cutting traffic on the ceiling
+you were actually hitting.
+— *Worked examples: [Adam Mainz](https://x.com/MainzOnX/status/2077757143592186262)*
 
 ---
 

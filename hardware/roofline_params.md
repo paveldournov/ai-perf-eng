@@ -24,6 +24,7 @@ Operations with arithmetic intensity **above** the ridge point are compute-bound
 | H200 SXM5 | BF16 tensor | 989 TFLOPS | 4.8 TB/s | ~206 FLOP/B |
 | H200 SXM5 | FP8 tensor | 1979 TFLOPS | 4.8 TB/s | ~412 FLOP/B |
 | B200 SXM | FP4 tensor | ~4500 TFLOPS | 8.0 TB/s | ~563 FLOP/B |
+| RTX 4090 | BF16 tensor | 165 TFLOPS | 1.0 TB/s | ~165 FLOP/B |
 | MI300X | BF16 tensor | 1307 TFLOPS | 5.3 TB/s | ~247 FLOP/B |
 | TPUv5p | BF16 | 459 TFLOPS | 2.76 TB/s | ~166 FLOP/B |
 | TPU v6e (Trillium) | BF16 | 918 TFLOPS | 1.64 TB/s | ~560 FLOP/B |
@@ -36,6 +37,7 @@ Operations with arithmetic intensity **above** the ridge point are compute-bound
 | Etched Sohu | FP8 | not disclosed | ~4.8 TB/s (est.) | — |
 
 > Numbers are for peak dense (non-sparse) unless noted. Sparse (2:4) doubles FLOPS on NVIDIA chips.
+> RTX 4090 is a consumer card (GDDR6X, not HBM); listed as a low-ridge reference point — see the [roofline model](../modeling/roofline.md#intuition-a-gpu-has-two-speeds).
 > Apple ANE is an edge NPU: the "roof" is the overhead-isolated slope (a single large matmul saturates near 4.8 fp16 TFLOP/s), and its real limit is a 2 MB on-chip working set, not the ridge point. See [ANE](apple/ane.md).
 > Etched Sohu is a transformer-only inference ASIC that does not publish a peak-FLOPS figure, so no ridge point is given; the ~4.8 TB/s HBM bandwidth is an estimate. See [Sohu](etched/sohu.md).
 
