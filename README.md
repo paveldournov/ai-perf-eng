@@ -6,7 +6,7 @@ tags: [overview, root, knowledge-base]
 timestamp: 2026-05-30T23:45:33-07:00
 ---
 
-# AI Performance Modeling & Simulation — Knowledge Base
+# AI Performance — Knowledge Base
 
 > **📚 Note:** The material in this knowledge base consists of **summaries and syntheses of the sources listed in [References](references/index.md)** — it is not original research or verbatim reproduction. Individual pages link back to their sources, and adapted third-party content is attributed on the page.
 
