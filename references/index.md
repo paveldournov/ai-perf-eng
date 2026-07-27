@@ -120,7 +120,7 @@ timestamp: 2026-05-08T23:08:42-07:00
 
 ## Useful Online Resources
 
-- **LLM Inference Handbook** — Modular (2026). "A practical guide for understanding, optimizing, scaling, and operating LLM inference systems." [handbook.modular.com](https://handbook.modular.com/) — source: [github.com/modular/llm-inference-handbook](https://github.com/modular/llm-inference-handbook) (`docs/` CC BY 4.0). Digested across the [inference](../workloads/inference/index.md) and [post-training](../workloads/post-training/index.md) workloads subsections.
+- **LLM Inference Handbook** — Modular (2026). "A practical guide for understanding, optimizing, scaling, and operating LLM inference systems." [handbook.modular.com](https://handbook.modular.com/) — source: [github.com/modular/llm-inference-handbook](https://github.com/modular/llm-inference-handbook) (`docs/` used under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/); adapted/summarized with changes). Digested across the [inference](../workloads/inference/index.md) and [post-training](../workloads/post-training/index.md) workloads subsections.
 - Kipply's "Transformer Inference Arithmetic" blog — [kipp.ly/transformer-inference-arithmetic/](https://kipp.ly/transformer-inference-arithmetic/)
 - Tim Dettmers' GPU blog (quantization, memory) — [timdettmers.com/](https://timdettmers.com/)
 - Horace He's "Making Deep Learning Go Brrrr From First Principles" — [horace.io/brrr_intro.html](https://horace.io/brrr_intro.html)

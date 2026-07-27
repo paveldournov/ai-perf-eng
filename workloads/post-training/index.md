@@ -37,3 +37,16 @@ Rule of thumb from the handbook:
 - [Model interaction](../inference/model-interaction.md#prompt-engineering) — prompt engineering / RAG as alternatives to fine-tuning
 - [Memory capacity model](../../modeling/memory_capacity.md) — how precision changes the footprint
 - [MoE efficiency](../moe.md) — sparse models: active vs. total parameters
+
+---
+
+## Attribution
+
+[Model preparation](model-preparation.md) is **adapted and summarized** from the
+**LLM Inference Handbook** ([handbook.modular.com](https://handbook.modular.com/))
+by **Modular**, used under the
+[Creative Commons Attribution 4.0 International License (CC BY 4.0)](https://creativecommons.org/licenses/by/4.0/).
+Source: [`modular/llm-inference-handbook`](https://github.com/modular/llm-inference-handbook)
+(`docs/`). **Changes were made** — the original chapter was condensed into a summary
+and cross-linked into this knowledge base. This attribution does not imply endorsement
+by Modular.

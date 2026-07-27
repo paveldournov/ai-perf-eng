@@ -155,3 +155,7 @@ session affinity, and coordinates PD disaggregation. Modeled in the KB under
 - [Speculative decoding](../../modeling/speculative_decoding.md) · [Inference routing](../../modeling/inference_routing.md) · [Parallelism](../../modeling/parallelism.md)
 - [Kernel optimization](kernel-optimization.md) — FlashAttention & the layer below
 - [llm-d](../../scheduling/llm_d.md) — distributed inference / KV-aware routing runtime
+
+---
+
+*Adapted & summarized from Modular's [LLM Inference Handbook](https://handbook.modular.com/) under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) — changes were made. See [Attribution](index.md#attribution).*

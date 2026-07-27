@@ -109,3 +109,7 @@ baking into the model.
 - [Model preparation](../post-training/model-preparation.md) — when to fine-tune instead of prompt
 - [Infrastructure & operations](infrastructure-ops.md) — RAG / multi-model pipelines
 - [Inference optimization](optimization.md) — how length & sampling affect scheduling
+
+---
+
+*Adapted & summarized from Modular's [LLM Inference Handbook](https://handbook.modular.com/) under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) — changes were made. See [Attribution](index.md#attribution).*
