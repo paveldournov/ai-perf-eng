@@ -104,5 +104,20 @@ Consequences for ingestion:
 - **Nav:** `_sidebar.md` lists only the top-level sections; update it *only* when
   adding a new top-level section (see step 3). Within-section navigation comes
   from each folder's `index.md`.
+- **Per-page contents:** every page gets a right-hand table of contents built
+  from its `##`/`###` headings, so use a normal heading hierarchy and don't
+  hand-roll a contents list at the top of a page.
 - **`.nojekyll`** at the repo root must stay — it stops GitHub Pages from running
   Jekyll, which would otherwise drop `_sidebar.md` (underscore-prefixed).
+
+### Theme
+
+`index.html` carries the whole design — the "Instrument" theme: dark-first, IBM
+Plex Sans/Mono, teal accent, built on docsify's minimal `pure` base. All colour
+lives in CSS custom properties at the top of the `<style>` block (`:root` is
+dark, `html[data-theme="light"]` is light), so a palette change means editing
+those two blocks and nothing else. Plugins in use: search, copy-code,
+`docsify-plugin-toc` (right-hand TOC), `docsify-pagination` (prev/next), prism,
+mermaid. Two behaviours are hand-rolled at the bottom of the file — tables get
+wrapped in a scrolling `.table-wrap`, and the light/dark toggle suppresses CSS
+transitions for one frame so custom-property colours repaint.
