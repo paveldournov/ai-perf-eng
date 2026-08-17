@@ -227,6 +227,35 @@
   .markdown-section tbody tr:nth-child(2n):hover { background: var(--bg-raised); }
   .markdown-section td:first-child { color: var(--text-hi); font-weight: 500; }
 
+  /* ---------------- Section cards ----------------
+     The home page's Sections table is rebuilt as a card grid (see cardify()).
+     The markdown stays a plain table, so the repo view is unaffected. */
+  .card-grid {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(228px, 1fr));
+    gap: 12px; margin: 1.8em 0;
+  }
+  .markdown-section a.card {
+    position: relative; display: block; padding: 15px 16px 16px; color: inherit;
+    background: var(--bg-panel); border: 1px solid var(--line);
+    border-radius: var(--radius); text-decoration: none;
+    transition: border-color .15s, background .15s, transform .15s;
+  }
+  .markdown-section a.card:hover {
+    background: var(--bg-raised); border-color: var(--accent-dim);
+    transform: translateY(-1px);
+  }
+  .card-idx {
+    position: absolute; top: 14px; right: 15px;
+    font-family: var(--font-mono); font-size: 10px; letter-spacing: .1em;
+    color: var(--text-dim); opacity: .55;
+  }
+  .card:hover .card-idx { color: var(--accent); opacity: 1; }
+  .card-title {
+    font-size: 14.5px; font-weight: 600; letter-spacing: -.012em;
+    color: var(--text-hi); margin-bottom: 5px; padding-right: 26px;
+  }
+  .card-desc { font-size: 13px; line-height: 1.5; color: var(--text-dim); }
+
   /* Code */
   .markdown-section code {
     font-family: var(--font-mono); font-size: .86em;
@@ -340,10 +369,14 @@
   .search a { color: var(--text-hi); }
   .search .search-keyword { color: var(--accent); background: var(--glow); }
   .github-corner { display: none; }
+  /* Below 1180px there is no reserved gutter, so the fixed controls would sit
+     on top of the prose. Float them out of the text column instead. */
+  @media (max-width: 1179px) {
+    #gutter-controls { top: auto; bottom: 16px; right: 16px; }
+  }
   @media (max-width: 768px) {
     .sidebar, .content, .sidebar-toggle { left: 0; }
     .markdown-section { padding: 32px 22px 80px; }
-    #gutter-controls { top: auto; bottom: 16px; right: 16px; }
   }
   </style>
 </head>
@@ -369,7 +402,8 @@
     plugins: [
       // Strip YAML frontmatter so it doesn't render as raw text.
       function (hook) { hook.beforeEach(function (c) { return c.replace(/^﻿?---\r?\n[\s\S]*?\r?\n---\r?\n/, ''); }); },
-      function (hook) { hook.doneEach(function () { renderMermaid(); wrapTables(); }); }
+      // cardify before wrapTables so it still sees the table as a direct child.
+      function (hook) { hook.doneEach(function () { renderMermaid(); cardify(); wrapTables(); }); }
     ]
   };
   </script>
@@ -415,6 +449,57 @@
   };
   controls.appendChild(gh); controls.appendChild(btn);
   document.body.appendChild(controls);
+
+  // On the home page only, rebuild the Sections table as a grid of cards:
+  // a two-column table whose first column is nothing but links. The markdown
+  // stays a table, so GitHub's repo view and other renderers are unaffected.
+  function cardify() {
+    var path = (location.hash || '').replace(/^#/, '').split('?')[0];
+    if (path !== '' && path !== '/' && path !== '/README') return;
+    document.querySelectorAll('.markdown-section table').forEach(function (t) {
+      var head = t.tHead && t.tHead.rows[0];
+      if (!head || head.cells.length !== 2) return;
+      var rows = t.tBodies[0] ? Array.prototype.slice.call(t.tBodies[0].rows) : [];
+      if (rows.length < 3) return;
+      var linksOnly = rows.every(function (r) {
+        var c = r.cells[0];
+        return c && c.children.length === 1 && c.children[0].tagName === 'A' &&
+               c.children[0].textContent.trim() === c.textContent.trim();
+      });
+      if (!linksOnly) return;
+
+      var grid = document.createElement('div');
+      grid.className = 'card-grid';
+      rows.forEach(function (r, i) {
+        var link = r.cells[0].children[0];
+        var card = document.createElement('a');
+        card.className = 'card';
+        card.href = link.getAttribute('href');
+
+        var idx = document.createElement('div');
+        idx.className = 'card-idx';
+        idx.textContent = (i + 1 < 10 ? '0' : '') + (i + 1);
+
+        var title = document.createElement('div');
+        title.className = 'card-title';
+        title.textContent = link.textContent;
+
+        var desc = document.createElement('div');
+        desc.className = 'card-desc';
+        desc.innerHTML = r.cells[1].innerHTML;
+        // An <a> inside an <a> is invalid, so flatten any links in the blurb.
+        desc.querySelectorAll('a').forEach(function (inner) {
+          var span = document.createElement('span');
+          span.textContent = inner.textContent;
+          inner.parentNode.replaceChild(span, inner);
+        });
+
+        card.appendChild(idx); card.appendChild(title); card.appendChild(desc);
+        grid.appendChild(card);
+      });
+      t.parentNode.replaceChild(grid, t);
+    });
+  }
 
   // Give every table its own horizontal scroll box; wide spec tables
   // (roofline params, chip comparisons) otherwise widen the whole page.
