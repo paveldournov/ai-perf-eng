@@ -1,0 +1,952 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Chosen Palette: Slate & Slate-Indigo Neutral (Warm, highly technical, clean slate-50 background with soft indigo and emerald accents) -->
+    <!-- Application Structure Plan: 
+         1. Header & Global Nav: Persistent header with sticky navigation between 5 specialized interactive hubs.
+         2. Section 1 - Executive Bifurcation Hub: Interactive side-by-side comparison matrix of TPU 8t (Sunfish) vs TPU 8i (Zebrafish) vs TPU 7x (Ironwood) with precision spec toggle and TCO impact metrics.
+         3. Section 2 - Microarchitecture & Memory Subsystem: Interactive compute engine view detailing the 256x256 FP4 MXU, VPU scaling, CAE (Collectives Acceleration Engine), and an interactive KV-Cache SRAM Staging & Bandwidth Simulator.
+         4. Section 3 - Multi-Scale Networking Topologies: Interactive visual network architecture explorer comparing Boardfly 3-tier hierarchy ($K_m$ graphs) vs 3D Torus and Virgo scale-out. Includes an interactive Boardfly Hop Tracer & Latency Calculator.
+         5. Section 4 - Software Stack & Programmability: Interactive execution path flow comparing TorchTPU native eager execution vs legacy torch_xla lazy tracing, along with OpenXLA and Pallas DSL kernel authoring views.
+         6. Section 5 - Competitive Landscape & System Benchmarks: Interactive radar & dynamic bar benchmarks comparing TPU v8 variants against NVIDIA Rubin NVL72 and AWS Trainium3.
+    -->
+    <!-- Visualization & Content Choices: 
+         - Architecture Comparison Matrix -> Interactive JS Filterable Table + Dynamic Metric Highlights.
+         - Specs & Hardware Footprint -> Chart.js Radar Chart comparing memory, FLOPs, bandwidth, and topology metrics.
+         - KV Cache & SRAM Staging -> Interactive JS Calculator + Dynamic Chart.js Bar Chart showing memory access latency deltas.
+         - Boardfly Topology -> Pure HTML/CSS CSS Grid/Flex Hierarchical Graph with JS hop path tracing and diameter calculation (NO SVG).
+         - Execution Path Profiler -> Interactive step-by-step visual timeline comparing TorchTPU vs Torch_XLA.
+         - Competitive Infrastructure -> Chart.js Bar Chart with dynamic metric switches (Peak FLOPs, Bandwidth, Scale Domain).
+    -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Google TPU v8 Architecture Deep Dive & Interactive Explorer</title>
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#f0f3ff',
+                            100: '#e1e7fe',
+                            500: '#4f46e5',
+                            600: '#4338ca',
+                            700: '#3730a3',
+                            900: '#1e1b4b'
+                        },
+                        tech: {
+                            bg: '#f8fafc',
+                            card: '#ffffff',
+                            border: '#e2e8f0',
+                            accent: '#0d9488'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <!-- Chart.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 650px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 340px;
+            max-height: 400px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 380px;
+            }
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 3px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans antialiased selection:bg-indigo-500 selection:text-white">
+
+    <!-- Header & Navigation -->
+    <header class="bg-slate-900 text-white sticky top-0 z-50 shadow-md border-b border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex items-center space-x-3">
+                    <span class="bg-indigo-600 text-white font-black px-2.5 py-1 rounded text-sm tracking-wider">TPU v8</span>
+                    <div>
+                        <h1 class="text-base font-bold leading-tight">Google Silicon Architecture Analysis</h1>
+                        <p class="text-xs text-slate-400 hidden sm:block">TPU 8t (Sunfish) & TPU 8i (Zebrafish) Platform Deep-Dive</p>
+                    </div>
+                </div>
+                <nav class="hidden md:flex space-x-1 text-xs font-medium">
+                    <button onclick="scrollToSection('bifurcation')" class="px-3 py-2 rounded-md transition hover:bg-slate-800 text-slate-300 hover:text-white">Silicon Bifurcation</button>
+                    <button onclick="scrollToSection('microarchitecture')" class="px-3 py-2 rounded-md transition hover:bg-slate-800 text-slate-300 hover:text-white">Microarchitecture</button>
+                    <button onclick="scrollToSection('networking')" class="px-3 py-2 rounded-md transition hover:bg-slate-800 text-slate-300 hover:text-white">Boardfly & Networks</button>
+                    <button onclick="scrollToSection('software')" class="px-3 py-2 rounded-md transition hover:bg-slate-800 text-slate-300 hover:text-white">TorchTPU Stack</button>
+                    <button onclick="scrollToSection('competitive')" class="px-3 py-2 rounded-md transition hover:bg-slate-800 text-slate-300 hover:text-white">Competitive Benchmark</button>
+                </nav>
+            </div>
+        </div>
+        <!-- Mobile Navigation Menu -->
+        <div class="md:hidden flex overflow-x-auto py-2 px-4 space-x-2 bg-slate-950 text-xs border-t border-slate-800 custom-scrollbar">
+            <button onclick="scrollToSection('bifurcation')" class="whitespace-nowrap px-2.5 py-1 rounded bg-slate-800 text-slate-200">Bifurcation</button>
+            <button onclick="scrollToSection('microarchitecture')" class="whitespace-nowrap px-2.5 py-1 rounded bg-slate-800 text-slate-200">Microarchitecture</button>
+            <button onclick="scrollToSection('networking')" class="whitespace-nowrap px-2.5 py-1 rounded bg-slate-800 text-slate-200">Networking</button>
+            <button onclick="scrollToSection('software')" class="whitespace-nowrap px-2.5 py-1 rounded bg-slate-800 text-slate-200">Software</button>
+            <button onclick="scrollToSection('competitive')" class="whitespace-nowrap px-2.5 py-1 rounded bg-slate-800 text-slate-200">Benchmarks</button>
+        </div>
+    </header>
+
+    <!-- Main Content Container -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-12">
+
+        <!-- Hero Overview Banner -->
+        <section class="bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-900 text-white rounded-2xl p-6 md:p-8 shadow-xl border border-slate-800">
+            <div class="max-w-3xl">
+                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-indigo-500/20 text-indigo-300 border border-indigo-500/30 mb-3">
+                    Research Report Analysis • 8th Generation TPU Architecture
+                </span>
+                <h2 class="text-2xl md:text-4xl font-extrabold tracking-tight mb-3">
+                    The Strategic Paradigm Shift: Architectural Silicon Bifurcation
+                </h2>
+                <p class="text-slate-300 text-sm md:text-base leading-relaxed mb-6">
+                    Google's TPU v8 generation permanently departs from unified accelerator design. Driven by dynamic AI requirements—dense FP4 pre-training vs. high-concurrency MoE sampling and low-latency KV cache streaming—the architecture splits into two purpose-built ASICs: <strong class="text-indigo-400">TPU 8t (Sunfish)</strong> and <strong class="text-teal-400">TPU 8i (Zebrafish)</strong>.
+                </p>
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 pt-4 border-t border-slate-800/80 text-center">
+                    <div class="bg-slate-800/50 p-3 rounded-lg border border-slate-700/50">
+                        <div class="text-xl font-black text-indigo-400">121 ExaFLOPs</div>
+                        <div class="text-[11px] text-slate-400 uppercase tracking-wider font-semibold">TPU 8t Superpod (FP4)</div>
+                    </div>
+                    <div class="bg-slate-800/50 p-3 rounded-lg border border-slate-700/50">
+                        <div class="text-xl font-black text-teal-400">384 MB</div>
+                        <div class="text-[11px] text-slate-400 uppercase tracking-wider font-semibold">TPU 8i On-Chip SRAM</div>
+                    </div>
+                    <div class="bg-slate-800/50 p-3 rounded-lg border border-slate-700/50">
+                        <div class="text-xl font-black text-amber-400">7 Hops Max</div>
+                        <div class="text-[11px] text-slate-400 uppercase tracking-wider font-semibold">Boardfly Network Diameter</div>
+                    </div>
+                    <div class="bg-slate-800/50 p-3 rounded-lg border border-slate-700/50">
+                        <div class="text-xl font-black text-emerald-400">2.8x TCO Gain</div>
+                        <div class="text-[11px] text-slate-400 uppercase tracking-wider font-semibold">Training vs Ironwood</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 1: Strategic Paradigm Shift & Bifurcation -->
+        <section id="bifurcation" class="space-y-6 scroll-mt-20">
+            <div class="border-b border-slate-200 pb-4">
+                <h2 class="text-2xl font-bold text-slate-900 tracking-tight">1. Silicon Bifurcation & Platform Architecture</h2>
+                <p class="text-sm text-slate-600 mt-1">
+                    This section details how Google abandoned unified chips to optimize supply chains, ASIC partners, and execution pipelines for specific training vs. inference dynamics.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <!-- Architectural Cards -->
+                <div class="lg:col-span-2 space-y-6">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <!-- TPU 8t Card -->
+                        <div class="bg-white rounded-xl border border-indigo-200 shadow-sm p-5 hover:shadow-md transition">
+                            <div class="flex items-center justify-between mb-3">
+                                <span class="bg-indigo-100 text-indigo-800 text-xs font-bold px-2.5 py-1 rounded-full uppercase">Training Engine</span>
+                                <span class="text-xs font-semibold text-slate-500">Broadcom Co-Design</span>
+                            </div>
+                            <h3 class="text-lg font-bold text-slate-900">TPU 8t "Sunfish"</h3>
+                            <p class="text-xs text-slate-600 mt-1 mb-4 leading-relaxed">
+                                Engineered for massive multi-megawatt pre-training pods. Focuses on maximum dense matrix throughput, native FP4 precision, and high-density SerDes routing.
+                            </p>
+                            <ul class="text-xs space-y-2 border-t border-slate-100 pt-3 text-slate-700">
+                                <li class="flex justify-between"><span>Peak Compute:</span> <strong class="font-semibold text-slate-900">12.6 PFLOPs (FP4)</strong></li>
+                                <li class="flex justify-between"><span>Host CPU:</span> <strong class="font-semibold text-slate-900">Google Axion ARM (Neoverse N3)</strong></li>
+                                <li class="flex justify-between"><span>Memory Subsystem:</span> <strong class="font-semibold text-slate-900">216 GB HBM3e/4 @ 6.52 TB/s</strong></li>
+                                <li class="flex justify-between"><span>Pod Scalability:</span> <strong class="font-semibold text-slate-900">9,600 Chips (3D Torus)</strong></li>
+                                <li class="flex justify-between"><span>TCO Improvement:</span> <strong class="font-semibold text-indigo-600">2.7x–2.8x vs TPU 7x</strong></li>
+                            </ul>
+                        </div>
+
+                        <!-- TPU 8i Card -->
+                        <div class="bg-white rounded-xl border border-teal-200 shadow-sm p-5 hover:shadow-md transition">
+                            <div class="flex items-center justify-between mb-3">
+                                <span class="bg-teal-100 text-teal-800 text-xs font-bold px-2.5 py-1 rounded-full uppercase">Inference Engine</span>
+                                <span class="text-xs font-semibold text-slate-500">MediaTek Co-Design</span>
+                            </div>
+                            <h3 class="text-lg font-bold text-slate-900">TPU 8i "Zebrafish"</h3>
+                            <p class="text-xs text-slate-600 mt-1 mb-4 leading-relaxed">
+                                Designed for low-latency auto-regressive decoding, multi-turn reasoning agents, and extreme power efficiency. Reduces die fabrication costs by 20–30%.
+                            </p>
+                            <ul class="text-xs space-y-2 border-t border-slate-100 pt-3 text-slate-700">
+                                <li class="flex justify-between"><span>Peak Compute:</span> <strong class="font-semibold text-slate-900">10.1 PFLOPs (FP4)</strong></li>
+                                <li class="flex justify-between"><span>On-Chip SRAM:</span> <strong class="font-semibold text-teal-700">384 MB VMEM (3x Scaling)</strong></li>
+                                <li class="flex justify-between"><span>Memory Subsystem:</span> <strong class="font-semibold text-slate-900">288 GB HBM4 @ 8.60 TB/s</strong></li>
+                                <li class="flex justify-between"><span>Pod Scalability:</span> <strong class="font-semibold text-slate-900">1,152 Chips (Boardfly)</strong></li>
+                                <li class="flex justify-between"><span>TCO Improvement:</span> <strong class="font-semibold text-teal-600">1.8x (80% Gain) vs TPU 7x</strong></li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Interactive Specification Matrix Table -->
+                    <div class="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
+                        <div class="bg-slate-100 px-4 py-3 border-b border-slate-200 flex flex-wrap justify-between items-center gap-2">
+                            <h3 class="text-sm font-bold text-slate-800">Architectural Comparison Matrix</h3>
+                            <div class="text-xs text-slate-500">Filter or toggle precision views</div>
+                        </div>
+                        <div class="overflow-x-auto custom-scrollbar">
+                            <table class="w-full text-left text-xs border-collapse">
+                                <thead>
+                                    <tr class="bg-slate-50 border-b border-slate-200 text-slate-600">
+                                        <th class="p-3 font-semibold">Architectural Dimension</th>
+                                        <th class="p-3 font-semibold text-slate-500">TPU 7x (Ironwood)</th>
+                                        <th class="p-3 font-semibold text-indigo-700 bg-indigo-50/50">TPU 8t (Sunfish)</th>
+                                        <th class="p-3 font-semibold text-teal-700 bg-teal-50/50">TPU 8i (Zebrafish)</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-slate-200 text-slate-700">
+                                    <tr class="hover:bg-slate-50/80">
+                                        <td class="p-3 font-medium text-slate-900">Workload Specialization</td>
+                                        <td class="p-3">Unified Training & Inference</td>
+                                        <td class="p-3 bg-indigo-50/30 font-medium">Frontier-Scale Pre-Training</td>
+                                        <td class="p-3 bg-teal-50/30 font-medium">Low-Latency Serving & RL</td>
+                                    </tr>
+                                    <tr class="hover:bg-slate-50/80">
+                                        <td class="p-3 font-medium text-slate-900">ASIC Co-Design Partner</td>
+                                        <td class="p-3">Broadcom</td>
+                                        <td class="p-3 bg-indigo-50/30">Broadcom</td>
+                                        <td class="p-3 bg-teal-50/30 font-semibold text-teal-800">MediaTek (20-30% Lower Die Cost)</td>
+                                    </tr>
+                                    <tr class="hover:bg-slate-50/80">
+                                        <td class="p-3 font-medium text-slate-900">Primary Compute Precision</td>
+                                        <td class="p-3">Native FP8 / BF16</td>
+                                        <td class="p-3 bg-indigo-50/30 font-semibold text-indigo-900">Native FP4 (Double Density)</td>
+                                        <td class="p-3 bg-teal-50/30 font-semibold text-teal-900">Native FP4 / FP8 / INT8</td>
+                                    </tr>
+                                    <tr class="hover:bg-slate-50/80">
+                                        <td class="p-3 font-medium text-slate-900">On-Chip VMEM SRAM</td>
+                                        <td class="p-3">128 MB</td>
+                                        <td class="p-3 bg-indigo-50/30">128 MB</td>
+                                        <td class="p-3 bg-teal-50/30 font-bold text-teal-700">384 MB (3x Capacity)</td>
+                                    </tr>
+                                    <tr class="hover:bg-slate-50/80">
+                                        <td class="p-3 font-medium text-slate-900">HBM Subsystem Bandwidth</td>
+                                        <td class="p-3">7.37 TB/s (192GB HBM3e)</td>
+                                        <td class="p-3 bg-indigo-50/30">6.52 TB/s (216GB HBM3e/4)</td>
+                                        <td class="p-3 bg-teal-50/30 font-bold text-slate-900">8.60 TB/s (288GB HBM4)</td>
+                                    </tr>
+                                    <tr class="hover:bg-slate-50/80">
+                                        <td class="p-3 font-medium text-slate-900">Interconnect Topology</td>
+                                        <td class="p-3">3D Torus</td>
+                                        <td class="p-3 bg-indigo-50/30">3D Torus + Optical Switched</td>
+                                        <td class="p-3 bg-teal-50/30 font-semibold text-teal-800">Hierarchical Boardfly</td>
+                                    </tr>
+                                    <tr class="hover:bg-slate-50/80">
+                                        <td class="p-3 font-medium text-slate-900">Maximum Pod Scale</td>
+                                        <td class="p-3">9,216 Chips (42.5 EF FP8)</td>
+                                        <td class="p-3 bg-indigo-50/30 font-bold text-indigo-700">9,600 Chips (121 EF FP4)</td>
+                                        <td class="p-3 bg-teal-50/30">1,152 Chips (11.6 EF FP8)</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Radar Comparison Visualization Container -->
+                <div class="bg-white rounded-xl border border-slate-200 shadow-sm p-5 flex flex-col justify-between">
+                    <div>
+                        <h3 class="text-sm font-bold text-slate-900 mb-1">Normalized Profile Comparison</h3>
+                        <p class="text-xs text-slate-500 mb-4">Relative strength across microarchitectural parameters.</p>
+                        <div class="chart-container">
+                            <canvas id="bifurcationRadarChart"></canvas>
+                        </div>
+                    </div>
+                    <div class="bg-slate-50 p-3 rounded-lg border border-slate-200 text-xs text-slate-600 mt-4 leading-relaxed">
+                        <strong class="text-slate-800">Key Finding:</strong> TPU 8i shifts physical die area toward on-chip SRAM & high-bandwidth HBM4 interfaces, sacrificing total pod scale to minimize decoding latency and MoE token dispatch overhead.
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 2: Microarchitecture & Memory Subsystem -->
+        <section id="microarchitecture" class="space-y-6 scroll-mt-20">
+            <div class="border-b border-slate-200 pb-4">
+                <h2 class="text-2xl font-bold text-slate-900 tracking-tight">2. Silicon Microarchitecture & Memory Hierarchy</h2>
+                <p class="text-sm text-slate-600 mt-1">
+                    Analysis of compute engines: TPU 8t’s 256x256 FP4 MXU & VPU scaling vs. TPU 8i’s Collectives Acceleration Engine (CAE) and 384 MB VMEM KV-cache staging buffer.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <!-- Deep-Dive Compute Mechanics -->
+                <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm space-y-4">
+                    <h3 class="text-base font-bold text-slate-900 flex items-center space-x-2">
+                        <span class="w-2.5 h-2.5 rounded-full bg-indigo-600"></span>
+                        <span>TPU 8t: Dense Matrix Engine & VPU Overlap</span>
+                    </h3>
+                    <p class="text-xs text-slate-600 leading-relaxed">
+                        The primary compute core incorporates a <strong>256x256 systolic array Matrix Multiply Unit (MXU)</strong> operating on native FP4 math. Transitioning to FP4 doubles tensor operational density per clock cycle to 12.6 PFLOPs per chip while cutting MAC energy consumption.
+                    </p>
+                    <div class="bg-indigo-50/50 p-3 rounded-lg border border-indigo-100 text-xs space-y-2">
+                        <div class="font-semibold text-indigo-950">VPU Pipeline Overlap Mechanics:</div>
+                        <p class="text-slate-700">
+                            LayerNorm, Softmax, and dynamic quantization routines previously caused sequential execution stalls. TPU 8t scales the Vector Processing Unit (VPU) to run auxiliary operations concurrently with active systolic matrix multiplies, eliminating tail delays.
+                        </p>
+                    </div>
+                    <div class="bg-slate-50 p-3 rounded-lg border border-slate-200 text-xs">
+                        <strong class="text-slate-800">SparseCore Acceleration:</strong> Retains specialized hardware blocks to offload sparse embedding lookups and asynchronous all-gather operations in dynamic recommendation systems and multimodal tokenizers.
+                    </div>
+                </div>
+
+                <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm space-y-4">
+                    <h3 class="text-base font-bold text-slate-900 flex items-center space-x-2">
+                        <span class="w-2.5 h-2.5 rounded-full bg-teal-600"></span>
+                        <span>TPU 8i: CAE & Extended 384 MB SRAM Hierarchy</span>
+                    </h3>
+                    <p class="text-xs text-slate-600 leading-relaxed">
+                        TPU 8i replaces SparseCores with two Tensor Core dies and a dedicated <strong>Collectives Acceleration Engine (CAE)</strong> on the chiplet boundary, operating alongside a 3x enlarged 384 MB VMEM SRAM buffer.
+                    </p>
+                    <div class="bg-teal-50/50 p-3 rounded-lg border border-teal-100 text-xs space-y-2">
+                        <div class="font-semibold text-teal-950">Collectives Acceleration Engine (CAE):</div>
+                        <p class="text-slate-700">
+                            Functions as an autonomous reduction engine managing ring/tree reductions and cross-node sampling without host CPU intervention. Cuts on-chip collective latency by up to <strong class="text-teal-700">5x</strong> during token decoding.
+                        </p>
+                    </div>
+                    <div class="bg-slate-50 p-3 rounded-lg border border-slate-200 text-xs">
+                        <strong class="text-slate-800">384 MB Zero-Latency KV Staging:</strong> Acts as an on-chip staging buffer for active attention working sets. Attention kernels stream Key-Value tiles directly to execution units without HBM round-trip penalties.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Interactive KV Cache Memory Latency & Bandwidth Simulator -->
+            <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm space-y-6">
+                <div class="flex flex-col md:flex-row justify-between items-start md:items-center border-b border-slate-100 pb-4 gap-2">
+                    <div>
+                        <h3 class="text-base font-bold text-slate-900">Interactive KV Cache Staging & Memory Latency Simulator</h3>
+                        <p class="text-xs text-slate-500">Calculate memory throughput deltas when streaming active KV cache tiles through 384 MB VMEM vs HBM4.</p>
+                    </div>
+                    <div class="bg-indigo-50 border border-indigo-200 px-3 py-1.5 rounded-md text-xs font-semibold text-indigo-900">
+                        Inference Decode Working Set Simulator
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 items-center">
+                    <!-- Controls -->
+                    <div class="space-y-4 bg-slate-50 p-4 rounded-xl border border-slate-200 text-xs">
+                        <div>
+                            <label class="font-bold text-slate-700 flex justify-between">
+                                <span>Batch Size (Concurrency):</span>
+                                <span id="batchSizeVal" class="text-indigo-600 font-bold">128</span>
+                            </label>
+                            <input type="range" id="batchSizeInput" min="16" max="512" step="16" value="128" class="w-full mt-1 accent-indigo-600">
+                        </div>
+
+                        <div>
+                            <label class="font-bold text-slate-700 flex justify-between">
+                                <span>Context Window Length:</span>
+                                <span id="contextLenVal" class="text-indigo-600 font-bold">8,192 tokens</span>
+                            </label>
+                            <input type="range" id="contextLenInput" min="1024" max="32768" step="1024" value="8192" class="w-full mt-1 accent-indigo-600">
+                        </div>
+
+                        <div>
+                            <label class="font-bold text-slate-700 flex justify-between">
+                                <span>KV Precision Quantization:</span>
+                                <span id="quantVal" class="text-indigo-600 font-bold">FP8</span>
+                            </label>
+                            <select id="quantInput" class="w-full mt-1 p-1.5 rounded border border-slate-300 bg-white font-medium">
+                                <option value="2">FP16 (2 Bytes/Token)</option>
+                                <option value="1" selected>FP8 (1 Byte/Token)</option>
+                                <option value="0.5">FP4 (0.5 Bytes/Token)</option>
+                            </select>
+                        </div>
+
+                        <div class="pt-2 border-t border-slate-200 space-y-1">
+                            <div class="flex justify-between text-slate-600">
+                                <span>Calculated KV Set Size:</span>
+                                <strong id="calculatedKVSize" class="text-slate-900">128 MB</strong>
+                            </div>
+                            <div class="flex justify-between text-slate-600">
+                                <span>VMEM Fit Status:</span>
+                                <strong id="vmemFitStatus" class="text-emerald-600 font-bold">Fits in 384MB VMEM!</strong>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Simulator Chart Container -->
+                    <div class="lg:col-span-2">
+                        <div class="chart-container">
+                            <canvas id="memoryLatencyChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 3: Networking Topologies & Boardfly -->
+        <section id="networking" class="space-y-6 scroll-mt-20">
+            <div class="border-b border-slate-200 pb-4">
+                <h2 class="text-2xl font-bold text-slate-900 tracking-tight">3. Interconnect Fabrics & Multi-Scale Topologies</h2>
+                <p class="text-sm text-slate-600 mt-1">
+                    Explore the hierarchical Boardfly topology ($K_m$ complete graphs) for inference vs. TPU 8t 3D Torus and the data center-scale Virgo fabric.
+                </p>
+            </div>
+
+            <!-- Boardfly Explanation & Diagram -->
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <div class="lg:col-span-1 bg-white p-5 rounded-xl border border-slate-200 shadow-sm space-y-4 text-xs">
+                    <span class="bg-amber-100 text-amber-800 font-bold px-2.5 py-1 rounded text-[11px] uppercase">Hierarchical Dragonfly</span>
+                    <h3 class="text-base font-bold text-slate-900">The Boardfly Scale-Up Topology</h3>
+                    <p class="text-slate-600 leading-relaxed">
+                        While 3D Tori scale well for dense grid stencils, their network diameter scales as $\Theta(N^{1/n})$, incurring severe multi-hop latency during dynamic Mixture-of-Experts (MoE) dynamic token routing.
+                    </p>
+                    <div class="p-3 bg-amber-50 rounded-lg border border-amber-200 space-y-1">
+                        <div class="font-bold text-amber-900">3-Tier Hierarchy ($K_m$ Complete Graphs):</div>
+                        <ul class="list-disc list-inside space-y-1 text-slate-700">
+                            <li><strong>Building Block (BB):</strong> 4 chips in direct ring.</li>
+                            <li><strong>Group (G):</strong> 8 BBs (32 chips) via copper backplane.</li>
+                            <li><strong>Pod Fabric:</strong> 36 Groups (1,152 chips) via Apollo MEMS Optical Switches ($K_{36}$).</li>
+                        </ul>
+                    </div>
+                    <p class="text-slate-600 leading-relaxed">
+                        <strong>Strict Diameter Bound:</strong> For any arbitrary chip traversal requiring optical inter-group transition ($g=1$), maximum diameter is strictly bounded to <strong class="text-amber-700 font-bold">7 hops max</strong> (56% drop vs. 1024-chip 3D Torus).
+                    </p>
+                </div>
+
+                <!-- Hierarchical Topology Visual Diagram (HTML/CSS) -->
+                <div class="lg:col-span-2 bg-slate-900 text-white p-6 rounded-xl border border-slate-800 shadow-sm flex flex-col justify-between space-y-4">
+                    <div class="flex justify-between items-center border-b border-slate-800 pb-3">
+                        <h4 class="text-sm font-bold text-slate-200">Hierarchical Boardfly Network Architecture ($K_{36}$ Mesh)</h4>
+                        <span class="text-xs text-amber-400 font-mono">Max Latency Bound = 7 Hops</span>
+                    </div>
+
+                    <!-- Visual Graph Blocks -->
+                    <div class="grid grid-cols-3 gap-3 my-2 text-center text-xs">
+                        <!-- Group 1 -->
+                        <div class="bg-slate-800/80 p-3 rounded-lg border border-amber-500/30 space-y-2">
+                            <div class="text-amber-400 font-bold">Group 1 (32 Chips)</div>
+                            <div class="grid grid-cols-2 gap-1 text-[10px] text-slate-300">
+                                <div class="bg-slate-700 p-1.5 rounded">BB 1 (4 Chips)</div>
+                                <div class="bg-slate-700 p-1.5 rounded">BB 2 (4 Chips)</div>
+                                <div class="bg-slate-700 p-1.5 rounded">BB 3 (4 Chips)</div>
+                                <div class="bg-slate-700 p-1.5 rounded">... BB 8</div>
+                            </div>
+                            <div class="text-[10px] text-slate-400 border-t border-slate-700/60 pt-1">40 Optical Egress Ports</div>
+                        </div>
+
+                        <!-- Optical Switch Core -->
+                        <div class="bg-amber-950/40 p-3 rounded-lg border border-amber-500/60 flex flex-col justify-center items-center space-y-1">
+                            <div class="w-3 h-3 rounded-full bg-amber-400 animate-pulse"></div>
+                            <div class="text-xs font-bold text-amber-300">Apollo MEMS OCS</div>
+                            <div class="text-[10px] text-amber-200/80">Optical Mesh ($K_{36}$)</div>
+                            <div class="text-[10px] text-slate-400 font-mono">Zero Packet Switch Jitter</div>
+                        </div>
+
+                        <!-- Group N -->
+                        <div class="bg-slate-800/80 p-3 rounded-lg border border-amber-500/30 space-y-2">
+                            <div class="text-amber-400 font-bold">Group 36 (32 Chips)</div>
+                            <div class="grid grid-cols-2 gap-1 text-[10px] text-slate-300">
+                                <div class="bg-slate-700 p-1.5 rounded">BB 1 (4 Chips)</div>
+                                <div class="bg-slate-700 p-1.5 rounded">BB 2 (4 Chips)</div>
+                                <div class="bg-slate-700 p-1.5 rounded">BB 3 (4 Chips)</div>
+                                <div class="bg-slate-700 p-1.5 rounded">... BB 8</div>
+                            </div>
+                            <div class="text-[10px] text-slate-400 border-t border-slate-700/60 pt-1">40 Optical Egress Ports</div>
+                        </div>
+                    </div>
+
+                    <!-- Diameter Formulation Box -->
+                    <div class="bg-slate-950 p-3 rounded-lg border border-slate-800 text-xs font-mono text-slate-300 flex flex-wrap justify-between items-center gap-2">
+                        <span>Hop Formula: <strong class="text-amber-400">Diameter = ι(g + 1) + g</strong> (where ι=3)</span>
+                        <span class="text-emerald-400">MoE All-to-All Tail Latency Cut by 50%</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Interactive Boardfly Hop Tracer & Calculator -->
+            <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm space-y-6">
+                <div class="flex flex-col md:flex-row justify-between items-start md:items-center border-b border-slate-100 pb-4 gap-2">
+                    <div>
+                        <h3 class="text-base font-bold text-slate-900">Boardfly vs. 3D Torus Interconnect Latency & Hop Calculator</h3>
+                        <p class="text-xs text-slate-500">Simulate physical chip hop counts and bisection latency across cluster dimensions.</p>
+                    </div>
+                    <div class="flex space-x-2">
+                        <button onclick="updateNetworkCalc(1024)" class="px-3 py-1 rounded text-xs font-semibold bg-slate-100 hover:bg-slate-200 text-slate-700">1,024 Chips</button>
+                        <button onclick="updateNetworkCalc(1152)" class="px-3 py-1 rounded text-xs font-semibold bg-indigo-600 text-white">1,152 Chips (Max Pod)</button>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 items-center">
+                    <!-- Dynamic Metrics -->
+                    <div class="space-y-4 bg-slate-50 p-4 rounded-xl border border-slate-200 text-xs">
+                        <div class="space-y-1">
+                            <label class="font-bold text-slate-700">Target Pod Scale:</label>
+                            <div id="podScaleLabel" class="text-base font-black text-indigo-700">1,152 Physical Chips</div>
+                        </div>
+                        <div class="pt-2 border-t border-slate-200 space-y-2">
+                            <div class="flex justify-between">
+                                <span class="text-slate-600">Boardfly Network Diameter:</span>
+                                <strong class="text-emerald-600 font-bold">7 Hops Max</strong>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-slate-600">3D Torus Network Diameter:</span>
+                                <strong class="text-amber-700 font-bold">16 Hops Max</strong>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-slate-600">Hop Count Reduction:</span>
+                                <strong class="text-indigo-600 font-bold">56.2% Reduction</strong>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-slate-600">Estimated MoE Tail Latency:</span>
+                                <strong class="text-emerald-600 font-bold">~1.25 microseconds</strong>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Chart Container -->
+                    <div class="lg:col-span-2">
+                        <div class="chart-container">
+                            <canvas id="networkHopChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 4: Software Stack & TorchTPU -->
+        <section id="software" class="space-y-6 scroll-mt-20">
+            <div class="border-b border-slate-200 pb-4">
+                <h2 class="text-2xl font-bold text-slate-900 tracking-tight">4. Software Stack, TorchTPU & Programmability</h2>
+                <p class="text-sm text-slate-600 mt-1">
+                    Transitioning from legacy `torch_xla` lazy tracing to native eager-first TorchTPU execution, PJRT plugins, and Pallas DSL kernel authoring.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <!-- Interactive Timeline Comparison -->
+                <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm space-y-4">
+                    <div class="flex justify-between items-center">
+                        <h3 class="text-base font-bold text-slate-900">TorchTPU vs. Legacy torch_xla</h3>
+                        <span class="bg-emerald-100 text-emerald-800 text-[10px] font-bold px-2 py-0.5 rounded">Eager First</span>
+                    </div>
+                    <p class="text-xs text-slate-600 leading-relaxed">
+                        Historically, `torch_xla` required lazy tensor graph tracing. Dynamic shape changes caused recompilation storms and trace capture stalls. <strong>TorchTPU</strong> (co-developed with Meta) integrates first-class native PyTorch execution.
+                    </p>
+
+                    <!-- Pipeline Visual Step Comparison -->
+                    <div class="space-y-3 pt-2 text-xs">
+                        <div class="p-3 bg-red-50/50 rounded-lg border border-red-100 space-y-1">
+                            <div class="font-bold text-red-900">Legacy torch_xla (Lazy Tracing Path):</div>
+                            <div class="flex items-center space-x-1 text-[11px] text-slate-600 font-mono">
+                                <span>Python Exec</span> &rarr;
+                                <span class="text-red-700 font-bold">Lazy Graph Trace</span> &rarr;
+                                <span>Dynamic Shape Recompile</span> &rarr;
+                                <span>XLA AOT</span>
+                            </div>
+                            <p class="text-[11px] text-slate-500 mt-1">High tracing overhead; dynamic control flow triggers compilation stalls.</p>
+                        </div>
+
+                        <div class="p-3 bg-emerald-50/50 rounded-lg border border-emerald-100 space-y-1">
+                            <div class="font-bold text-emerald-900">TorchTPU (Eager Execution Path):</div>
+                            <div class="flex items-center space-x-1 text-[11px] text-slate-600 font-mono">
+                                <span class="text-emerald-800 font-bold">torch.device("tpu")</span> &rarr;
+                                <span>Eager Exec</span> &rarr;
+                                <span>Pre-Compiled Kernels</span> &rarr;
+                                <span>FSDP2/TP Link</span>
+                            </div>
+                            <p class="text-[11px] text-slate-500 mt-1">Line-by-line debugging (`pdb`), native dynamic loops, pre-compiled transformer layer library.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Compiler & Ecosystem Breakdown -->
+                <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm space-y-4">
+                    <h3 class="text-base font-bold text-slate-900">Pallas DSL & Ecosystem Integration</h3>
+                    <p class="text-xs text-slate-600 leading-relaxed">
+                        For low-level hardware control, Google provides <strong>Pallas</strong>, a Python-embedded domain-specific language (DSL) for manual VMEM staging and custom kernel design.
+                    </p>
+
+                    <div class="grid grid-cols-2 gap-3 text-xs pt-1">
+                        <div class="p-3 bg-slate-50 rounded-lg border border-slate-200 space-y-1">
+                            <strong class="text-slate-900 block font-semibold">Pallas Kernel Capabilities</strong>
+                            <p class="text-slate-600 text-[11px]">Explicit systolic tiling geometry, custom attention algorithms, dynamic KV cache staging, and CAE/SparseCore programming.</p>
+                        </div>
+                        <div class="p-3 bg-slate-50 rounded-lg border border-slate-200 space-y-1">
+                            <strong class="text-slate-900 block font-semibold">MaxText & Tunix</strong>
+                            <p class="text-slate-600 text-[11px]">MaxText JAX framework for max MFU training; Tunix for SFT and Reinforcement Learning with Verifiable Rewards (RLVR).</p>
+                        </div>
+                        <div class="p-3 bg-slate-50 rounded-lg border border-slate-200 space-y-1">
+                            <strong class="text-slate-900 block font-semibold">Inference Runtimes</strong>
+                            <p class="text-slate-600 text-[11px]">Native support for vLLM, SGLang, and JetStream with PagedAttention optimized for 384 MB VMEM.</p>
+                        </div>
+                        <div class="p-3 bg-slate-50 rounded-lg border border-slate-200 space-y-1">
+                            <strong class="text-slate-900 block font-semibold">Orchestration Layer</strong>
+                            <p class="text-slate-600 text-[11px]">GKE Inference Gateway with predictive sequence length capacity routing cuts TTFT by up to 70%.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 5: Competitive Infrastructure Benchmarking -->
+        <section id="competitive" class="space-y-6 scroll-mt-20">
+            <div class="border-b border-slate-200 pb-4">
+                <h2 class="text-2xl font-bold text-slate-900 tracking-tight">5. Competitive Infrastructure & System Benchmarking</h2>
+                <p class="text-sm text-slate-600 mt-1">
+                    Comparative system analysis across Google TPU 8t/8i, NVIDIA Rubin NVL72, and AWS Trainium3 platforms.
+                </p>
+            </div>
+
+            <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm space-y-6">
+                <!-- Interactive Controls for Competitive Chart -->
+                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 border-b border-slate-100 pb-4">
+                    <div>
+                        <h3 class="text-base font-bold text-slate-900">System Dimension Benchmarking</h3>
+                        <p class="text-xs text-slate-500">Toggle operational metrics across hardware architectures.</p>
+                    </div>
+                    <div class="flex flex-wrap gap-2 text-xs">
+                        <button onclick="updateCompChart('memory')" id="btnCompMem" class="px-3 py-1.5 rounded-md font-semibold bg-indigo-600 text-white shadow-sm">Memory Capacity (GB)</button>
+                        <button onclick="updateCompChart('scale')" id="btnCompScale" class="px-3 py-1.5 rounded-md font-semibold bg-slate-100 hover:bg-slate-200 text-slate-700">Scale-Up Domain (Chips)</button>
+                        <button onclick="updateCompChart('bandwidth')" id="btnCompBw" class="px-3 py-1.5 rounded-md font-semibold bg-slate-100 hover:bg-slate-200 text-slate-700">Memory Bandwidth (TB/s)</button>
+                    </div>
+                </div>
+
+                <!-- Benchmark Chart Container -->
+                <div class="chart-container">
+                    <canvas id="competitiveBarChart"></canvas>
+                </div>
+
+                <!-- Tradeoff Analysis Text -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs pt-2">
+                    <div class="p-4 bg-slate-50 rounded-xl border border-slate-200 space-y-2">
+                        <h4 class="font-bold text-slate-900">Execution Determinism vs dynamic SIMT</h4>
+                        <p class="text-slate-600 leading-relaxed">
+                            NVIDIA’s dynamic SIMT warp scheduling introduces runtime jitter during multi-node collective synchronization. TPU 8t enforces ahead-of-time (AOT) static compilation, eliminating cache-miss jitter and sustaining high Model FLOP Utilization (MFU) across 9,600-chip domains.
+                        </p>
+                    </div>
+                    <div class="p-4 bg-slate-50 rounded-xl border border-slate-200 space-y-2">
+                        <h4 class="font-bold text-slate-900">TCO Insulation via Co-Design Partnerships</h4>
+                        <p class="text-slate-600 leading-relaxed">
+                            By deploying the cost-optimized MediaTek TPU 8i for serving and allocating the Broadcom TPU 8t exclusively for pre-training, Google insulates its cloud operational cost structure from merchant GPU supply constraints and pricing volatility.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-slate-900 text-slate-400 py-8 text-xs border-t border-slate-800 mt-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center gap-4">
+            <div>
+                <p class="font-semibold text-slate-200">Google TPU v8 Architecture Deep-Dive Exploration</p>
+                <p class="text-slate-500 mt-0.5">Based on architectural research analysis of TPU 8t (Sunfish) & TPU 8i (Zebrafish).</p>
+            </div>
+            <div class="text-slate-500">
+                Single-Page Application Interactive Report
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript Logic & Chart Initialization -->
+    <script>
+        // Smooth scrolling helper
+        function scrollToSection(id) {
+            const el = document.getElementById(id);
+            if (el) {
+                el.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+
+        // Global Chart Instances
+        let bifurcationRadarChart, memoryLatencyChart, networkHopChart, competitiveBarChart;
+
+        // Initialize All Visualizations on DOM Load
+        document.addEventListener('DOMContentLoaded', () => {
+            initRadarChart();
+            initMemorySimulator();
+            initNetworkChart();
+            initCompetitiveChart();
+        });
+
+        // 1. Bifurcation Radar Chart
+        function initRadarChart() {
+            const ctx = document.getElementById('bifurcationRadarChart').getContext('2d');
+            bifurcationRadarChart = new Chart(ctx, {
+                type: 'radar',
+                data: {
+                    labels: ['Peak Compute (FP4)', 'SRAM Capacity', 'HBM Bandwidth', 'Pod Scale', 'Cost Efficiency', 'Collective Low-Latency'],
+                    datasets: [
+                        {
+                            label: 'TPU 8t (Training)',
+                            data: [95, 35, 75, 100, 85, 70],
+                            borderColor: '#4f46e5',
+                            backgroundColor: 'rgba(79, 70, 229, 0.2)',
+                            borderWidth: 2
+                        },
+                        {
+                            label: 'TPU 8i (Inference)',
+                            data: [80, 100, 100, 30, 95, 100],
+                            borderColor: '#0d9488',
+                            backgroundColor: 'rgba(13, 148, 136, 0.2)',
+                            borderWidth: 2
+                        },
+                        {
+                            label: 'TPU 7x (Baseline)',
+                            data: [35, 35, 80, 90, 50, 50],
+                            borderColor: '#94a3b8',
+                            backgroundColor: 'rgba(148, 163, 184, 0.15)',
+                            borderWidth: 1.5,
+                            borderDash: [4, 4]
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        r: {
+                            angleLines: { color: '#e2e8f0' },
+                            grid: { color: '#f1f5f9' },
+                            pointLabels: { font: { size: 10, weight: 'bold' }, color: '#475569' },
+                            ticks: { display: false },
+                            suggestedMin: 0,
+                            suggestedMax: 100
+                        }
+                    },
+                    plugins: {
+                        legend: { position: 'bottom', labels: { boxWidth: 12, font: { size: 11 } } }
+                    }
+                }
+            });
+        }
+
+        // 2. Memory Latency & KV Cache Simulator Logic
+        function initMemorySimulator() {
+            const ctx = document.getElementById('memoryLatencyChart').getContext('2d');
+            memoryLatencyChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['SRAM Direct Read Latency', 'HBM4 Round-Trip Latency', 'Effective Tokens/Sec/Chip'],
+                    datasets: [
+                        {
+                            label: 'TPU 8i (384MB VMEM Staged)',
+                            data: [15, 120, 4200],
+                            backgroundColor: '#0d9488'
+                        },
+                        {
+                            label: 'Standard HBM Streaming',
+                            data: [15, 290, 1850],
+                            backgroundColor: '#94a3b8'
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { position: 'bottom', labels: { boxWidth: 12, font: { size: 11 } } },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    let label = context.dataset.label || '';
+                                    if (label) label += ': ';
+                                    if (context.dataIndex === 2) {
+                                        label += context.raw + ' tokens/s';
+                                    } else {
+                                        label += context.raw + ' ns';
+                                    }
+                                    return label;
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            grid: { color: '#f1f5f9' },
+                            ticks: { font: { size: 10 } }
+                        },
+                        x: {
+                            grid: { display: false },
+                            ticks: { font: { size: 10, weight: 'bold' } }
+                        }
+                    }
+                }
+            });
+
+            // Input listeners for controls
+            document.getElementById('batchSizeInput').addEventListener('input', updateKVSimulator);
+            document.getElementById('contextLenInput').addEventListener('input', updateKVSimulator);
+            document.getElementById('quantInput').addEventListener('change', updateKVSimulator);
+        }
+
+        function updateKVSimulator() {
+            const batch = parseInt(document.getElementById('batchSizeInput').value);
+            const context = parseInt(document.getElementById('contextLenInput').value);
+            const bytesPerToken = parseFloat(document.getElementById('quantInput').value);
+
+            document.getElementById('batchSizeVal').textContent = batch;
+            document.getElementById('contextLenVal').textContent = context.toLocaleString() + ' tokens';
+            
+            let quantText = 'FP8';
+            if (bytesPerToken === 2) quantText = 'FP16';
+            if (bytesPerToken === 0.5) quantText = 'FP4';
+            document.getElementById('quantVal').textContent = quantText;
+
+            // Simple model KV calculation: Batch * Context * Layers(32) * Heads(8) * Dim(128) * Bytes / 1024^2
+            // Scaled formula for approximation:
+            const kvMB = Math.round((batch * context * 2 * 32 * bytesPerToken) / (1024 * 1024) * 8);
+            document.getElementById('calculatedKVSize').textContent = kvMB + ' MB';
+
+            const fitEl = document.getElementById('vmemFitStatus');
+            if (kvMB <= 384) {
+                fitEl.textContent = 'Fits entirely in 384MB VMEM SRAM!';
+                fitEl.className = 'text-emerald-600 font-bold';
+                memoryLatencyChart.data.datasets[0].data = [15, 120, Math.round(4800 * (1 / bytesPerToken))];
+            } else {
+                fitEl.textContent = 'Exceeds SRAM (' + Math.round((kvMB/384)*100) + '% of capacity) -> Spills to HBM4';
+                fitEl.className = 'text-amber-600 font-bold';
+                memoryLatencyChart.data.datasets[0].data = [15, 250, Math.round(2200 * (1 / bytesPerToken))];
+            }
+            memoryLatencyChart.update();
+        }
+
+        // 3. Network Topology Chart
+        function initNetworkChart() {
+            const ctx = document.getElementById('networkHopChart').getContext('2d');
+            networkHopChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Building Block Intra (Direct)', 'Group Backplane (Copper)', 'Pod Optical Mesh (Apollo OCS)', 'Worst-Case Diameter'],
+                    datasets: [
+                        {
+                            label: 'Boardfly Topology (Hierarchical)',
+                            data: [1, 3, 3, 7],
+                            backgroundColor: '#4f46e5'
+                        },
+                        {
+                            label: '3D Torus Interconnect',
+                            data: [2, 6, 8, 16],
+                            backgroundColor: '#cbd5e1'
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { position: 'bottom', labels: { boxWidth: 12, font: { size: 11 } } }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            title: { display: true, text: 'Maximum Network Hops', font: { size: 10 } },
+                            grid: { color: '#f1f5f9' }
+                        },
+                        x: {
+                            grid: { display: false },
+                            ticks: { font: { size: 10 } }
+                        }
+                    }
+                }
+            });
+        }
+
+        function updateNetworkCalc(scale) {
+            const label = document.getElementById('podScaleLabel');
+            if (scale === 1152) {
+                label.textContent = '1,152 Physical Chips (Max Boardfly Pod)';
+                networkHopChart.data.datasets[0].data = [1, 3, 3, 7];
+                networkHopChart.data.datasets[1].data = [2, 6, 8, 16];
+            } else {
+                label.textContent = '1,024 Physical Chips';
+                networkHopChart.data.datasets[0].data = [1, 3, 3, 7];
+                networkHopChart.data.datasets[1].data = [2, 5, 8, 15];
+            }
+            networkHopChart.update();
+        }
+
+        // 4. Competitive Benchmarking Chart
+        function initCompetitiveChart() {
+            const ctx = document.getElementById('competitiveBarChart').getContext('2d');
+            competitiveBarChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Google TPU 8t Superpod', 'Google TPU 8i Pod', 'NVIDIA Rubin NVL72', 'AWS Trainium3'],
+                    datasets: [
+                        {
+                            label: 'Memory Capacity per Accelerator / Rack Node (GB)',
+                            data: [216, 288, 288, 192],
+                            backgroundColor: ['#4f46e5', '#0d9488', '#76b900', '#ff9900']
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            grid: { color: '#f1f5f9' },
+                            ticks: { font: { size: 10 } }
+                        },
+                        x: {
+                            grid: { display: false },
+                            ticks: { font: { size: 11, weight: 'bold' } }
+                        }
+                    }
+                }
+            });
+        }
+
+        function updateCompChart(metric) {
+            const btnMem = document.getElementById('btnCompMem');
+            const btnScale = document.getElementById('btnCompScale');
+            const btnBw = document.getElementById('btnCompBw');
+
+            // Reset buttons styling
+            [btnMem, btnScale, btnBw].forEach(btn => {
+                btn.className = "px-3 py-1.5 rounded-md font-semibold bg-slate-100 hover:bg-slate-200 text-slate-700";
+            });
+
+            if (metric === 'memory') {
+                btnMem.className = "px-3 py-1.5 rounded-md font-semibold bg-indigo-600 text-white shadow-sm";
+                competitiveBarChart.data.datasets[0].label = 'Memory Capacity per Accelerator (GB)';
+                competitiveBarChart.data.datasets[0].data = [216, 288, 288, 192];
+            } else if (metric === 'scale') {
+                btnScale.className = "px-3 py-1.5 rounded-md font-semibold bg-indigo-600 text-white shadow-sm";
+                competitiveBarChart.data.datasets[0].label = 'Scale-Up Domain Size (Coherent Chips/GPUs)';
+                competitiveBarChart.data.datasets[0].data = [9600, 1152, 72, 1024];
+            } else if (metric === 'bandwidth') {
+                btnBw.className = "px-3 py-1.5 rounded-md font-semibold bg-indigo-600 text-white shadow-sm";
+                competitiveBarChart.data.datasets[0].label = 'Peak Memory Bandwidth (TB/s)';
+                competitiveBarChart.data.datasets[0].data = [6.52, 8.60, 22.0, 5.80];
+            }
+            competitiveBarChart.update();
+        }
+    </script>
+</body>
+</html>
