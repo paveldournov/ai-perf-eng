@@ -55,6 +55,7 @@ Google's Tensor Processing Units (TPUs) are custom ASICs designed for matrix-mul
 - [TPU v6e (Trillium)](tpu_v6e.md)
 - [TPU v7x](tpu_v7x.md) — third-party-reported specs; MoE serving case study
 - [TPU v8t / v8i](tpu_v8.md)
+- [Interactive TPU v8 Architecture Explorer](https://paveldournov.github.io/ai-perf-eng/hardware/tpu/google_tpu_v8_architectural_analysis.html) — standalone interactive HTML report on TPU 8t/8i
 - [Boardfly interconnect topology](boardfly.md)
 - [Pathways on Cloud](../../scheduling/pathways.md) — single-controller runtime for multi-slice JAX workloads; PathwaysJob CRD, resilient training, multihost inference
 - [Roofline parameters](../roofline_params.md)

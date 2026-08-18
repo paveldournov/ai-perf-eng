@@ -10,6 +10,8 @@ timestamp: 2026-04-25T23:41:13-07:00
 
 ← [TPU Index](index.md) | [Roofline params](../roofline_params.md)
 
+> 📊 **[Interactive TPU v8 Architecture Explorer](https://paveldournov.github.io/ai-perf-eng/hardware/tpu/google_tpu_v8_architectural_analysis.html)** — a standalone HTML deep-dive with an interactive spec matrix, KV-cache/SRAM staging simulator, Boardfly hop tracer, and competitive benchmark charts. (Gemini-generated analysis; opens outside the docsify site.)
+
 TPU v8 is Google's eighth-generation TPU, announced in April 2025. Unlike prior generations with a single chip SKU, v8 ships as **two purpose-built variants**: **TPU 8t** optimized for training and **TPU 8i** optimized for inference. Both target the "agentic era" of AI — large-scale, latency-sensitive, continuous-serving workloads.
 
 ---
@@ -121,6 +123,7 @@ TPU v8 is Google's eighth-generation TPU, announced in April 2025. Unlike prior 
 
 ## See Also
 
+- [Interactive TPU v8 Architecture Explorer](https://paveldournov.github.io/ai-perf-eng/hardware/tpu/google_tpu_v8_architectural_analysis.html) — standalone interactive HTML report
 - [Boardfly topology deep-dive](boardfly.md)
 - [TPU v6e (Trillium)](tpu_v6e.md) — previous generation
 - [TPU family overview](index.md)

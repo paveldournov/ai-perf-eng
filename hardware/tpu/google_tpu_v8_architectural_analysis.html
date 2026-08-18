@@ -406,7 +406,7 @@
             <div class="border-b border-slate-200 pb-4">
                 <h2 class="text-2xl font-bold text-slate-900 tracking-tight">3. Interconnect Fabrics & Multi-Scale Topologies</h2>
                 <p class="text-sm text-slate-600 mt-1">
-                    Explore the hierarchical Boardfly topology ($K_m$ complete graphs) for inference vs. TPU 8t 3D Torus and the data center-scale Virgo fabric.
+                    Explore the hierarchical Boardfly topology (<em>K</em><sub>m</sub> complete graphs) for inference vs. TPU 8t 3D Torus and the data center-scale Virgo fabric.
                 </p>
             </div>
 
@@ -416,25 +416,25 @@
                     <span class="bg-amber-100 text-amber-800 font-bold px-2.5 py-1 rounded text-[11px] uppercase">Hierarchical Dragonfly</span>
                     <h3 class="text-base font-bold text-slate-900">The Boardfly Scale-Up Topology</h3>
                     <p class="text-slate-600 leading-relaxed">
-                        While 3D Tori scale well for dense grid stencils, their network diameter scales as $\Theta(N^{1/n})$, incurring severe multi-hop latency during dynamic Mixture-of-Experts (MoE) dynamic token routing.
+                        While 3D Tori scale well for dense grid stencils, their network diameter scales as &Theta;(N<sup>1/n</sup>), incurring severe multi-hop latency during dynamic Mixture-of-Experts (MoE) dynamic token routing.
                     </p>
                     <div class="p-3 bg-amber-50 rounded-lg border border-amber-200 space-y-1">
-                        <div class="font-bold text-amber-900">3-Tier Hierarchy ($K_m$ Complete Graphs):</div>
+                        <div class="font-bold text-amber-900">3-Tier Hierarchy (<em>K</em><sub>m</sub> Complete Graphs):</div>
                         <ul class="list-disc list-inside space-y-1 text-slate-700">
                             <li><strong>Building Block (BB):</strong> 4 chips in direct ring.</li>
                             <li><strong>Group (G):</strong> 8 BBs (32 chips) via copper backplane.</li>
-                            <li><strong>Pod Fabric:</strong> 36 Groups (1,152 chips) via Apollo MEMS Optical Switches ($K_{36}$).</li>
+                            <li><strong>Pod Fabric:</strong> 36 Groups (1,152 chips) via Apollo MEMS Optical Switches (<em>K</em><sub>36</sub>).</li>
                         </ul>
                     </div>
                     <p class="text-slate-600 leading-relaxed">
-                        <strong>Strict Diameter Bound:</strong> For any arbitrary chip traversal requiring optical inter-group transition ($g=1$), maximum diameter is strictly bounded to <strong class="text-amber-700 font-bold">7 hops max</strong> (56% drop vs. 1024-chip 3D Torus).
+                        <strong>Strict Diameter Bound:</strong> For any arbitrary chip traversal requiring optical inter-group transition (<em>g</em> = 1), maximum diameter is strictly bounded to <strong class="text-amber-700 font-bold">7 hops max</strong> (56% drop vs. 1024-chip 3D Torus).
                     </p>
                 </div>
 
                 <!-- Hierarchical Topology Visual Diagram (HTML/CSS) -->
                 <div class="lg:col-span-2 bg-slate-900 text-white p-6 rounded-xl border border-slate-800 shadow-sm flex flex-col justify-between space-y-4">
                     <div class="flex justify-between items-center border-b border-slate-800 pb-3">
-                        <h4 class="text-sm font-bold text-slate-200">Hierarchical Boardfly Network Architecture ($K_{36}$ Mesh)</h4>
+                        <h4 class="text-sm font-bold text-slate-200">Hierarchical Boardfly Network Architecture (<em>K</em><sub>36</sub> Mesh)</h4>
                         <span class="text-xs text-amber-400 font-mono">Max Latency Bound = 7 Hops</span>
                     </div>
 
@@ -456,7 +456,7 @@
                         <div class="bg-amber-950/40 p-3 rounded-lg border border-amber-500/60 flex flex-col justify-center items-center space-y-1">
                             <div class="w-3 h-3 rounded-full bg-amber-400 animate-pulse"></div>
                             <div class="text-xs font-bold text-amber-300">Apollo MEMS OCS</div>
-                            <div class="text-[10px] text-amber-200/80">Optical Mesh ($K_{36}$)</div>
+                            <div class="text-[10px] text-amber-200/80">Optical Mesh (<em>K</em><sub>36</sub>)</div>
                             <div class="text-[10px] text-slate-400 font-mono">Zero Packet Switch Jitter</div>
                         </div>
 
