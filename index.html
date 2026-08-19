@@ -322,11 +322,13 @@
     display: block; padding: 4px 0; color: var(--text-dim);
     text-decoration: none; line-height: 1.45; transition: color .12s;
   }
-  .page_toc a:hover, .page_toc a:hover span { color: var(--text-hi); }
-  /* The plugin puts .active on the wrapper div, and the inner <a> sets its own
-     colour — so the active rule has to reach the anchor and its <span>. */
-  .page_toc .active > a,
-  .page_toc .active > a span { color: var(--accent); font-weight: 500; }
+  /* The plugin wraps every label in a <span>, which the base docsify theme
+     paints black — invisible on the dark ground. Inheriting from the anchor
+     lets the three states below drive the colour on their own. */
+  .page_toc a span { color: inherit; }
+  .page_toc a:hover { color: var(--text-hi); }
+  /* The plugin puts .active on the wrapper div, not the anchor. */
+  .page_toc .active > a { color: var(--accent); font-weight: 500; }
   .page_toc .lv3 { padding-left: 12px; font-size: 12.5px; }
 
   /* ---------------- Pagination ----------------
