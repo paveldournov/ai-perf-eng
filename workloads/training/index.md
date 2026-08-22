@@ -39,7 +39,7 @@ they are used across the whole lifecycle, not just training.
 
 ## See Also
 
-- [Post-training workloads](../post-training/index.md) — fine-tuning, distillation, quantization
+- [Post-training workloads](../post-training/index.md) — behavioral post-training (SFT, DPO/KTO, RL/RLVR) and model preparation (fine-tuning, distillation, quantization)
 - [Inference workloads](../inference/index.md) — serving the trained model
 - [Fault tolerance](../../simulation/fault_tolerance.md) — resilience for long training runs
 - [References — Large Scale](../../references/index.md) — Megatron-LM, Ultra Scale Playbook, scaling books

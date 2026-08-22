@@ -3,7 +3,7 @@ type: Index
 title: Workloads — AI Workload Taxonomy
 description: The lifecycle (training → post-training → inference) and the shared operators/kernels underneath it.
 tags: [workloads, taxonomy, training, post-training, inference, operators, kernels]
-timestamp: 2026-07-26T00:00:00-07:00
+timestamp: 2026-08-22T00:00:00-07:00
 ---
 
 # Workloads — AI Workload Taxonomy
@@ -22,7 +22,7 @@ and collectives beneath them are shared.
 | Stage | What it is | Bottleneck |
 |-------|------------|------------|
 | [Training](training/index.md) | Build the model: forward + backward over large datasets | Compute (backward ≈ 2× forward) + interconnect BW |
-| [Post-training](post-training/index.md) | Adapt & compress before serving: fine-tuning, distillation, quantization | Varies (training-like for FT/distill; offline for quant) |
+| [Post-training](post-training/index.md) | Shape behavior (SFT, preference optimization, RL/RLVR) and adapt/compress for serving (fine-tuning, distillation, quantization) | Varies (training-like for SFT/FT; rollout-throughput-bound for online RL; offline for quant) |
 | [Inference](inference/index.md) | Serve the model in production: prefill + decode, optimization, ops | Prefill = compute; decode = HBM bandwidth |
 
 The inference and post-training subsections are digested from Modular's

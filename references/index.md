@@ -3,7 +3,7 @@ type: Index
 title: References
 description: Curated papers, tools, datasets, and external resources for the knowledge base.
 tags: [references, papers, citations]
-timestamp: 2026-05-08T23:08:42-07:00
+timestamp: 2026-08-22T00:00:00-07:00
 ---
 
 # References
@@ -53,6 +53,31 @@ timestamp: 2026-05-08T23:08:42-07:00
 - **Piper** — ORNL / Frontier (2026). "Piper: Efficient Large-Scale MoE Training via Resource Modeling and Pipelined Hybrid Parallelism." *arXiv:2605.05049*. [arxiv.org/abs/2605.05049](https://arxiv.org/abs/2605.05049) ; [github.com/rednote-ai/Piper](https://github.com/rednote-ai/Piper)
 - **DisagMoE** — Zeng et al., UC Berkeley & Microsoft Research (2026). "DisagMoE: Computation-Communication Overlapped MoE Training via Disaggregated AF-Pipe Parallelism." *arXiv:2605.11005*. [arxiv.org/abs/2605.11005](https://arxiv.org/abs/2605.11005)
 - **SGLang-JAX / Fused MoE V2 (Ling-2.6-1T on TPU)** — LMSYS (2026). "Optimizing Ling-2.6-1T on TPU with SGLang-JAX." Comm/compute-overlapped fp8 MoE kernel; in-kernel shared expert; fp8 activation quant for all-to-all; MLA+GLA hybrid backbone on TPU v7x. [www.lmsys.org/blog/2026-06-17-ling-2-6-tpu/](https://www.lmsys.org/blog/2026-06-17-ling-2-6-tpu/) (see [MoE case study](../workloads/moe.md#serving-case-study-fused-moe-v2-on-tpu-ling-26-1t))
+
+### Post-Training & Alignment
+- **InstructGPT / RLHF** — Ouyang et al. (2022). "Training Language Models to Follow Instructions with Human Feedback." *NeurIPS 2022*. [arxiv.org/abs/2203.02155](https://arxiv.org/abs/2203.02155)
+- **FLAN (instruction tuning)** — Wei et al. (2022). "Finetuned Language Models Are Zero-Shot Learners." *ICLR 2022*. [arxiv.org/abs/2109.01652](https://arxiv.org/abs/2109.01652)
+- **Self-Instruct** — Wang et al. (2023). "Self-Instruct: Aligning Language Models with Self-Generated Instructions." *ACL 2023*. [arxiv.org/abs/2212.10560](https://arxiv.org/abs/2212.10560)
+- **LIMA** — Zhou et al. (2023). "LIMA: Less Is More for Alignment." *NeurIPS 2023*. [arxiv.org/abs/2305.11206](https://arxiv.org/abs/2305.11206) (quality + diversity beat 16× more SFT examples)
+- **DPO** — Rafailov et al. (2023). "Direct Preference Optimization: Your Language Model is Secretly a Reward Model." *NeurIPS 2023*. [arxiv.org/abs/2305.18290](https://arxiv.org/abs/2305.18290)
+- **IPO / SimPO / ORPO** — Azar et al. (2024), [arxiv.org/abs/2310.12036](https://arxiv.org/abs/2310.12036); Meng et al. (2024), "SimPO," [arxiv.org/abs/2405.14734](https://arxiv.org/abs/2405.14734); Hong et al. (2024), "ORPO," [arxiv.org/abs/2403.07691](https://arxiv.org/abs/2403.07691)
+- **KTO** — Ethayarajh et al. (2024). "KTO: Model Alignment as Prospect Theoretic Optimization." *ICML 2024*. [arxiv.org/abs/2402.01306](https://arxiv.org/abs/2402.01306) (unpaired desirable/undesirable labels; no SFT prerequisite)
+- **SHP (Stanford Human Preferences)** — Ethayarajh et al. (2022). 385K collective pairwise comparisons from Reddit across 18 subject areas; used to post-train Llama 2. [huggingface.co/datasets/stanfordnlp/SHP](https://huggingface.co/datasets/stanfordnlp/SHP)
+- **Likelihood displacement in DPO** — Razin et al. (2025). "Unintentional Unalignment: Likelihood Displacement in Direct Preference Optimization." *ICLR 2025*. [arxiv.org/abs/2410.08847](https://arxiv.org/abs/2410.08847)
+- **REINFORCE** — Williams (1992). "Simple Statistical Gradient-Following Algorithms for Connectionist Reinforcement Learning." *Machine Learning* 8. [link.springer.com/article/10.1007/BF00992696](https://link.springer.com/article/10.1007/BF00992696)
+- **PPO** — Schulman et al. (2017). "Proximal Policy Optimization Algorithms." *arXiv:1707.06347*. [arxiv.org/abs/1707.06347](https://arxiv.org/abs/1707.06347)
+- **GRPO / DeepSeekMath** — Shao et al. (2024). "DeepSeekMath: Pushing the Limits of Mathematical Reasoning in Open Language Models." *arXiv:2402.03300*. [arxiv.org/abs/2402.03300](https://arxiv.org/abs/2402.03300) (critic-free group baseline — less memory, better throughput)
+- **GRPO variants** — Liu et al. (2025), "Dr. GRPO," [arxiv.org/abs/2503.20783](https://arxiv.org/abs/2503.20783); Yu et al. (2025), "DAPO," [arxiv.org/abs/2503.14476](https://arxiv.org/abs/2503.14476); Zheng et al. (2025), "GSPO," [arxiv.org/abs/2507.18071](https://arxiv.org/abs/2507.18071)
+- **Tülu 3 (RLVR)** — Lambert et al. (2024). "Tülu 3: Pushing Frontiers in Open Language Model Post-Training." *arXiv:2411.15124*. [arxiv.org/abs/2411.15124](https://arxiv.org/abs/2411.15124)
+- **DeepSeek-R1** — DeepSeek-AI (2025). "DeepSeek-R1: Incentivizing Reasoning Capability in LLMs via Reinforcement Learning." *arXiv:2501.12948*. [arxiv.org/abs/2501.12948](https://arxiv.org/abs/2501.12948)
+- **Reward model overoptimization** — Gao, Schulman & Hilton (2022). "Scaling Laws for Reward Model Overoptimization." *arXiv:2210.10760*. [arxiv.org/abs/2210.10760](https://arxiv.org/abs/2210.10760) (measured reward rises while true quality falls)
+- **Process supervision** — Lightman et al. (2023). "Let's Verify Step by Step." *arXiv:2305.20050*. [arxiv.org/abs/2305.20050](https://arxiv.org/abs/2305.20050)
+- **Does RLHF Scale?** — Hou et al. (2024). *arXiv:2412.06000*. [arxiv.org/abs/2412.06000](https://arxiv.org/abs/2412.06000) (learned proxy rewards plateau with more samples; contrast RLVR)
+- **On-policy distillation** — Agarwal et al. (2024). "On-Policy Distillation of Language Models: Learning from Self-Generated Mistakes." *ICLR 2024*. [arxiv.org/abs/2306.13649](https://arxiv.org/abs/2306.13649) + Thinking Machines Lab (2025), "On-Policy Distillation," [thinkingmachines.ai/blog/on-policy-distillation/](https://thinkingmachines.ai/blog/on-policy-distillation/) (7–10× fewer gradient steps, 50–100× less compute than rediscovering the policy by RL)
+- **Knowledge distillation** — Hinton, Vinyals & Dean (2015). "Distilling the Knowledge in a Neural Network." *arXiv:1503.02531*. [arxiv.org/abs/1503.02531](https://arxiv.org/abs/1503.02531)
+
+See [Behavioral post-training](../workloads/post-training/behavioral-post-training.md) for
+how these fit together as a stack, and for the workload shape each stage implies.
 
 ### Analytical Modeling
 - **LLM Inference Math** — Sheng et al.; Kipply (2022). "Transformer Inference Arithmetic." (blog post) [kipp.ly/transformer-inference-arithmetic/](https://kipp.ly/transformer-inference-arithmetic/)
@@ -114,6 +139,7 @@ timestamp: 2026-05-08T23:08:42-07:00
 
 ## Podcasts & Talks
 
+- **Kawin Ethayarajh — "Post-Training LLMs"** (2026). *AI and Economics Summer Institute 2026*, Chicago, Aug 6–11. Lecture covering the full behavioral post-training stack: SFT, offline preference optimization (DPO/KTO), online RL (REINFORCE/PPO/GRPO), RLVR and environments, on-policy distillation, and world adaptation / mecha-nudges. [kawine.github.io/assets/aiesi_post-training_public.pdf](https://kawine.github.io/assets/aiesi_post-training_public.pdf) — digested at [Behavioral post-training](../workloads/post-training/behavioral-post-training.md)
 - **Reiner Pope on Dwarkesh Podcast** (2026). "The math behind how LLMs are trained and served." Covers inference latency arithmetic, batch size analysis, MoE rack layout, pipeline parallelism, total compute cost accounting, and Chinchilla over-training. [open.spotify.com/episode/0lQEgY6q0BczmP4oTUht1p](https://open.spotify.com/episode/0lQEgY6q0BczmP4oTUht1p) — Flashcard companion: [reiner-flashcards.vercel.app/](https://reiner-flashcards.vercel.app/)
 
 ---

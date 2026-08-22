@@ -101,6 +101,7 @@ two are complementary and can be combined).
 
 ## See Also
 
+- [Behavioral post-training](behavioral-post-training.md) — the *other* meaning of post-training: SFT, preference optimization, RL/RLVR, and **on-policy** distillation (which addresses the compounding-error failure mode of the offline distillation described above)
 - [Planning a deployment](../inference/getting-started.md) — model choice, weight formats, GPU sizing
 - [Memory capacity model](../../modeling/memory_capacity.md) — how precision changes the footprint
 - [Kernel optimization](../inference/kernel-optimization.md) — low-precision tensor-core throughput
