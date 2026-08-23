@@ -3,7 +3,7 @@ type: Index
 title: References
 description: Curated papers, tools, datasets, and external resources for the knowledge base.
 tags: [references, papers, citations]
-timestamp: 2026-08-22T00:00:00-07:00
+timestamp: 2026-08-23T00:00:00-07:00
 ---
 
 # References
@@ -43,6 +43,15 @@ timestamp: 2026-08-22T00:00:00-07:00
 - **Dragonfly topology** — Kim et al. (2008). "Technology-Driven, Highly-Scalable Dragonfly Topology." *ISCA 2008*. [research.google.com/pubs/archive/34926.pdf](https://research.google.com/pubs/archive/34926.pdf) (foundational design Boardfly draws from)
 - **TPU v7x (third-party specs)** — LMSYS (2026). Specs reported via a serving benchmark: ~4.6 PFLOP/s fp8, 7.38 TB/s HBM, 1.2 TB/s ICI; see [TPU v7x notes](../hardware/tpu/tpu_v7x.md). [www.lmsys.org/blog/2026-06-17-ling-2-6-tpu/](https://www.lmsys.org/blog/2026-06-17-ling-2-6-tpu/)
 - **Apple Neural Engine** — Bryngelson (2026). "Apple Neural Engine: Architecture, Programming, and Performance." *arXiv:2606.22283*. [arxiv.org/abs/2606.22283](https://arxiv.org/abs/2606.22283) — Reverse-engineered account of Apple's fixed-function fp16 NPU (A11–A18, M1–M5); fp16 datapath + wide accumulator, 2 MB working-set roofline, direct dispatch below Core ML. See [ANE notes](../hardware/apple/ane.md).
+
+### AI Accelerator Architectures (cross-vendor)
+- **AI Chip Architectures** — Peake, J. (2026). Survey of the six architectures in real deployment (NVIDIA GPU, Google TPU, AMD Instinct, Cerebras WSE, AWS Trainium, Groq LPU), each read through philosophy / architecture / scaling / software, with per-chip and per-rack comparison tables. [www.jacobpeake.com/ai-chip-architectures](https://www.jacobpeake.com/ai-chip-architectures) — digested at [AI chip architectures](../hardware/architectures.md)
+- **A New Golden Age for Computer Architecture** — Hennessy & Patterson (2018/2019). Turing Lecture, ISCA 2018. The domain-specific-architecture argument, with TPU v1 as the worked example (29× CPU throughput at 80× better energy efficiency); predicted "a Cambrian explosion of novel computer architectures." *CACM* 62(2). [dl.acm.org/doi/10.1145/3282307](https://dl.acm.org/doi/10.1145/3282307)
+- **Groq TSP** — Abts et al. (2020). "Think Fast: A Tensor Streaming Processor (TSP) for Accelerating Deep Learning Workloads." *ISCA 2020*. [dl.acm.org/doi/10.1109/ISCA45697.2020.00023](https://dl.acm.org/doi/10.1109/ISCA45697.2020.00023) (functional slices; deterministic, compiler-scheduled datapath)
+- **Groq software-scheduled network** — Abts et al. (2022). "A Software-defined Tensor Streaming Multiprocessor for Large-scale Machine Learning." *ISCA 2022*. [dl.acm.org/doi/10.1145/3470496.3527405](https://dl.acm.org/doi/10.1145/3470496.3527405) (scheduled, not routed: a compiled Dragonfly across thousands of chips)
+- **Cerebras WSE** — Lie, S. (2023/2024). "Cerebras Architecture Deep Dive" / WSE-3 disclosures, *Hot Chips*. Wafer-scale integration: 84 stitched reticle fields, 900,000 dataflow cores, 44 GB on-wafer SRAM, weight streaming from MemoryX. [cerebras.ai/product-chip](https://www.cerebras.ai/product-chip)
+- **AWS Trainium / NeuronCore** — AWS Neuron documentation. NeuronCore architecture (128×128 Tensor Engine, Vector/Scalar/GPSIMD engines, SBUF + PSUM scratchpads, CC-Cores) and the NKI tile-level kernel language. [awsdocs-neuron.readthedocs-hosted.com](https://awsdocs-neuron.readthedocs-hosted.com/)
+- **OCP Microscaling (MX) formats** — Open Compute Project (2023). "OCP Microscaling Formats (MX) Specification v1.0." Block-scaled FP8/FP6/FP4 shared across Blackwell, MI355X, and TPU v8. [www.opencompute.org/documents/ocp-microscaling-formats-mx-v1-0-spec-final-pdf](https://www.opencompute.org/documents/ocp-microscaling-formats-mx-v1-0-spec-final-pdf)
 
 ### Mixture-of-Experts Systems
 - **MoE-CAP** — Jiang, Fu, Mai, Ponti et al. (2024). "MoE-CAP: Benchmarking Cost, Accuracy and Performance of Sparse Mixture-of-Experts Systems." *arXiv:2412.07067*. [arxiv.org/abs/2412.07067](https://arxiv.org/abs/2412.07067) (defines S-MFU / S-MBU; see [MoE efficiency](../workloads/moe.md))
@@ -146,6 +155,7 @@ how these fit together as a stack, and for the workload shape each stage implies
 
 ## Useful Online Resources
 
+- **AI Chip Architectures** — Jacob Peake (2026). Long-form cross-vendor survey of AI accelerator architectures: NVIDIA, TPU, AMD, Cerebras, Trainium, Groq — philosophy, microarchitecture, scale-up/scale-out fabrics, software stacks, and comparison tables. [www.jacobpeake.com/ai-chip-architectures](https://www.jacobpeake.com/ai-chip-architectures) — digested at [AI chip architectures](../hardware/architectures.md)
 - **LLM Inference Handbook** — Modular (2026). "A practical guide for understanding, optimizing, scaling, and operating LLM inference systems." [handbook.modular.com](https://handbook.modular.com/) — source: [github.com/modular/llm-inference-handbook](https://github.com/modular/llm-inference-handbook) (`docs/` used under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/); adapted/summarized with changes). Digested across the [inference](../workloads/inference/index.md) and [post-training](../workloads/post-training/index.md) workloads subsections.
 - Kipply's "Transformer Inference Arithmetic" blog — [kipp.ly/transformer-inference-arithmetic/](https://kipp.ly/transformer-inference-arithmetic/)
 - Tim Dettmers' GPU blog (quantization, memory) — [timdettmers.com/](https://timdettmers.com/)

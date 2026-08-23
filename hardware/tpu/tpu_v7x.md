@@ -1,9 +1,9 @@
 ---
 type: Hardware
 title: Google TPU v7x
-description: Seventh-generation-class TPU; specs sourced from third-party serving benchmarks (Ling-2.6-1T on SGLang-JAX). [stub]
-tags: [google, tpu, v7x, fp8, ici]
-timestamp: 2026-06-27T00:00:00-07:00
+description: Seventh-generation-class TPU, probably Ironwood (v7); specs from third-party serving benchmarks (Ling-2.6-1T on SGLang-JAX) corroborated by a second independent source.
+tags: [google, tpu, v7x, ironwood, v7, fp8, ici, sparsecore]
+timestamp: 2026-08-23T00:00:00-07:00
 ---
 
 # Google TPU v7x
@@ -19,6 +19,14 @@ TPU v7x is the generation sitting between the publicly-documented [v6e (Trillium
 and [v8t/v8i](tpu_v8.md) in this knowledge base. It first appears here as the hardware
 target of an external MoE-serving deep-dive rather than from a primary Google source.
 
+> **Probable identification: this is Ironwood (TPU v7).** A second independent source
+> ([Peake, *AI Chip Architectures*](../architectures.md), 2026) describes Ironwood/v7
+> with figures that match every number below — 4.6 PFLOPS FP8, ~7.4 TB/s HBM, and 1.2
+> TB/s bidirectional ICI per chip — alongside 192 GB of HBM3e. Two independent sources
+> converging on the same three figures is strong evidence they describe one part; the
+> `v7x` label remains unexplained (it may be a SKU suffix in the style of v5e/v5p).
+> Treat the identification as probable, not confirmed.
+
 ---
 
 ## Key Specifications (as reported)
@@ -29,6 +37,12 @@ target of an external MoE-serving deep-dive rather than from a primary Google so
 | HBM bandwidth | 7.38 TB/s per chip | LMSYS Ling-2.6 post |
 | ICI bandwidth | 1.2 TB/s bidirectional per chip | LMSYS Ling-2.6 post |
 | Benchmark topology | 16 chips (32 devices), 2×2×4 ICI torus | LMSYS Ling-2.6 post |
+| HBM capacity | 192 GB HBM3e | Peake (as Ironwood/v7) |
+| Numerics | native FP8 (E4M3 + E5M2), ~2× BF16 throughput | Peake (as Ironwood/v7) |
+| SparseCore | 4 per chip (2 per chiplet, dual-die layout) | Peake (as Ironwood/v7) |
+| ICI topology | 3D torus (6 ICI ports, flagship configuration) | Peake (as Ironwood/v7) |
+| Superpod | 9,216 chips = 144 cubes of 64; 1.77 PB HBM (~68 PB/s); 42.5 ExaFLOPS FP8 | Peake (as Ironwood/v7) |
+| Scale-out (DCN) | ~100 Gbps per chip | Peake (as Ironwood/v7) |
 
 ---
 
@@ -53,8 +67,20 @@ dependent), using a fused MoE kernel that overlaps all-to-all communication with
 
 ---
 
+## Positioning
+
+Ironwood is the first TPU built for **inference of reasoning models**, and the
+generation that introduced native FP8. Its 9,216-chip superpod is the scale-up unit
+equivalent in role to NVIDIA's 72-GPU NVL72 — two orders of magnitude more chips, at
+much lower per-chip bandwidth, tied together by message-passing ICI and optical circuit
+switches rather than a coherent crossbar. See
+[AI chip architectures](../architectures.md#google-tpu--the-compiler-is-the-system).
+
+---
+
 ## See Also
 
+- [AI chip architectures](../architectures.md) — cross-vendor comparison; source of the Ironwood identification
 - [TPU v6e (Trillium)](tpu_v6e.md) — documented predecessor generation
 - [TPU v8t / v8i](tpu_v8.md) — documented successor generation
 - [TPU family overview](index.md)

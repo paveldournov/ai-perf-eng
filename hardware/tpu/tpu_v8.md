@@ -1,9 +1,9 @@
 ---
 type: Hardware
 title: Google TPU v8 (Eighth Generation)
-description: Eighth-gen TPU shipping as two variants — 8t (training) and 8i (inference) — for the agentic era.
+description: Eighth-gen TPU shipping as two variants — 8t "Sunfish" (training) and 8i "Zebrafish" (inference) — for the agentic era.
 tags: [google, tpu, v8, v8t, v8i]
-timestamp: 2026-04-25T23:41:13-07:00
+timestamp: 2026-08-23T00:00:00-07:00
 ---
 
 # Google TPU v8 (Eighth Generation)
@@ -12,11 +12,17 @@ timestamp: 2026-04-25T23:41:13-07:00
 
 > 📊 **[Interactive TPU v8 Architecture Explorer](https://paveldournov.github.io/ai-perf-eng/hardware/tpu/google_tpu_v8_architectural_analysis.html)** — a standalone HTML deep-dive with an interactive spec matrix, KV-cache/SRAM staging simulator, Boardfly hop tracer, and competitive benchmark charts. (Gemini-generated analysis; opens outside the docsify site.)
 
-TPU v8 is Google's eighth-generation TPU, announced in April 2025. Unlike prior generations with a single chip SKU, v8 ships as **two purpose-built variants**: **TPU 8t** optimized for training and **TPU 8i** optimized for inference. Both target the "agentic era" of AI — large-scale, latency-sensitive, continuous-serving workloads.
+TPU v8 is Google's eighth-generation TPU, announced in April 2025.<a name="date-note"></a>
+
+> ⚠️ **Date needs verification.** A second source ([Peake, *AI Chip Architectures*](../architectures.md))
+> places v8 in **2026** and Ironwood/v7 in 2025, and this page's own last-update stamp is
+> April 2026. "April 2025" is likely a typo for **April 2026** — but the linked Google
+> announcements should be checked before the date is relied on. Every *spec* on this page
+> is independently corroborated by that source; only the year is in question. Unlike prior generations with a single chip SKU, v8 ships as **two purpose-built variants**: **TPU 8t** optimized for training and **TPU 8i** optimized for inference. Both target the "agentic era" of AI — large-scale, latency-sensitive, continuous-serving workloads.
 
 ---
 
-## TPU 8t (Training Variant)
+## TPU 8t — "Sunfish" (Training Variant)
 
 ### Key Specifications
 
@@ -30,6 +36,7 @@ TPU v8 is Google's eighth-generation TPU, announced in April 2025. Unlike prior 
 | Network topology | 3D torus |
 | Superpod scale | 9,600 chips |
 | Superpod peak (FP4) | 121 ExaFLOPs |
+| Superpod HBM | ~2 PB at ~62 PB/s aggregate |
 | Cluster scale | >1,000,000 chips |
 | Special units | SparseCore, LLM Decoder Engine |
 | Storage | TPUDirect Storage (10× faster I/O) |
@@ -48,7 +55,7 @@ TPU v8 is Google's eighth-generation TPU, announced in April 2025. Unlike prior 
 
 ---
 
-## TPU 8i (Inference Variant)
+## TPU 8i — "Zebrafish" (Inference Variant)
 
 ### Key Specifications
 
@@ -62,7 +69,8 @@ TPU v8 is Google's eighth-generation TPU, announced in April 2025. Unlike prior 
 | Network topology | [Boardfly](boardfly.md) (novel; −56% network diameter vs torus) |
 | Scale-out (DCN) bandwidth | 400 Gbps per chip (4× vs prior gen) |
 | Max connected cluster | 1,152 chips (1,024 active) |
-| Special units | CAE (Collectives Acceleration Engine) |
+| Cluster HBM | ~295 TB at ~8.8 PB/s aggregate |
+| Special units | CAE (Collectives Acceleration Engine) — **replaces SparseCore entirely**, moved onto the I/O chiplet |
 | On-chip collective latency reduction | 5× vs prior gen |
 
 ### Roofline Parameters
@@ -123,6 +131,7 @@ TPU v8 is Google's eighth-generation TPU, announced in April 2025. Unlike prior 
 
 ## See Also
 
+- [AI chip architectures](../architectures.md) — v8 read against NVIDIA, AMD, Cerebras, Trainium, and Groq
 - [Interactive TPU v8 Architecture Explorer](https://paveldournov.github.io/ai-perf-eng/hardware/tpu/google_tpu_v8_architectural_analysis.html) — standalone interactive HTML report
 - [Boardfly topology deep-dive](boardfly.md)
 - [TPU v6e (Trillium)](tpu_v6e.md) — previous generation
