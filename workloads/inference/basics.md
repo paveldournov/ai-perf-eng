@@ -82,7 +82,7 @@ and [LLM inference model](../../modeling/llm_inference.md#kv-cache-size).
 - **Sampling** — the model outputs a probability distribution over the vocab at
   each step; `temperature` reshapes it, then a strategy (greedy, top-k, top-p)
   picks the token. Details in
-  [inference parameters](model-interaction.md#sampling-parameters).
+  [inference parameters](model-interaction.md#inference-parameters).
 
 ## Metrics
 

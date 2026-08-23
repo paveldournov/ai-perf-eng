@@ -76,4 +76,4 @@ See [modeling/index.md](../modeling/index.md) for pure analytical models (no sim
 
 - [Modeling](../modeling/index.md)
 - [Characterization](../characterization/index.md)
-- [References — simulation papers](../references/index.md#simulation)
+- [References — simulation papers](../references/index.md#simulation--distributed-systems) — distributed, dataflow-mapper, cycle-accurate GPU, and LLM-inference-analysis subsections
