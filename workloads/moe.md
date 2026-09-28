@@ -117,6 +117,7 @@ Tensor cores hit peak only on large, structurally balanced matrices. Fine-graine
 | **Piper** | ORNL / Frontier | Automated 5-D parallel mapping; Dragonfly-topology-aware hierarchical all-to-all; live expert migration |
 | **DisagMoE** | UC Berkeley + MSR | Spatially disaggregate attention vs. FFN onto separate device pools; AF-Pipe schedule |
 | **NCCL EP** | NVIDIA | Unified `ncclEpDispatch`/`ncclEpCombine` API; low-latency (decode) and high-throughput (prefill/train) modes |
+| **Analytical overlap (wave-quantized)** | Liu / Cui / Pericas | Launch-time selector for comm-CTA count and SM resource partition in dependency-coupled overlap pipelines; 2.53× geo-mean on GEMM2+GatherRS over COMET (4× A100) |
 
 Inference-side: **Klotski** (expert-aware multi-batch prefetch overlapping PCIe), **TD-Pipe** (prefill/decode temporal disaggregation), **ReMoE** (router fine-tuning for cache locality), **RTP-LLM** (production KV-cache + adaptive quant), **SGLang-JAX / Fused MoE V2** (TPU; comm/compute-overlapped fp8 kernel — see [case study below](#serving-case-study-fused-moe-v2-on-tpu-ling-26-1t)).
 

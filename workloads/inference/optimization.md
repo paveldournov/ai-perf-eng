@@ -114,6 +114,20 @@ routing problem — *Prefill-as-a-Service* keeps short/cached prompts local and
 sends only long uncached prefills remote (reported 54% higher throughput, 64%
 lower P90 TTFT). See [inference routing](../../modeling/inference_routing.md).
 
+**Power is the binding constraint** on PD-serving capacity: prefill and decode
+lanes operate in opposite hardware regimes, so one GPU profile for both leaves
+efficiency on the table (NVIDIA Max-Q on disaggregated B200: +8.6% tokens/J,
+model-dependent, +5.2% mean e2e latency). Phase-decoupled, model-calibrated
+control (2026) runs the prefill lane under an SM-clock window whose floor is a
+latency guarantee by construction, and the decode lane under a power cap
+auto-calibrated just above the measured throughput/latency cliff — decode power
+is flat and memory-bound, so the cap binds continuously without the reactive
+overshoot that made POLCA reject capping. On 8× B200 serving Qwen3-Coder-480B
+(FP8) under agentic load: +20.4% tokens/J at +3.5% mean e2e, a Pareto improvement
+on both axes; a three-day sustained run saved 32.3% of a lane pair's
+electricity. Claims scoped to MoE serving (dense models recover ~5× less).
+[arXiv:2609.11133](https://arxiv.org/abs/2609.11133v1)
+
 ## Speculative decoding
 
 A small **draft** model proposes several tokens that the **target** model

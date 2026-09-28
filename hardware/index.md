@@ -45,6 +45,7 @@ like, and how chips talk at scale — with per-chip and per-rack comparison tabl
 ## Cross-Cutting Analysis
 
 - [AI chip architectures](architectures.md) — comparative survey: philosophy, architecture, scale-up/scale-out, and software stack per family; the recurring patterns (off-core engines, the migrating matmul instruction, precision halving, topology following the collective, copper setting the rack boundary)
+- **2026 interconnect & custom-XPU landscape** — Marvell: 256-lane PCIe 6.0 scale-up switching, CXL memory expansion/pooling, Photonic Fabric™ multi-rack memory sharing (AI Infra Summit 2026). Broadcom: custom-XPU + AI networking revenue forecast $2.6B → $230B (F2022–F2028); Tomahawk 6/Ultra Ethernet for scale-out and low-latency scale-up, Tomahawk 7 taped out; ~$12B/GW XPU capex vs $18B/GW Grace-Hopper, $40B/GW Vera-Rubin. See [references](../references/index.md#hardware-architecture) and [references](../references/index.md#ai-accelerator-architectures-cross-vendor)
 
 ---
 
