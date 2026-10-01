@@ -169,6 +169,7 @@ how these fit together as a stack, and for the workload shape each stage implies
 - **LLM Inference Unveiled** — Yuan et al. (2024). "LLM Inference Unveiled: Survey and Roofline Model Insights." *arXiv:2402.16363.* [arxiv.org/abs/2402.16363](https://arxiv.org/abs/2402.16363) (companion tool: LLM-Viewer)
 - **Roofline-Driven ML Method** — Imai (2024). "Predicting LLM Inference Latency: A Roofline-Driven ML Method." *NeurIPS 2024 MLforSystems Workshop.* [mlforsystems.org/assets/papers/neurips2024/paper28.pdf](https://mlforsystems.org/assets/papers/neurips2024/paper28.pdf)
 - **Hardware-Agnostic Analytical Modeling** — (2025). "Forecasting LLM Inference Performance via Hardware-Agnostic Analytical Modeling." *arXiv:2508.00904.* [arxiv.org/abs/2508.00904](https://arxiv.org/abs/2508.00904)
+- **ServingStudio** — Zhu, Gu, Sriram, Jacob, Kamahori, Li, Pan, Xie, Wang, Krishnamurthy, Kasikci (2026). "Introducing ServingStudio: An Integrated Workbench for Simulating, Analyzing, and Optimizing LLM Serving Systems." *UW SyFI Lab blog*. [syfi.cs.washington.edu/blog/2026-09-24-introducing-servingstudio/](https://syfi.cs.washington.edu/blog/2026-09-24-introducing-servingstudio/) (see [ServingStudio](../simulation/servingstudio.md))
 - **LLM Inference on GPUs Characterization** — (2024). "A Systematic Characterization of LLM Inference on GPUs." *arXiv:2512.01644.* [arxiv.org/abs/2512.01644](https://arxiv.org/abs/2512.01644)
 
 ---
@@ -193,6 +194,7 @@ how these fit together as a stack, and for the workload shape each stage implies
 | SCALE-sim v3      | Cycle-accurate systolic NPU sim     | [arxiv.org/abs/2504.15377](https://arxiv.org/abs/2504.15377) |
 | LLM-Viewer        | Per-layer LLM roofline analysis     | [github.com/hahnyuan/LLM-Viewer](https://github.com/hahnyuan/LLM-Viewer) |
 | LLMRoofline       | Cross-HW LLM roofline comparison    | [github.com/feifeibear/LLMRoofline](https://github.com/feifeibear/LLMRoofline) |
+| ServingStudio     | LLM serving simulator + optimization agent | [github.com/SyFI-ServingStudio/ServingStudio](https://github.com/SyFI-ServingStudio/ServingStudio) |
 
 ---
 

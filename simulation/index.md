@@ -32,6 +32,7 @@ roofline       mapper          simulator         full simulator    FPGA
 | [Distributed system simulators](distributed.md) | Minutes–hours | Medium–high | Collective comm, parallelism strategy, multi-GPU |
 | [Cycle-accurate GPU simulators](cycle_accurate.md) | Hours–days | High | Microarch changes, cache/memory system study |
 | [LLM-specific analysis tools](llm_tools.md) | Seconds | Medium | Per-layer roofline, batch/seq sweep for LLMs |
+| [Serving-system simulators](servingstudio.md) | Seconds–minutes | Medium–high (kernel-profile calibrated) | End-to-end LLM serving configs: batching, TP/EP, disaggregation, spec decode |
 | [Fault tolerance](fault_tolerance.md) | — | Production | Effective MFU, MTTF cost models, recovery strategies |
 
 ---
@@ -49,6 +50,7 @@ roofline       mapper          simulator         full simulator    FPGA
 | [SCALE-sim v3](cycle_accurate.md#scale-sim) | Cycle-accurate systolic | Systolic array NPU | ARM / academia |
 | [LLM-Viewer](llm_tools.md#llm-viewer) | LLM analysis | Any (parameterized) | Community |
 | [LLMRoofline](llm_tools.md#llmroofline) | Roofline for LLMs | Any | Community |
+| [ServingStudio](servingstudio.md) | LLM serving simulator + optimization agent | NVIDIA GPU (SGLang / vLLM) | UW SyFI Lab |
 
 ---
 
@@ -66,9 +68,10 @@ See [modeling/index.md](../modeling/index.md) for pure analytical models (no sim
 
 1. **Roofline first** — classify ops as compute or BW bound ([modeling/roofline.md](../modeling/roofline.md))
 2. **LLM-Viewer** — sweep batch size / seq length per layer for LLM workloads
-3. **Timeloop / MAESTRO** — optimize tiling and dataflow for a specific op on a target HW
-4. **ASTRA-sim** — model distributed training across multi-GPU topology
-5. **Accel-Sim / MGPUSim** — only when microarch-level fidelity is required
+3. **ServingStudio** — simulate a full serving deployment (scheduler, batching, TP/EP, disaggregation) from measured kernel timings before buying or reserving GPUs
+4. **Timeloop / MAESTRO** — optimize tiling and dataflow for a specific op on a target HW
+5. **ASTRA-sim** — model distributed training across multi-GPU topology
+6. **Accel-Sim / MGPUSim** — only when microarch-level fidelity is required
 
 ---
 

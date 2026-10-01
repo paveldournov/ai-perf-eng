@@ -169,6 +169,7 @@ session affinity, and coordinates PD disaggregation. Modeled in the KB under
 - [Speculative decoding](../../modeling/speculative_decoding.md) · [Inference routing](../../modeling/inference_routing.md) · [Parallelism](../../modeling/parallelism.md)
 - [Kernel optimization](kernel-optimization.md) — FlashAttention & the layer below
 - [llm-d](../../scheduling/llm_d.md) — distributed inference / KV-aware routing runtime
+- [ServingStudio](../../simulation/servingstudio.md) — simulate these techniques (prefix caching, spec decode, PD / attention–FFN disaggregation) on SGLang/vLLM before deploying
 
 ---
 

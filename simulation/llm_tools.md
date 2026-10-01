@@ -71,11 +71,13 @@ print(f"{t_per_token*1000:.2f} ms/token")   # ~41 ms/token at batch=1
 | LLMRoofline | Model + multiple HW | Cross-HW comparison chart | HW selection |
 | Manual arithmetic | Back-of-envelope | Single-number estimate | Quick feasibility check |
 | Accel-Sim | CUDA trace | Cycle-accurate perf | Microarch-level detail |
+| [ServingStudio](servingstudio.md) | Measured kernel timings + serving config | Simulated end-to-end serving throughput/latency + lower-bound gap attribution | Full serving-system configs (SGLang/vLLM) |
 
 ---
 
 ## See Also
 
+- [ServingStudio](servingstudio.md) — full serving-system simulator (requests, scheduler, kernels) when per-layer analysis isn't enough
 - [LLM inference analytical model](../modeling/llm_inference.md)
 - [Roofline model](../modeling/roofline.md)
 - [Characterization](../characterization/index.md)
