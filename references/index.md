@@ -253,3 +253,7 @@ Thin-content social posts saved by the user; recorded as a grouped list, not ind
 - Post by Patrick C Toulme on X — @patricktoulme (2026-05-16). [x.com/patricktoulme/status/2055709800986780028](https://x.com/patricktoulme/status/2055709800986780028)
 - Post by Colin Breck on X — @breckcs (2026-05-10). [x.com/breckcs/status/2048432277299036219](https://x.com/breckcs/status/2048432277299036219)
 - Post on Kernels — @theahmadosman (2026-04-26). [x.com/theahmadosman/status/2048234466519236818](https://x.com/theahmadosman/status/2048234466519236818)
+
+### Social bookmarks (self-email sweep 2026-11-15)
+Thin-content social posts saved by the user; recorded as a grouped list, not individual entries.
+- SHADOWPREFILL: Keeping Your Next Model Warm for Per-Step Model Routing in Agentic LLM Serving — Mark Russinovich, LinkedIn (2026-11-11). [lnkd.in/p/gd8QQzr6](https://lnkd.in/p/gd8QQzr6) — paper: [arxiv.org/abs/2611.13176](https://arxiv.org/abs/2611.13176)
