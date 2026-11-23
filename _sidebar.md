@@ -3,6 +3,7 @@
 
 - [Home](/README.md)
 - [Reading Guide](/GUIDE.md)
+- [Feed](/feed.md)
 
 - **Sections**
   - [Hardware](/hardware/index.md)

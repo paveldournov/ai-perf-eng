@@ -31,6 +31,7 @@ Entry point for the AI performance modeling knowledge base. Topics span hardware
 | [Scheduling](scheduling/index.md) | Job admission, distributed runtimes, inference routing (Pathways, Ray, Kueue, llm-d) |
 | [Characterization](characterization/index.md) | Benchmarking methodology, microbenchmarks, profiling |
 | [References](references/index.md) | Papers, tools, datasets, and external resources |
+| [Feed](feed.md) | Time-ordered feed of findings and ingestions |
 
 ---
 
