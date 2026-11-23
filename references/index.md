@@ -253,3 +253,7 @@ Thin-content social posts saved by the user; recorded as a grouped list, not ind
 - Post by Patrick C Toulme on X — @patricktoulme (2026-05-16). [x.com/patricktoulme/status/2055709800986780028](https://x.com/patricktoulme/status/2055709800986780028)
 - Post by Colin Breck on X — @breckcs (2026-05-10). [x.com/breckcs/status/2048432277299036219](https://x.com/breckcs/status/2048432277299036219)
 - Post on Kernels — @theahmadosman (2026-04-26). [x.com/theahmadosman/status/2048234466519236818](https://x.com/theahmadosman/status/2048234466519236818)
+
+### Social bookmarks (self-email sweep 2026-11-22)
+Thin-content social posts saved by the user; recorded as a grouped list, not individual entries.
+- Autonomous inference — Simon Mo (@simon_mo_), X (2026-11-19). [x.com/simon_mo_/status/2123133742063706343](https://x.com/simon_mo_/status/2123133742063706343) — post text not retrievable (X blocked automated access).
